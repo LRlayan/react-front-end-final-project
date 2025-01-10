@@ -6,7 +6,7 @@ export function Navbar() {
             <header>
                 <div id="header-sec">
                     {/*Sidebar */}
-                    <div className="flex flex-col bg-gray-800 text-white h-screen fixed w-64 md:w-72">
+                    <div className="flex flex-col bg-gray-900 text-white h-screen fixed w-64 md:w-72">
                         <h3 className="text-center py-5 text-xl font-bold border-b border-gray-600">Dashboard</h3>
                         <nav className="flex-grow">
                             <Link to="/" className="block px-4 py-2 hover:bg-green-600">Dashboard</Link>
