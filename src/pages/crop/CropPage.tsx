@@ -58,7 +58,7 @@ export function CropPage() {
                     <div id="cropCard" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {/* Add card dynamically */}
                         {
-                            crops.map((crop,index)=>(
+                            crops.map((crop, index) => (
                                 <div key={index} className="border rounded-lg bg-gray-700 text-white p-4 shadow-md">
                                     {crop.image && (
                                         <img
@@ -67,10 +67,27 @@ export function CropPage() {
                                             className="w-full h-32 object-cover rounded-md mb-2"
                                         />
                                     )}
-                                    <h4 className="text-lg font-semibold">{crop.cropName}</h4>
+                                    <h4 className="text-lg font-semibold">{crop.code}</h4>
+                                    <p className="text-sm">Crop Name: {crop.cropName}</p>
                                     <p className="text-sm">Scientific Name: {crop.scientificName}</p>
                                     <p className="text-sm">Category: {crop.category}</p>
                                     <p className="text-sm">Season: {crop.season}</p>
+                                    <div className="mt-4 flex justify-between">
+                                        <button
+                                            id="updateCrop"
+                                            type="button"
+                                            className="btn bg-green-500 hover:bg-green-600 text-white font-semibold h-10 w-[150px] rounded-md shadow-md flex items-center justify-center mr-2"
+                                        >
+                                            Update
+                                        </button>
+                                        <button
+                                            id="deleteCrop"
+                                            type="button"
+                                            className="btn bg-red-500 hover:bg-red-600 text-white font-semibold h-10 w-[150px] rounded-md shadow-md flex items-center justify-center"
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
                                 </div>
                             ))
                         }
