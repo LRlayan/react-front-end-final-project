@@ -30,16 +30,6 @@ export function FieldPage() {
                     {/* Search Bar */}
                     <div className="mb-6">
                         <div className="relative">
-                            {/*<input*/}
-                            {/*    id="filterFieldCard"*/}
-                            {/*    type="text"*/}
-                            {/*    className="form-control w-full rounded-md px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"*/}
-                            {/*    placeholder="Search field by name"*/}
-                            {/*    aria-label="Search"*/}
-                            {/*/>*/}
-                            {/*<span className="absolute inset-y-0 right-3 flex items-center text-gray-500">*/}
-                            {/*    🔍*/}
-                            {/*</span>*/}
                             <Search placeholder="search field by name" enterButton />
                         </div>
                     </div>
