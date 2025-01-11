@@ -1,6 +1,6 @@
 import './App.css'
 import {createBrowserRouter, RouterProvider} from "react-router";
-import {RootLayout} from "./components/RootLayout.tsx";
+import RootLayout from "./components/RootLayout.tsx";
 import {Dashboard} from "./pages/Dashboard.tsx";
 import {Equipment} from "./pages/equipment/Equipment.tsx";
 import {Staff} from "./pages/staff/Staff.tsx";
@@ -16,12 +16,12 @@ function App() {
         element: <RootLayout/>,
           children:[
             {path:'',element:<Dashboard/>},
-            {path:'/cropsManagement',element:<CropPage/>},
-            {path:'/fieldManagement',element:<FieldPage/>},
-            {path:'/logManagement',element:<Log/>},
-            {path:'/staffManagement',element:<Staff/>},
-            {path:'/vehicleManagement',element:<Vehicle/>},
-            {path:'/equipmentManagement',element:<Equipment/>}
+            {path:'/crop-manage',element:<CropPage/>},
+            {path:'/field-manage',element:<FieldPage/>},
+            {path:'/log-manage',element:<Log/>},
+            {path:'/staff-manage',element:<Staff/>},
+            {path:'/vehicle-manage',element:<Vehicle/>},
+            {path:'/equipment-manage',element:<Equipment/>}
           ]
     }
   ]);
