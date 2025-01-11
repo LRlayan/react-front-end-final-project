@@ -3,6 +3,9 @@ import { CropModal } from "../../components/crop/CropModal.tsx";
 import {useDispatch, useSelector} from "react-redux";
 import {Crop} from "../../model/Crop.ts";
 import {addCrop} from "../../reducer/CropSlice.ts";
+import Search from "antd/es/input/Search";
+import {PlusCircleOutlined} from "@ant-design/icons";
+import {Button} from "antd";
 
 export function CropPage() {
     const dispatch = useDispatch()
@@ -27,16 +30,17 @@ export function CropPage() {
                     {/* Search Bar */}
                     <div className="mb-6">
                         <div className="relative">
-                            <input
-                                id="filterCropCard"
-                                type="text"
-                                className="form-control w-full rounded-md px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                placeholder="Search crops by name"
-                                aria-label="Search"
-                            />
-                            <span className="absolute inset-y-0 right-3 flex items-center text-gray-500">
-                                🔍
-                            </span>
+                            {/*<input*/}
+                            {/*    id="filterCropCard"*/}
+                            {/*    type="text"*/}
+                            {/*    className="form-control w-full rounded-md px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"*/}
+                            {/*    placeholder="Search crops by name"*/}
+                            {/*    aria-label="Search"*/}
+                            {/*/>*/}
+                            {/*<span className="absolute inset-y-0 right-3 flex items-center text-gray-500">*/}
+                            {/*    🔍*/}
+                            {/*</span>*/}
+                            <Search placeholder="search crop by name" enterButton />
                         </div>
                     </div>
 
@@ -45,13 +49,14 @@ export function CropPage() {
                         <h3 className="text-xl font-bold text-white">
                             Crop Details
                         </h3>
-                        <button
-                            id="newCropButton"
-                            type="button"
+                        <Button
+                            type="primary"
+                            icon={<PlusCircleOutlined />}
                             className="btn bg-green-500 hover:bg-green-600 text-white font-semibold h-10 w-[150px] rounded-md shadow-md flex items-center justify-center"
-                            onClick={() => setOpen(true)}>
+                            onClick={() => setOpen(true)}
+                        >
                             New
-                        </button>
+                        </Button>
                     </div>
 
                     {/* Crop Card */}
