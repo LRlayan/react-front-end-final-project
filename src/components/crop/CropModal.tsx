@@ -1,4 +1,24 @@
-export function CropModal({ open, setOpen }: { open: boolean; setOpen: React.Dispatch<React.SetStateAction<boolean>> },props,children) {
+export function CropModal({
+                              open,
+                              setOpen,
+                              setCropName,
+                              setScientificName,
+                              setCategory,
+                              setSeason,
+                              setImage,
+                              handleSubmit,
+                              children,
+                          }: {
+    open: boolean;
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    setCropName: (value: string) => void;
+    setScientificName: (value: string) => void;
+    setCategory: (value: string) => void;
+    setSeason: (value: string) => void;
+    setImage: (value: File | null) => void;
+    handleSubmit: () => void;
+    children?: React.ReactNode;
+}) {
     if (!open) return null; // If `open` is false, don't render the modal
 
     return (
@@ -13,7 +33,7 @@ export function CropModal({ open, setOpen }: { open: boolean; setOpen: React.Dis
                             <div>
                                 <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                                     <h3 className="text-base font-semibold text-white"
-                                        id="modal-title">{props.children}</h3>
+                                        id="modal-title">{children}</h3>
                                     <div className="mt-2">
                                         <form action="#" method="POST">
                                             {/*crop name */}
@@ -23,7 +43,7 @@ export function CropModal({ open, setOpen }: { open: boolean; setOpen: React.Dis
                                                     Name</label>
                                                 <input type="text" id="crop-name" name="crop-name"
                                                        className="mt-1 block w-full px-4 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                                                       onChange={(e) => props.setCropName(e.target.value)}
+                                                       onChange={(e) => setCropName(e.target.value)}
                                                 />
                                             </div>
 
@@ -34,7 +54,7 @@ export function CropModal({ open, setOpen }: { open: boolean; setOpen: React.Dis
                                                     Name</label>
                                                 <input type="text" id="scientific-name" name="scientific-name"
                                                        className="mt-1 block w-full px-4 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                                                       onChange={(e) => props.setscientificName(e.target.value)}
+                                                       onChange={(e) => setScientificName(e.target.value)}
                                                 />
                                             </div>
 
@@ -44,7 +64,7 @@ export function CropModal({ open, setOpen }: { open: boolean; setOpen: React.Dis
                                                        className="block text-sm font-medium text-gray-50">Category</label>
                                                 <input type="text" id="category" name="category"
                                                        className="mt-1 block w-full px-4 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                                                       onChange={(e) => props.setCategory(e.target.value)}
+                                                       onChange={(e) => setCategory(e.target.value)}
                                                 />
                                             </div>
 
@@ -54,7 +74,7 @@ export function CropModal({ open, setOpen }: { open: boolean; setOpen: React.Dis
                                                        className="block text-sm font-medium text-gray-50">Season</label>
                                                 <input type="text" id="season" name="season"
                                                        className="mt-1 block w-full px-4 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                                                       onChange={(e) => props.setSeason(e.target.value)}
+                                                       onChange={(e) => setSeason(e.target.value)}
                                                 />
                                             </div>
                                             {/*// crop image*/}
@@ -63,7 +83,7 @@ export function CropModal({ open, setOpen }: { open: boolean; setOpen: React.Dis
                                                        className="block text-sm font-medium text-gray-50">Crop Image</label>
                                                 <input type="file" id="cropImage" name="cropImage" accept="image/*"
                                                        className="mt-1 block w-full px-4 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                                                       onChange={(e) => props.setImage(e.target.value)}
+                                                       onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
                                                 />
                                             </div>
                                         </form>
@@ -72,9 +92,9 @@ export function CropModal({ open, setOpen }: { open: boolean; setOpen: React.Dis
                             </div>
                         </div>
                         <div className="bg-gray-800 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                            <button type="button"
+                            <button type="submit"
                                     className="inline-flex w-full justify-center rounded-md bg-green-600 px-12 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto"
-                                    onClick={props.handleSubmit}>Save
+                                    onClick={handleSubmit}>Save
                             </button>
                             <button type="button"
                                     className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-10 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
