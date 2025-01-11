@@ -3,6 +3,7 @@ import {
     AppstoreOutlined,
     CarOutlined,
     DashboardOutlined,
+    DiffOutlined,
     FieldTimeOutlined,
     TeamOutlined,
     ToolOutlined
@@ -39,6 +40,12 @@ const items = [
         icon: <TeamOutlined />,
         label: 'Staff Manage',
         path: '/staff-manage',
+    },
+    {
+        key: '/log-manage',
+        icon: <DiffOutlined />,
+        label: 'Log Manage',
+        path: '/log-manage',
     },
     {
         key: '/equipment-manage',
@@ -108,6 +115,7 @@ const RootLayout: React.FC = () => {
                             <Route path="/crop-manage" element={<CropPage/>}/>
                             <Route path="/field-manage" element={<FieldPage/>}/>
                             <Route path="/staff-manage" element={<div>Staff Manage</div>}/>
+                            <Route path="/log-manage" element={<div>log Manage</div>}/>
                             <Route path="/equipment-manage" element={<div>Equipment Manage</div>}/>
                             <Route path="/vehicle-manage" element={<div>Vehicle Manage</div>}/>
                             {/* Redirect unknown routes to Dashboard */}
