@@ -14,6 +14,6 @@ const CropSlice = createSlice({
     }
 });
 
-export const{addCrop} = CropSlice.actions
-export default CropSlice.reducer
+export const{addCrop} = CropSlice.actions;
+export default CropSlice.reducer;
 
