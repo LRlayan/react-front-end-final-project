@@ -6,7 +6,7 @@ import {Equipment} from "./pages/equipment/Equipment.tsx";
 import {Staff} from "./pages/staff/Staff.tsx";
 import {Log} from "./pages/log/Log.tsx";
 import {Field} from "./pages/field/Field.tsx";
-import {Crop} from "./pages/crop/Crop.tsx";
+import {CropPage} from "./pages/crop/CropPage.tsx";
 import {Vehicle} from "./pages/vehicle/Vehicle.tsx";
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
         element: <RootLayout/>,
           children:[
             {path:'',element:<Dashboard/>},
-            {path:'/cropsManagement',element:<Crop/>},
+            {path:'/cropsManagement',element:<CropPage/>},
             {path:'/fieldManagement',element:<Field/>},
             {path:'/logManagement',element:<Log/>},
             {path:'/staffManagement',element:<Staff/>},
