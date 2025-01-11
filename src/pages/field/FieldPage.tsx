@@ -3,6 +3,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
 import {Field} from "../../model/Field.ts";
 import {addField} from "../../reducer/FieldSlice.ts";
+import Search from "antd/es/input/Search";
+import {Button} from "antd";
+import {PlusCircleOutlined} from "@ant-design/icons";
 
 export function FieldPage() {
 
@@ -27,16 +30,17 @@ export function FieldPage() {
                     {/* Search Bar */}
                     <div className="mb-6">
                         <div className="relative">
-                            <input
-                                id="filterFieldCard"
-                                type="text"
-                                className="form-control w-full rounded-md px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                placeholder="Search field by name"
-                                aria-label="Search"
-                            />
-                            <span className="absolute inset-y-0 right-3 flex items-center text-gray-500">
-                                🔍
-                            </span>
+                            {/*<input*/}
+                            {/*    id="filterFieldCard"*/}
+                            {/*    type="text"*/}
+                            {/*    className="form-control w-full rounded-md px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"*/}
+                            {/*    placeholder="Search field by name"*/}
+                            {/*    aria-label="Search"*/}
+                            {/*/>*/}
+                            {/*<span className="absolute inset-y-0 right-3 flex items-center text-gray-500">*/}
+                            {/*    🔍*/}
+                            {/*</span>*/}
+                            <Search placeholder="search field by name" enterButton />
                         </div>
                     </div>
 
@@ -45,13 +49,14 @@ export function FieldPage() {
                         <h3 className="text-xl font-bold text-white">
                             Field Details
                         </h3>
-                        <button
-                            id="newFieldButton"
-                            type="button"
+                        <Button
+                            type="primary"
+                            icon={<PlusCircleOutlined />}
                             className="btn bg-green-500 hover:bg-green-600 text-white font-semibold h-10 w-[150px] rounded-md shadow-md flex items-center justify-center"
-                            onClick={() => setOpen(true)}>
+                            onClick={() => setOpen(true)}
+                        >
                             New
-                        </button>
+                        </Button>
                     </div>
 
                     {/* Field Card */}
