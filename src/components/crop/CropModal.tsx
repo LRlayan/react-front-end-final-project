@@ -5,7 +5,6 @@ interface CropModalProps {
     isOpen: boolean;
     onClose: () => void;
     onSubmit: () => void;
-    children: () => void;
 }
 
 const CropModal: React.FC<CropModalProps> = ({
