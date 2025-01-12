@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CropModal } from "../../components/crop/CropModal.tsx";
+import CropModal from "../../components/crop/CropModal.tsx";
 import {useDispatch, useSelector} from "react-redux";
 import {Crop} from "../../model/Crop.ts";
 import {addCrop} from "../../reducer/CropSlice.ts";
@@ -7,10 +7,12 @@ import Search from "antd/es/input/Search";
 import {PlusCircleOutlined} from "@ant-design/icons";
 import {Button} from "antd";
 
-export function CropPage() {
+
+const CropPage = () => {
+    const [open, setOpen] = useState(false);
+
     const dispatch = useDispatch()
     const crops = useSelector((state) => state.crop.crops) || []
-    const [open, setOpen] = useState(false);
     const [cropName, setCropName] = useState("");
     const [scientificName, setScientificName] = useState("");
     const [category, setCategory] = useState("");
@@ -22,6 +24,10 @@ export function CropPage() {
         dispatch(addCrop(newCrop));
         setOpen(false);
     }
+
+    const handleModalClose = () => {
+        setOpen(false);
+    };
 
     return (
         <>
@@ -100,17 +106,64 @@ export function CropPage() {
                 </div>
             </section>
 
-            {/* Pass `setOpen` as prop to CropModal */}
-            <CropModal
-                open={open}
-                setOpen={setOpen}
-                setCropName={setCropName}
-                setScientificName={setScientificName}
-                setCategory={setCategory}
-                setSeason={setSeason}
-                setImage={setImage}
-                handleSubmit={handleSubmit}
-            />
+            <CropModal isOpen={open} setOpen={setOpen} onClose={handleModalClose} onSubmit={handleSubmit}>
+                <div>
+                    <form action="#" method="POST">
+                        {/*crop name */}
+                        <div className="mb-4">
+                            <label htmlFor="crop-name"
+                                   className="block text-sm font-medium text-gray-50">Crop
+                                Name</label>
+                            <input type="text" id="crop-name" name="crop-name"
+                                   className="mt-1 block w-full px-4 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                   onChange={(e) => setCropName(e.target.value)}
+                            />
+                        </div>
+
+                        {/*scientific name */}
+                        <div className="mb-4">
+                            <label htmlFor="scientific-name"
+                                   className="block text-sm font-medium text-gray-50">Scientific
+                                Name</label>
+                            <input type="text" id="scientific-name" name="scientific-name"
+                                   className="mt-1 block w-full px-4 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                   onChange={(e) => setScientificName(e.target.value)}
+                            />
+                        </div>
+
+                        {/*// category */}
+                        <div className="mb-4">
+                            <label htmlFor="category"
+                                   className="block text-sm font-medium text-gray-50">Category</label>
+                            <input type="text" id="category" name="category"
+                                   className="mt-1 block w-full px-4 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                   onChange={(e) => setCategory(e.target.value)}
+                            />
+                        </div>
+
+                        {/*// season*/}
+                        <div className="mb-4">
+                            <label htmlFor="email"
+                                   className="block text-sm font-medium text-gray-50">Season</label>
+                            <input type="text" id="season" name="season"
+                                   className="mt-1 block w-full px-4 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                   onChange={(e) => setSeason(e.target.value)}
+                            />
+                        </div>
+                        {/*// crop image*/}
+                        <div className="mb-4">
+                            <label htmlFor="email"
+                                   className="block text-sm font-medium text-gray-50">Crop Image</label>
+                            <input type="file" id="cropImage" name="cropImage" accept="image/*"
+                                   className="mt-1 block w-full px-4 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                   onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
+                            />
+                        </div>
+                    </form>
+                </div>
+            </CropModal>
         </>
     );
 }
+
+export default CropPage;
