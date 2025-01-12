@@ -4,6 +4,8 @@ import {Button, ConfigProvider, Modal} from "antd";
 interface CropModalProps {
     isOpen: boolean;
     onClose: () => void;
+    onSubmit: () => void;
+    children: () => void;
 }
 
 const CropModal: React.FC<CropModalProps> = ({
@@ -15,12 +17,12 @@ const CropModal: React.FC<CropModalProps> = ({
     const [confirmLoading, setConfirmLoading] = useState(false);
 
     const handleOk = () => {
-        onSubmit();
         setConfirmLoading(true);
         setTimeout(() => {
             setConfirmLoading(false);
+            onSubmit();
             onClose();
-        }, 1000);
+        }, 700);
     };
 
     return (
