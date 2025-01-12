@@ -11,7 +11,7 @@ import {
 import React, { useState } from "react";
 import {Navigate, Route, Routes, useLocation, useNavigate} from "react-router";
 import {Dashboard} from "../pages/Dashboard.tsx";
-import {CropPage} from "../pages/crop/CropPage.tsx";
+import CropPage from "../pages/crop/CropPage.tsx";
 import {FieldPage} from "../pages/field/FieldPage.tsx";
 
 const { Header, Content, Footer, Sider } = Layout;
