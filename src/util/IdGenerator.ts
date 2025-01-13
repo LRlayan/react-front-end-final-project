@@ -1,31 +1,33 @@
 export class IdGenerator{
 
     codeGenerator(type:string,code:string){
-
-        const increment = 1;
-
         switch (type) {
             case "CROP":
-                { 
-                    const parts = code.split('-');
-                    if (parts.length > 1 && code !== "CROP-") {
-                        const number = parseInt(parts[1]) + increment;
-                        return `CROP-${number}`;
-                    }
-                    return "CROP-1";
-                }
+                return this.getCode(code,"CROP-");
             case "FIELD":
-                return "";
+                return this.getCode(code,"FIELD-");
             case "LOG":
-                return "";
+                return this.getCode(code,"LOG-");
             case "EQUIPMENT":
-                return "";
+                return this.getCode(code,"EQUIPMENT-");
             case "STAFF":
-                return '';
+                return this.getCode(code,"STAFF-");
             case "VEHICLE":
-                return '';
+                return this.getCode(code,"VEHICLE-");
             default:
-                return increment
+                return "";
+        }
+    }
+
+    getCode(code:string,ifFirstCode:string){
+        const increment = 1;
+        {
+            const parts = code.split('-');
+            if (parts.length > 1 && code !== ifFirstCode) {
+                const number = parseInt(parts[1]) + increment;
+                return `${parts[0]}-${number}`;
+            }
+            return `${parts[0]}-1`;
         }
     }
 }
