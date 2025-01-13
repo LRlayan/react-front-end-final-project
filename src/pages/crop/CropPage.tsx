@@ -5,20 +5,29 @@ import { PlusCircleOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import Search from "antd/es/input/Search";
 import UpdateCrop from "./UpdateCrop.tsx";
+import DeleteCrop from "./DeleteCrop.tsx";
 
 const CropPage = () => {
     const [open, setOpen] = useState(false);
     const crops = useSelector((state) => state.crop.crops) || [];
     const [selectedCrop, setSelectedCrop] = useState(null);
+    const [modalType, setModalType] = useState("");
 
     function openUpdateModal(crop: any) {
         setSelectedCrop(crop);
         setOpen(true);
+        setModalType("update");
     }
 
     function openDeleteModal(crop: any) {
-        setSelectedCrop(crop)
+        setSelectedCrop(crop);
         setOpen(true);
+        setModalType("delete");
+    }
+
+    function openAddModal() {
+        setOpen(true);
+        setModalType("add");
     }
 
     return (
@@ -31,7 +40,7 @@ const CropPage = () => {
                         type="primary"
                         icon={<PlusCircleOutlined />}
                         className="btn bg-green-500 hover:bg-green-600 text-white"
-                        onClick={() => setOpen(true)}
+                        onClick={() => openAddModal()}
                     >
                         New
                     </Button>
@@ -78,15 +87,32 @@ const CropPage = () => {
             </div>
 
             {/* AddCrop Modal */}
-            <AddCrop isType="ADD CROP" buttonType="Save" isOpen={open} onClose={() => setOpen(false)}/>
+            {open && modalType === "add" && (
+                <AddCrop isType="ADD CROP" buttonType="Save" isOpen={open} onClose={() => setOpen(false)}/>
+            )}
             {/* UpdateCrop Modal */}
-            {open && selectedCrop && (
-                <UpdateCrop isType="UPDATE CROP" buttonType="Update" isOpen={open}
-                            onClose={() => {
-                                setOpen(false);
-                                setSelectedCrop(null);
-                            }}
-                            crop={selectedCrop}
+            {open && selectedCrop && modalType === "update" && (
+                <UpdateCrop
+                    isType="UPDATE CROP"
+                    buttonType="Update"
+                    isOpen={open}
+                    onClose={() => {
+                        setOpen(false);
+                        setSelectedCrop(null);
+                    }}
+                    crop={selectedCrop}
+                />
+            )}
+            {open && selectedCrop && modalType === "delete" && (
+                <DeleteCrop
+                    isType="DELETE CROP"
+                    buttonType="Delete"
+                    isOpen={open}
+                    onClose={() => {
+                        setOpen(false);
+                        setSelectedCrop(null);
+                    }}
+                    crop={selectedCrop}
                 />
             )}
         </section>
