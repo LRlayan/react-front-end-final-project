@@ -1,26 +1,24 @@
-import {FieldModal} from "../../components/filed/FieldModal.tsx";
 import {useDispatch, useSelector} from "react-redux";
-import {useState} from "react";
+import React, {useState} from "react";
 import {Field} from "../../model/Field.ts";
 import {addField} from "../../reducer/FieldSlice.ts";
 import Search from "antd/es/input/Search";
 import {Button} from "antd";
 import {PlusCircleOutlined} from "@ant-design/icons";
+import AddField from "./AddField.tsx";
+import UpdateField from "./UpdateField.tsx";
 
 export function FieldPage() {
 
+    const [open, setOpen] = useState(false);
     const dispatch = useDispatch()
     const fields = useSelector((state) => state.field.fields) || []
-    const [open, setOpen] = useState(false);
-    const [fieldName, setFieldName] = useState("");
-    const [location, setLocation] = useState("");
-    const [extentSize, setExtentSize] = useState("");
-    const [image, setImage] = useState<File | null>(null);
+    const [modalType , setModalType] = useState("");
+    const [selectedField, setSelectedField] = useState(null)
 
-    function handleSubmit() {
-        const newField = new Field("",fieldName,location,extentSize,image);
-        dispatch(addField(newField));
-        setOpen(false);
+    function openAddModal() {
+        setOpen(true);
+        setModalType("add");
     }
 
     return(
@@ -28,22 +26,14 @@ export function FieldPage() {
             <section id="fields-sec" className="mt-4 p-6">
                 <div className="container mx-auto">
                     {/* Search Bar */}
-                    <div className="mb-6">
-                        <div className="relative">
-                            <Search placeholder="search field by name" enterButton />
-                        </div>
-                    </div>
-
-                    {/* Heading and New Button in One Row */}
                     <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-xl font-bold text-white">
-                            Field Details
-                        </h3>
+                        <Search placeholder="search crop by name" enterButton/>
+                        <h3 className="text-xl font-bold text-white">Crop Details</h3>
                         <Button
                             type="primary"
-                            icon={<PlusCircleOutlined />}
-                            className="btn bg-green-500 hover:bg-green-600 text-white font-semibold h-10 w-[150px] rounded-md shadow-md flex items-center justify-center"
-                            onClick={() => setOpen(true)}
+                            icon={<PlusCircleOutlined/>}
+                            className="btn bg-green-500 hover:bg-green-600 text-white"
+                            onClick={() => openAddModal()}
                         >
                             New
                         </Button>
@@ -66,39 +56,43 @@ export function FieldPage() {
                                     <p className="text-sm">Name: {field.fieldName}</p>
                                     <p className="text-sm">Location: {field.location}</p>
                                     <p className="text-sm">Extent Size: {field.extentSize}</p>
-                                    <div className="mt-4 flex justify-between">
-                                        <button
-                                            id="updateField"
-                                            type="button"
-                                            className="btn bg-green-500 hover:bg-green-600 text-white font-semibold h-10 w-[150px] rounded-md shadow-md flex items-center justify-center mr-2"
+                                    <div className="flex space-x-2 mt-2">
+                                        {/* Update Button */}
+                                        <Button
+                                            type="primary"
+                                            className="btn bg-green-500 hover:bg-green-600 text-white"
+                                            style={{width: '140px'}}
+                                            onClick={() => openUpdateModal(field)}
                                         >
                                             Update
-                                        </button>
-                                        <button
-                                            id="deleteField"
-                                            type="button"
-                                            className="btn bg-red-500 hover:bg-red-600 text-white font-semibold h-10 w-[150px] rounded-md shadow-md flex items-center justify-center"
+                                        </Button>
+
+                                        {/* Delete Button */}
+                                        <Button
+                                            type="danger"
+                                            className="btn bg-red-500 hover:bg-red-600 text-white"
+                                            style={{width: '140px'}}
+                                            onClick={() => openDeleteModal(field)}
                                         >
                                             Delete
-                                        </button>
+                                        </Button>
                                     </div>
                                 </div>
                             ))
                         }
                     </div>
                 </div>
+                {open && modalType === "add" && (
+                    <AddField
+                        isOpen={open}
+                        onClose={() => {
+                            setOpen(false);
+                            setSelectedField(null);
+                        }}
+                        field={selectedField}
+                    />
+                )}
             </section>
-
-            {/* Pass `setOpen` as prop to CropModal */}
-            <FieldModal
-                open={open}
-                setOpen={setOpen}
-                setFieldName={setFieldName}
-                setLocation={setLocation}
-                setExtentSize={setExtentSize}
-                setImage={setImage}
-                handleSubmit={handleSubmit}
-            />
         </>
     )
 }
