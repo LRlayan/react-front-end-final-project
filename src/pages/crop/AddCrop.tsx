@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { addCrop } from "../../reducer/CropSlice.ts";
 import MainModal from "../../components/modal/MainModal.tsx";
 import {Crop} from "../../model/Crop.ts";
@@ -12,11 +12,13 @@ const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, o
     const [category, setCategory] = useState("");
     const [season, setSeason] = useState("");
     const [image, setImage] = useState<File | null>(null);
+    const crops = useSelector((state) => state.crop.crops);
 
     const idGenerator = new IdGenerator();
 
     const handleSubmit = () => {
-        const newCode = idGenerator.codeGenerator("CROP","CROP-2");
+        const getLastCropCode = crops.length > 0 ? crops[crops.length - 1].code : "CROP-";
+        const newCode = idGenerator.codeGenerator("CROP",getLastCropCode);
         const newCrop = new Crop(newCode,cropName,scientificName,category,season,image);
         dispatch(addCrop(newCrop));
         onClose();
