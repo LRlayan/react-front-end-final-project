@@ -18,6 +18,10 @@ const FieldSlice = createSlice({
                state.fields[index] = action.payload;
            }
        },
+       deleteField:(state,action) => {
+           //@ts-ignore
+           state.fields = state.fields.filter(f => f.code !== action.payload.code);
+       }
    }
 });
 
