@@ -21,6 +21,12 @@ export function FieldPage() {
         setModalType("add");
     }
 
+    function openUpdateModal(field: any) {
+        setOpen(true);
+        setSelectedField(field);
+        setModalType("update");
+    }
+
     return(
         <>
             <section id="fields-sec" className="mt-4 p-6">
@@ -90,6 +96,16 @@ export function FieldPage() {
                             setSelectedField(null);
                         }}
                         field={selectedField}
+                    />
+                )}
+                {open && selectedField && modalType === "update" && (
+                    <UpdateField
+                        isOpen={open}
+                        onClose={() => {
+                            setOpen(false);
+                            setSelectedField(null);
+                        }}
+                        field={setSelectedField}
                     />
                 )}
             </section>
