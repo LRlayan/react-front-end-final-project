@@ -16,6 +16,11 @@ const CropPage = () => {
         setOpen(true);
     }
 
+    function openDeleteModal(crop: any) {
+        setSelectedCrop(crop)
+        setOpen(true);
+    }
+
     return (
         <section id="crops-sec" className="mt-4 p-6">
             <div className="container mx-auto">
@@ -41,32 +46,47 @@ const CropPage = () => {
                                     className="w-full h-32 object-cover rounded-md mb-2"
                                 />
                             )}
-                            <h4 className="text-lg font-semibold">{crop.cropName}</h4>
+                            <h4 className="text-lg font-semibold">{crop.code}</h4>
+                            <p className="text-sm">Scientific Name: {crop.cropName}</p>
                             <p className="text-sm">Scientific Name: {crop.scientificName}</p>
                             <p className="text-sm">Category: {crop.category}</p>
                             <p className="text-sm">Season: {crop.season}</p>
-                            <Button
-                                type="primary"
-                                className="btn bg-green-500 hover:bg-green-600 text-white"
-                                onClick={() => openUpdateModal(crop)} // Pass the crop to the handler
-                            >
-                                Update
-                            </Button>
+                            <div className="flex space-x-2 mt-2">
+                                {/* Update Button */}
+                                <Button
+                                    type="primary"
+                                    className="btn bg-green-500 hover:bg-green-600 text-white"
+                                    style={{width: '140px'}}
+                                    onClick={() => openUpdateModal(crop)}
+                                >
+                                    Update
+                                </Button>
+
+                                {/* Delete Button */}
+                                <Button
+                                    type="danger"
+                                    className="btn bg-red-500 hover:bg-red-600 text-white"
+                                    style={{width: '140px'}}
+                                    onClick={() => openDeleteModal(crop)}
+                                >
+                                    Delete
+                                </Button>
+                            </div>
                         </div>
                     ))}
                 </div>
             </div>
 
             {/* AddCrop Modal */}
-            <AddCrop isType="ADD CROP" buttonType="Save" isOpen={open} onClose={() => setOpen(false)} />
+            <AddCrop isType="ADD CROP" buttonType="Save" isOpen={open} onClose={() => setOpen(false)}/>
             {/* UpdateCrop Modal */}
             {open && selectedCrop && (
                 <UpdateCrop isType="UPDATE CROP" buttonType="Update" isOpen={open}
-                    onClose={() => {
-                        setOpen(false);
-                        setSelectedCrop(null);
-                    }}
-                    crop={selectedCrop}
+                            onClose={() => {
+                                setOpen(false);
+                                setSelectedCrop(null);
+                            }}
+                            crop={selectedCrop}
                 />
             )}
         </section>
