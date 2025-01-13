@@ -25,5 +25,5 @@ const FieldSlice = createSlice({
    }
 });
 
-export const {addField} = FieldSlice.actions;
+export const {addField,updateField,deleteField} = FieldSlice.actions;
 export default FieldSlice.reducer;
