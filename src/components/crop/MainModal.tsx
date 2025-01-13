@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Button, ConfigProvider, Modal} from "antd";
 
-interface CropModalProps {
+interface ModalProps {
     isType: string;
     buttonType: string;
     isOpen: boolean;
@@ -10,7 +10,7 @@ interface CropModalProps {
     crop?: any;
 }
 
-const Modal: React.FC<CropModalProps> = ({
+const MainModal: React.FC<ModalProps> = ({
     isType,
     buttonType,
     isOpen,
@@ -79,4 +79,4 @@ const Modal: React.FC<CropModalProps> = ({
     );
 }
 
-export default Modal;
+export default MainModal;
