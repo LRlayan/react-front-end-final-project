@@ -29,8 +29,7 @@ const DeleteCrop: React.FC<{isOpen: boolean; onClose: () => void}> = ({isOpen, o
 
     return(
         <>
-            <MainModal isType="DELETE CROP" buttonType="Delete" isOpen={isOpen} onClose={onClose}
-                       onSubmit={handleSubmit}>
+            <MainModal isType="DELETE CROP" buttonType="Delete" isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
                 <div>
                     <img
                         src={URL.createObjectURL(crop.image)}
@@ -38,7 +37,7 @@ const DeleteCrop: React.FC<{isOpen: boolean; onClose: () => void}> = ({isOpen, o
                         className="w-full h-32 object-cover rounded-md mb-2"
                     />
                     <div>
-                        <p className="text-white">Code : {crop.code}</p>
+                        <p className="text-white">Crop Code : {crop.code}</p>
                         <p className="text-white">Crop Name : {crop.cropName}</p>
                     </div>
                     <div className="flex justify-end">
