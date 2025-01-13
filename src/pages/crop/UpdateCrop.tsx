@@ -7,8 +7,17 @@ import MainModal from "../../components/modal/MainModal.tsx";
 
 const UpdateCrop: React.FC<{ isOpen: boolean; onClose: () => void }> = ({isOpen, onClose, crop}) => {
 
+    const dispatch = useDispatch();
+    const [cropCode, setCropCode] = useState("");
+    const [cropName, setCropName] = useState("");
+    const [scientificName, setScientificName] = useState("");
+    const [category, setCategory] = useState("");
+    const [season, setSeason] = useState("");
+    const [image, setImage] = useState<File | null>(null);
+
     useEffect(() => {
         if (crop) {
+            setCropCode(crop.code);
             setCropName(crop.cropName);
             setScientificName(crop.scientificName);
             setCategory(crop.category);
@@ -17,15 +26,8 @@ const UpdateCrop: React.FC<{ isOpen: boolean; onClose: () => void }> = ({isOpen,
         }
     }, [crop]);
 
-    const dispatch = useDispatch();
-    const [cropName, setCropName] = useState("");
-    const [scientificName, setScientificName] = useState("");
-    const [category, setCategory] = useState("");
-    const [season, setSeason] = useState("");
-    const [image, setImage] = useState<File | null>(null);
-
     const handleSubmit = () => {
-        const updateCropDetails = new Crop("", cropName, scientificName, category, season, image);
+        const updateCropDetails = new Crop(cropCode, cropName, scientificName, category, season, image);
         dispatch(updateCrop(updateCropDetails))
     }
 
