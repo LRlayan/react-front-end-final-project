@@ -17,6 +17,10 @@ const CropSlice = createSlice({
             if (index !== -1) {
                 state.crops[index] = action.payload;
             }
+        },
+        deleteCrop:(state,action)=>{
+            //@ts-ignore
+            state.crops = state.crops.filter(c => c.code !== action.payload.code);
         }
     }
 });
