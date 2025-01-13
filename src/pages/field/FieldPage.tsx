@@ -12,7 +12,6 @@ import DeleteField from "./DeleteField.tsx";
 export function FieldPage() {
 
     const [open, setOpen] = useState(false);
-    const dispatch = useDispatch()
     const fields = useSelector((state) => state.field.fields) || []
     const [modalType , setModalType] = useState("");
     const [selectedField, setSelectedField] = useState(null)
@@ -112,7 +111,7 @@ export function FieldPage() {
                             setOpen(false);
                             setSelectedField(null);
                         }}
-                        field={setSelectedField}
+                        field={selectedField}
                     />
                 )}
                 {open && selectedField && modalType === "delete" && (
