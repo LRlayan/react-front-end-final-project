@@ -1,12 +1,12 @@
 export class Crop{
-    code:string;
+    code:string | number;
     cropName:string;
     scientificName:string;
     category:string;
     season:string;
     image: File | null;
 
-    constructor(code: string, cropName: string, scientificName: string, category: string, season: string, image: File | null) {
+    constructor(code: string | number, cropName: string, scientificName: string, category: string, season: string, image: File | null) {
         this.code = code;
         this.cropName = cropName;
         this.scientificName = scientificName;
