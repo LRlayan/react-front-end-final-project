@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addCrop } from "../../reducer/CropSlice.ts";
-import MainModal from "../../components/crop/MainModal.tsx";
+import MainModal from "../../components/modal/MainModal.tsx";
 import {Crop} from "../../model/Crop.ts";
 
 const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {

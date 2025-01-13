@@ -2,7 +2,7 @@ import {useDispatch} from "react-redux";
 import React, {useEffect, useState} from "react";
 import {Crop} from "../../model/Crop.ts";
 import {updateCrop} from "../../reducer/CropSlice.ts";
-import MainModal from "../../components/crop/MainModal.tsx";
+import MainModal from "../../components/modal/MainModal.tsx";
 
 
 const UpdateCrop: React.FC<{ isOpen: boolean; onClose: () => void }> = ({isOpen, onClose, crop}) => {
