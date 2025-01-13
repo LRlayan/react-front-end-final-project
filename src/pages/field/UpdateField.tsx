@@ -7,6 +7,7 @@ import {updateField} from "../../reducer/FieldSlice.ts";
 const UpdateField: React.FC<{isOpen: boolean; onClose: () => void}> = ({ isOpen, onClose, field }) =>{
 
     const dispatch = useDispatch();
+    const [fieldCode, setFieldCode] = useState("");
     const [fieldName, setFieldName] = useState("");
     const [location, setLocation] = useState("");
     const [extentSize, setExtentSize] = useState("");
@@ -14,6 +15,7 @@ const UpdateField: React.FC<{isOpen: boolean; onClose: () => void}> = ({ isOpen,
 
     useEffect(() => {
         if (field) {
+            setFieldCode(field.code);
             setFieldName(field.fieldName);
             setLocation(field.location);
             setExtentSize(field.extentSize);
@@ -22,7 +24,7 @@ const UpdateField: React.FC<{isOpen: boolean; onClose: () => void}> = ({ isOpen,
     }, [field]);
 
     const handleSubmit = () => {
-        const updateFieldDetails = new Field("",fieldName,location,extentSize,image);
+        const updateFieldDetails = new Field(fieldCode,fieldName,location,extentSize,image);
         dispatch(updateField(updateFieldDetails));
     }
 
