@@ -2,15 +2,21 @@ import React, {useState} from "react";
 import {Button, ConfigProvider, Modal} from "antd";
 
 interface CropModalProps {
+    isType: string;
+    buttonType: string;
     isOpen: boolean;
     onClose: () => void;
-    onSubmit: () => void;
+    onSubmit: (cropData: any) => void;
+    crop?: any;
 }
 
 const CropModal: React.FC<CropModalProps> = ({
+    isType,
+    buttonType,
     isOpen,
     onClose,
     onSubmit,
+    crop,
     children,
 }) => {
     const [confirmLoading, setConfirmLoading] = useState(false);
@@ -37,10 +43,9 @@ const CropModal: React.FC<CropModalProps> = ({
             >
                 <Modal
                     width={800}
-                    title="Add Employee"
+                    title={isType}
                     open={isOpen}
                     onCancel={onClose}
-                    onOk={handleOk}
                     confirmLoading={confirmLoading}
                     footer={[
                         <Button
@@ -57,7 +62,7 @@ const CropModal: React.FC<CropModalProps> = ({
                             onClick={handleOk}
                             className="bg-green-500 hover:bg-g-600 text-white"
                         >
-                            Submit
+                            {buttonType}
                         </Button>,
                     ]}
                     style={{
