@@ -4,10 +4,17 @@ import AddCrop from "./AddCrop";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import Search from "antd/es/input/Search";
+import UpdateCrop from "./UpdateCrop.tsx";
 
 const CropPage = () => {
     const [open, setOpen] = useState(false);
     const crops = useSelector((state) => state.crop.crops) || [];
+    const [selectedCrop, setSelectedCrop] = useState(null);
+
+    function openUpdateModal(crop: any) {
+        setSelectedCrop(crop);
+        setOpen(true);
+    }
 
     return (
         <section id="crops-sec" className="mt-4 p-6">
@@ -38,13 +45,30 @@ const CropPage = () => {
                             <p className="text-sm">Scientific Name: {crop.scientificName}</p>
                             <p className="text-sm">Category: {crop.category}</p>
                             <p className="text-sm">Season: {crop.season}</p>
+                            <Button
+                                type="primary"
+                                className="btn bg-green-500 hover:bg-green-600 text-white"
+                                onClick={() => openUpdateModal(crop)} // Pass the crop to the handler
+                            >
+                                Update
+                            </Button>
                         </div>
                     ))}
                 </div>
             </div>
 
             {/* AddCrop Modal */}
-            <AddCrop isOpen={open} onClose={() => setOpen(false)} />
+            <AddCrop isType="ADD CROP" buttonType="Save" isOpen={open} onClose={() => setOpen(false)} />
+            {/* UpdateCrop Modal */}
+            {open && selectedCrop && (
+                <UpdateCrop isType="UPDATE CROP" buttonType="Update" isOpen={open}
+                    onClose={() => {
+                        setOpen(false);
+                        setSelectedCrop(null);
+                    }}
+                    crop={selectedCrop}
+                />
+            )}
         </section>
     );
 };
