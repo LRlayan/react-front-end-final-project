@@ -1,20 +1,25 @@
 import React, { useState } from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {Field} from "../../model/Field.ts";
 import {addField} from "../../reducer/FieldSlice.ts";
 import MainModal from "../../components/modal/MainModal.tsx";
+import {IdGenerator} from "../../util/IdGenerator.ts";
 
 const AddField: React.FC<{isOpen: boolean; onClose: () => void}> = ({isOpen, onClose }) => {
 
     const dispatch = useDispatch();
-    const [code, setCode] = useState("");
     const [fieldName, setFieldName] = useState("");
     const [location, setLocation] = useState("");
     const [extentSize, setExtentSize] = useState("");
     const [image, setImage] = useState<File | null>(null);
+    const fields = useSelector((state) => state.field.fields);
+
+    const idGenerator = new IdGenerator();
 
     const handleSubmit = () => {
-        const newField = new Field(code,fieldName,location,extentSize,image);
+        const getLastFieldCode = fields.length > 0 ? fields[fields.length - 1].code : "FIELD-";
+        const newCode = idGenerator.codeGenerator("FIELD",getLastFieldCode);
+        const newField = new Field(newCode,fieldName,location,extentSize,image);
         dispatch(addField(newField));
         onClose();
     }
