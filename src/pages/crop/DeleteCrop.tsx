@@ -5,8 +5,18 @@ import {deleteCrop} from "../../reducer/CropSlice.ts";
 import React, {useEffect, useState} from "react";
 
 const DeleteCrop: React.FC<{isOpen: boolean; onClose: () => void}> = ({isOpen, onClose, crop}) => {
+
+    const dispatch = useDispatch();
+    const [cropCode, setCropCode] = useState("");
+    const [cropName, setCropName] = useState("");
+    const [scientificName, setScientificName] = useState("");
+    const [category, setCategory] = useState("");
+    const [season, setSeason] = useState("");
+    const [image, setImage] = useState<File | null>(null);
+
     useEffect(() => {
         if (crop) {
+            setCropCode(crop.code);
             setCropName(crop.cropName);
             setScientificName(crop.scientificName);
             setCategory(crop.category);
@@ -15,15 +25,8 @@ const DeleteCrop: React.FC<{isOpen: boolean; onClose: () => void}> = ({isOpen, o
         }
     }, [crop]);
 
-    const dispatch = useDispatch();
-    const [cropName, setCropName] = useState("");
-    const [scientificName, setScientificName] = useState("");
-    const [category, setCategory] = useState("");
-    const [season, setSeason] = useState("");
-    const [image, setImage] = useState<File | null>(null);
-
     const handleSubmit = () => {
-        const delCrop = new Crop("",cropName,scientificName,category,season,image);
+        const delCrop = new Crop(cropCode, cropName, scientificName, category, season, image);
         dispatch(deleteCrop(delCrop))
     }
 
