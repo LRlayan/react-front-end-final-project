@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addCrop } from "../../reducer/CropSlice.ts";
-import CropModal from "../../components/crop/CropModal.tsx";
+import Modal from "../../components/crop/Modal.tsx";
 import {Crop} from "../../model/Crop.ts";
 
 const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
@@ -19,7 +19,7 @@ const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, o
     };
 
     return (
-        <CropModal isType="ADD CROP" buttonType="Save" isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
+        <Modal isType="ADD CROP" buttonType="Save" isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
             <form>
                 <div className="mb-4">
                     <label className="block text-sm font-medium text-gray-50">Crop Name</label>
@@ -63,7 +63,7 @@ const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, o
                     />
                 </div>
             </form>
-        </CropModal>
+        </Modal>
     );
 };
 
