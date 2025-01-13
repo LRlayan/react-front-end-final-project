@@ -10,7 +10,7 @@ interface CropModalProps {
     crop?: any;
 }
 
-const CropModal: React.FC<CropModalProps> = ({
+const Modal: React.FC<CropModalProps> = ({
     isType,
     buttonType,
     isOpen,
@@ -79,4 +79,4 @@ const CropModal: React.FC<CropModalProps> = ({
     );
 }
 
-export default CropModal;
+export default Modal;
