@@ -19,7 +19,7 @@ const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, o
     };
 
     return (
-        <CropModal isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
+        <CropModal isType="ADD CROP" buttonType="Save" isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
             <form>
                 <div className="mb-4">
                     <label className="block text-sm font-medium text-gray-50">Crop Name</label>
