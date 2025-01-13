@@ -7,6 +7,7 @@ import {Button} from "antd";
 import {PlusCircleOutlined} from "@ant-design/icons";
 import AddField from "./AddField.tsx";
 import UpdateField from "./UpdateField.tsx";
+import DeleteField from "./DeleteField.tsx";
 
 export function FieldPage() {
 
@@ -25,6 +26,12 @@ export function FieldPage() {
         setOpen(true);
         setSelectedField(field);
         setModalType("update");
+    }
+
+    function openDeleteModal(field: any) {
+        setOpen(true);
+        setSelectedField(field);
+        setModalType("delete");
     }
 
     return(
@@ -106,6 +113,16 @@ export function FieldPage() {
                             setSelectedField(null);
                         }}
                         field={setSelectedField}
+                    />
+                )}
+                {open && selectedField && modalType === "delete" && (
+                    <DeleteField
+                        isOpen={open}
+                        onClose={() => {
+                            setOpen(false);
+                            setSelectedField(null);
+                        }}
+                        field={selectedField}
                     />
                 )}
             </section>
