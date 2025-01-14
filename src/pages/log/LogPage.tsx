@@ -5,6 +5,7 @@ import {useState} from "react";
 import {useSelector} from "react-redux";
 import AddLog from "./AddLog.tsx";
 import UpdateLog from "./UpdateLog.tsx";
+import DeleteLog from "./DeleteLog.tsx";
 
 const LogPage = () => {
     const [open, setOpen] = useState(false);
@@ -21,6 +22,12 @@ const LogPage = () => {
         setOpen(true);
         setSelectedLogs(logs);
         setModalType("update");
+    }
+
+    function openDeleteModal(logs: any) {
+        setOpen(false);
+        setSelectedLogs(logs);
+        setModalType("delete");
     }
 
     return(
@@ -90,11 +97,23 @@ const LogPage = () => {
 
                 )}
                 {open && modalType === "update" && selectedLogs && (
-                    <UpdateLog isOpen={open} onClose={() => {
-                        setOpen(false);
-                        setSelectedLogs(null);
-                    }}
-                    logs={selectedLogs}
+                    <UpdateLog
+                        isOpen={open}
+                        onClose={() => {
+                            setOpen(false);
+                            setSelectedLogs(null);
+                        }}
+                        logs={selectedLogs}
+                    />
+                )}
+                {open && modalType === "delete" && selectedLogs && (
+                    <DeleteLog
+                        isOpen={open}
+                        onClose={() => {
+                            setOpen(false);
+                            setSelectedLogs(null);
+                        }}
+                        logs={selectedLogs}
                     />
                 )}
             </section>
