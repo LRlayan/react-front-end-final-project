@@ -4,7 +4,7 @@ import RootLayout from "./components/RootLayout.tsx";
 import {Dashboard} from "./pages/Dashboard.tsx";
 import {Equipment} from "./pages/equipment/Equipment.tsx";
 import {Staff} from "./pages/staff/Staff.tsx";
-import {LogPage} from "./pages/log/LogPage.tsx";
+import LogPage from "./pages/log/LogPage.tsx";
 import {FieldPage} from "./pages/field/FieldPage.tsx";
 import {Vehicle} from "./pages/vehicle/Vehicle.tsx";
 import CropPage from "./pages/crop/CropPage.tsx";
