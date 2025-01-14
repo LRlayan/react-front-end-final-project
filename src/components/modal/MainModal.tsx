@@ -61,7 +61,7 @@ const MainModal: React.FC<ModalProps> = ({
                             loading={confirmLoading}
                             onClick={handleOk}
                             className={`text-white ${
-                                buttonType === "Delete"
+                                buttonType === "Yes,I'm Sure"
                                     ? "bg-red-500 hover:bg-red-600"
                                     : "bg-green-500 hover:bg-green-600"
                             }`}
