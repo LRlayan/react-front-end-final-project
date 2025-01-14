@@ -14,7 +14,7 @@ import {Dashboard} from "../pages/Dashboard.tsx";
 import CropPage from "../pages/crop/CropPage.tsx";
 import {FieldPage} from "../pages/field/FieldPage.tsx";
 import LogPage from "../pages/log/LogPage.tsx";
-import {StaffPage} from "../pages/staff/StaffPage.tsx";
+import StaffPage from "../pages/staff/StaffPage.tsx";
 
 const { Header, Content, Footer, Sider } = Layout;
 
