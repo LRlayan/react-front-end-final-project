@@ -18,8 +18,12 @@ const StaffSlice = createSlice({
                 state.staffs[index] = action.payload;
             }
         },
+        deleteStaff:(state,action)=>{
+            //@ts-ignore
+            state.staffs = state.staffs.filter(s => s.code !== action.payload.code);
+        }
     }
 })
 
-export const {addStaff,updateStaff} = StaffSlice.actions;
+export const {addStaff,updateStaff,deleteStaff} = StaffSlice.actions;
 export default StaffSlice.reducer;
