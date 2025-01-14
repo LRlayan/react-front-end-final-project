@@ -25,5 +25,5 @@ const LogSlice = createSlice({
     }
 })
 
-export const {addLog,updateLog} = LogSlice.actions;
+export const {addLog,updateLog,deleteLog} = LogSlice.actions;
 export default LogSlice.reducer;
