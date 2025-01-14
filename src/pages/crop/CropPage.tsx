@@ -34,8 +34,7 @@ const CropPage = () => {
         <section id="crops-sec" className="mt-4 p-6">
             <div className="container mx-auto">
                 <div className="flex justify-between items-center mb-4">
-                    <Search placeholder="search crop by name" enterButton />
-                    <h3 className="text-xl font-bold text-white">Crop Details</h3>
+                    <Search className="mr-5" placeholder="search crop by name" enterButton />
                     <Button
                         type="primary"
                         icon={<PlusCircleOutlined />}
