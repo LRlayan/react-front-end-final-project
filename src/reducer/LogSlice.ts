@@ -12,11 +12,16 @@ const LogSlice = createSlice({
             state.logs.push(action.payload);
         },
         updateLog:(state,action) => {
+            //@ts-ignore
             const index = state.logs.findIndex(l => l.code === action.payload.code);
             if (index !== -1) {
                 state.logs[index] = action.payload;
             }
         },
+        deleteLog:(state,action) => {
+            //@ts-ignore
+            state.logs = state.logs.filter(l => l.code !== action.payload.code);
+        }
     }
 })
 
