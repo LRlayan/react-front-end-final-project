@@ -1,7 +1,5 @@
-import {useDispatch, useSelector} from "react-redux";
-import React, {useState} from "react";
-import {Field} from "../../model/Field.ts";
-import {addField} from "../../reducer/FieldSlice.ts";
+import {useSelector} from "react-redux";
+import {useState} from "react";
 import Search from "antd/es/input/Search";
 import {Button} from "antd";
 import {PlusCircleOutlined} from "@ant-design/icons";
