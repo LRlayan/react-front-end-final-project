@@ -13,6 +13,7 @@ import {Navigate, Route, Routes, useLocation, useNavigate} from "react-router";
 import {Dashboard} from "../pages/Dashboard.tsx";
 import CropPage from "../pages/crop/CropPage.tsx";
 import {FieldPage} from "../pages/field/FieldPage.tsx";
+import LogPage from "../pages/log/LogPage.tsx";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -44,7 +45,7 @@ const items = [
     {
         key: '/log-manage',
         icon: <DiffOutlined />,
-        label: 'Log Manage',
+        label: 'LogPage Manage',
         path: '/log-manage',
     },
     {
@@ -114,8 +115,8 @@ const RootLayout: React.FC = () => {
                             {/* Add more routes for other sections */}
                             <Route path="/crop-manage" element={<CropPage/>}/>
                             <Route path="/field-manage" element={<FieldPage/>}/>
+                            <Route path="/log-manage" element={<LogPage/>}/>
                             <Route path="/staff-manage" element={<div>Staff Manage</div>}/>
-                            <Route path="/log-manage" element={<div>log Manage</div>}/>
                             <Route path="/equipment-manage" element={<div>Equipment Manage</div>}/>
                             <Route path="/vehicle-manage" element={<div>Vehicle Manage</div>}/>
                             {/* Redirect unknown routes to Dashboard */}
