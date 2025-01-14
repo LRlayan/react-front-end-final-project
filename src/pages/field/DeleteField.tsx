@@ -30,16 +30,16 @@ const DeleteField: React.FC<{isOpen: boolean; onClose: () => void}> = ({isOpen, 
 
     return(
         <>
-            <MainModal isType={"DELETE FIELD"} buttonType={"Delete"} isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
+            <MainModal isType={"DELETE FIELD"} buttonType={"Yes,I'm Sure"} isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
                 <div>
                     <img
                         src={URL.createObjectURL(field.image)}
-                        alt={field.cropName}
+                        alt={field.fieldName}
                         className="w-full h-32 object-cover rounded-md mb-2"
                     />
                     <div>
                         <p className="text-white">Field Code : {field.code}</p>
-                        <p className="text-white">Field Name : {field.cropName}</p>
+                        <p className="text-white">Field Name : {field.fieldName}</p>
                     </div>
                     <div className="flex justify-end">
                         <h3 className="text-white mb-3">Are you sure delete this field?</h3>
