@@ -11,7 +11,7 @@ const AddLog: React.FC<{isOpen: boolean; onClose: () => void}> = ({ isOpen, onCl
     const [lodDate, setLogDate] = useState("");
     const [logDetails, setLogDetails] = useState("");
     const [image, setImage] = useState<File | null>(null);
-    const logs = useSelector((state) => state.logs.log);
+    const logs = useSelector((state) => state.log.logs);
 
     const idGenerator = new IdGenerator();
 
@@ -25,7 +25,7 @@ const AddLog: React.FC<{isOpen: boolean; onClose: () => void}> = ({ isOpen, onCl
 
     return(
         <>
-            <MainModal isOpen={isOpen} isType="ADD LOG" buttonType="Save" onClose={onClose} onSubmit={handleSubmit}>
+            <MainModal isOpen={isOpen} isType={"ADD LOG"} buttonType={"Save"} onClose={onClose} onSubmit={handleSubmit}>
                 <form>
                     <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-50">Log Date</label>
