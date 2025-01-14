@@ -4,16 +4,23 @@ import {PlusCircleOutlined} from "@ant-design/icons";
 import {useState} from "react";
 import {useSelector} from "react-redux";
 import AddLog from "./AddLog.tsx";
+import UpdateLog from "./UpdateLog.tsx";
 
 const LogPage = () => {
     const [open, setOpen] = useState(false);
-    const [isSelected, setSelected] = useState(null);
+    const [selectedLogs, setSelectedLogs] = useState(null);
     const [modalType, setModalType] = useState("");
     const logs = useSelector((state) => state.logs.log) || [];
 
     function openAddModal() {
         setOpen(true);
         setModalType("add");
+    }
+
+    function openUpdateModal(logs: any) {
+        setOpen(true);
+        setSelectedLogs(logs);
+        setModalType("update");
     }
 
     return(
@@ -77,11 +84,18 @@ const LogPage = () => {
                         isOpen={open}
                         onClose={() => {
                             setOpen(false);
-                            setSelected(null);
+                            setSelectedLogs(null);
                         }}
-                        logs={isSelected}
                     />
 
+                )}
+                {open && modalType === "update" && selectedLogs && (
+                    <UpdateLog isOpen={open} onClose={() => {
+                        setOpen(false);
+                        setSelectedLogs(null);
+                    }}
+                    logs={selectedLogs}
+                    />
                 )}
             </section>
         </>
