@@ -27,7 +27,7 @@ const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void}> = ({ isOpen, o
 
     return(
         <>
-            <MainModal isOpen={isOpen} isType="UPDATE LOG" buttonType="Upadte" onClose={onClose} onSubmit={handleSubmit}>
+            <MainModal isOpen={isOpen} isType={"UPDATE LOG"} buttonType={"Update"} onClose={onClose} onSubmit={handleSubmit}>
                 <form>
                     <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-50">Log Date</label>
