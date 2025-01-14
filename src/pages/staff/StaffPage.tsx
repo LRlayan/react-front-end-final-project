@@ -1,4 +1,4 @@
-export function Staff(){
+export function StaffPage(){
     return(
         <></>
     )
