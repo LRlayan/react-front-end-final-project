@@ -35,8 +35,7 @@ const LogPage = () => {
             <section id="log-sec" className="mt-4 p-6">
                 <div className="container mx-auto">
                     <div className="flex justify-between items-center mb-4">
-                        <Search placeholder="search crop by name" enterButton/>
-                        <h3 className="text-xl font-bold text-white">Log Details</h3>
+                        <Search className="mr-5" placeholder="search log by name" enterButton/>
                         <Button
                             type="primary"
                             icon={<PlusCircleOutlined/>}

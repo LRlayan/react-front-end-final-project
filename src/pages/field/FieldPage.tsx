@@ -37,8 +37,7 @@ export function FieldPage() {
                 <div className="container mx-auto">
                     {/* Search Bar */}
                     <div className="flex justify-between items-center mb-4">
-                        <Search placeholder="search field by name" enterButton/>
-                        <h3 className="text-xl font-bold text-white">Crop Details</h3>
+                        <Search className="mr-5" placeholder="search field by name" enterButton/>
                         <Button
                             type="primary"
                             icon={<PlusCircleOutlined/>}
