@@ -1,7 +1,9 @@
-import React from "react";
-import Search from "antd/es/input/Search";
+import React, {useState} from "react";
+import {useSelector} from "react-redux";
+import AddStaff from "./AddStaff.tsx";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Button } from "antd";
+import Search from "antd/es/input/Search";
 import Table from "../../components/table/Table";
 
 interface StaffDataType {
@@ -19,117 +21,128 @@ interface StaffDataType {
     addressLine03:string;
     addressLine04:string;
     addressLine05:string;
-    contactNo:string;
+    mobile:string;
 }
 
-const staffColumns = [
-    {
-        title: 'First Name',
-        dataIndex: 'firstName',
-        fixed:'left',
-        key: 'firstName',
-    },
-    {
-        title: 'Last Name',
-        dataIndex: 'lastName',
-        key: 'lastName',
-    },
-    {
-        title: 'Role',
-        dataIndex: 'role',
-        fixed:'left',
-        key: 'role',
-    },
-    {
-        title: 'Email',
-        dataIndex: 'email',
-        key: 'email',
-    },
-    {
-        title: 'Joined Date',
-        dataIndex: 'joinedDate',
-        key: 'joinedDate',
-    },
-    {
-        title: 'Designation',
-        dataIndex: 'designation',
-        key: 'designation',
-    },
-    {
-        title: 'Gender',
-        dataIndex: 'gender',
-        key: 'gender',
-    },
-    {
-        title: 'Date Of Birth',
-        dataIndex: 'dob',
-        key: 'dob',
-    },
-    {
-        title: 'Address Line 01',
-        dataIndex: 'addressLine01',
-        key: 'addressLine01',
-    },
-    {
-        title: 'Address Line 02',
-        dataIndex: 'addressLine02',
-        key: 'addressLine02',
-    },
-    {
-        title: 'Address Line 03',
-        dataIndex: 'addressLine03',
-        key: 'addressLine03',
-    },
-    {
-        title: 'Address Line 04',
-        dataIndex: 'addressLine04',
-        key: 'addressLine04',
-    },
-    {
-        title: 'Address Line 05',
-        dataIndex: 'addressLine05',
-        key: 'addressLine05',
-    },
-    {
-        title: 'Mobile',
-        dataIndex: 'mobile',
-        key: 'mobile',
-    },
-    {
-        title: 'Action 1',
-        key: 'update',
-        fixed:'right',
-        render: () => <a className="text-blue-500">Edit</a>,
-    },
-    {
-        title: 'Action 2',
-        key: 'delete',
-        fixed:'right',
-        render: () => <a className="text-red-500">Delete</a>,
-    },
-
-];
-
-const staffData: StaffDataType[] = [
-    { key: '1', firstName: 'John ', lastName:"Doe",role: '1', email: 'john.doe@example.com', joinedDate:"44444", designation:"cds", gender:"male", dob:"455", addressLine01:"sdc", addressLine02:"sc", addressLine03:"asc", addressLine04:"asc", addressLine05:"sc", mobile:"563453458"},
-    { key: '1', firstName: 'John ', lastName:"Doe",role: '2', email: 'john.doe@example.com', joinedDate:"44444", designation:"cds", gender:"male", dob:"455", addressLine01:"sdc", addressLine02:"sc", addressLine03:"asc", addressLine04:"asc", addressLine05:"sc", mobile:"563453458"},
-    { key: '1', firstName: 'John ', lastName:"Doe",role: '3', email: 'john.doe@example.com', joinedDate:"44444", designation:"cds", gender:"male", dob:"455", addressLine01:"sdc", addressLine02:"sc", addressLine03:"asc", addressLine04:"asc", addressLine05:"sc", mobile:"563453458"},
-    { key: '1', firstName: 'John ', lastName:"Doe",role: '4', email: 'john.doe@example.com', joinedDate:"44444", designation:"cds", gender:"male", dob:"455", addressLine01:"sdc", addressLine02:"sc", addressLine03:"asc", addressLine04:"asc", addressLine05:"sc", mobile:"563453458"},
-    { key: '1', firstName: 'John ', lastName:"Doe",role: '5', email: 'john.doe@example.com', joinedDate:"44444", designation:"cds", gender:"male", dob:"455", addressLine01:"sdc", addressLine02:"sc", addressLine03:"asc", addressLine04:"asc", addressLine05:"sc", mobile:"563453458"},
-    { key: '1', firstName: 'John ', lastName:"Doe",role: '6', email: 'john.doe@example.com', joinedDate:"44444", designation:"cds", gender:"male", dob:"455", addressLine01:"sdc", addressLine02:"sc", addressLine03:"asc", addressLine04:"asc", addressLine05:"sc", mobile:"563453458"},
-    { key: '1', firstName: 'John ', lastName:"Doe",role: '7', email: 'john.doe@example.com', joinedDate:"44444", designation:"cds", gender:"male", dob:"455", addressLine01:"sdc", addressLine02:"sc", addressLine03:"asc", addressLine04:"asc", addressLine05:"sc", mobile:"563453458"},
-    { key: '1', firstName: 'John ', lastName:"Doe",role: '8', email: 'john.doe@example.com', joinedDate:"44444", designation:"cds", gender:"male", dob:"455", addressLine01:"sdc", addressLine02:"sc", addressLine03:"asc", addressLine04:"asc", addressLine05:"sc", mobile:"563453458"},
-    { key: '1', firstName: 'John ', lastName:"Doe",role: '9', email: 'john.doe@example.com', joinedDate:"44444", designation:"cds", gender:"male", dob:"455", addressLine01:"sdc", addressLine02:"sc", addressLine03:"asc", addressLine04:"asc", addressLine05:"sc", mobile:"563453458"},
-    { key: '1', firstName: 'John ', lastName:"Doe",role: '10', email: 'john.doe@example.com', joinedDate:"44444", designation:"cds", gender:"male", dob:"455", addressLine01:"sdc", addressLine02:"sc", addressLine03:"asc", addressLine04:"asc", addressLine05:"sc", mobile:"563453458"},
-    { key: '1', firstName: 'John ', lastName:"Doe",role: '11', email: 'john.doe@example.com', joinedDate:"44444", designation:"cds", gender:"male", dob:"455", addressLine01:"sdc", addressLine02:"sc", addressLine03:"asc", addressLine04:"asc", addressLine05:"sc", mobile:"563453458"},
-    { key: '1', firstName: 'John ', lastName:"Doe",role: '12', email: 'john.doe@example.com', joinedDate:"44444", designation:"cds", gender:"male", dob:"455", addressLine01:"sdc", addressLine02:"sc", addressLine03:"asc", addressLine04:"asc", addressLine05:"sc", mobile:"563453458"},
-
-];
-
 const StaffPage = () => {
-    const openAddModal = () => {
-        console.log("Add Modal Opened");
-    };
+
+    const columns = [
+        {
+            title: 'First Name',
+            dataIndex: 'firstName',
+            fixed:'left',
+            key: 'firstName',
+        },
+        {
+            title: 'Last Name',
+            dataIndex: 'lastName',
+            key: 'lastName',
+        },
+        {
+            title: 'Role',
+            dataIndex: 'role',
+            fixed:'left',
+            key: 'role',
+        },
+        {
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
+        },
+        {
+            title: 'Joined Date',
+            dataIndex: 'joinedDate',
+            key: 'joinedDate',
+        },
+        {
+            title: 'Designation',
+            dataIndex: 'designation',
+            key: 'designation',
+        },
+        {
+            title: 'Gender',
+            dataIndex: 'gender',
+            key: 'gender',
+        },
+        {
+            title: 'Date Of Birth',
+            dataIndex: 'dob',
+            key: 'dob',
+        },
+        {
+            title: 'Address Line 01',
+            dataIndex: 'addressLine01',
+            key: 'addressLine01',
+        },
+        {
+            title: 'Address Line 02',
+            dataIndex: 'addressLine02',
+            key: 'addressLine02',
+        },
+        {
+            title: 'Address Line 03',
+            dataIndex: 'addressLine03',
+            key: 'addressLine03',
+        },
+        {
+            title: 'Address Line 04',
+            dataIndex: 'addressLine04',
+            key: 'addressLine04',
+        },
+        {
+            title: 'Address Line 05',
+            dataIndex: 'addressLine05',
+            key: 'addressLine05',
+        },
+        {
+            title: 'Mobile',
+            dataIndex: 'mobile',
+            key: 'mobile',
+        },
+        {
+            title: 'Action 1',
+            key: 'update',
+            fixed:'right',
+            render: (_: any, record: StaffDataType) => (
+                <Button
+                    className="text-blue-500"
+                    type="link"
+                    onClick={() => {
+                        console.log("Edit:", record);
+                    }}
+                >
+                    Edit
+                </Button>
+            ),
+        },
+        {
+            title: 'Action 2',
+            key: 'delete',
+            fixed:'right',
+            render: (_: any, record: StaffDataType) => (
+                <Button
+                    className="text-red-500"
+                    type="link"
+                    onClick={() => {
+                        console.log("Edit:", record);
+                    }}
+                >
+                    Delete
+                </Button>
+            ),
+        },
+
+    ];
+
+    const [open, setOpen] = useState(false);
+    const [selectedStaff, setSelectedStaff] = useState(null);
+    const [modalType, setModalType] = useState("");
+    const staff = useSelector((state) => state.staff.staffs) || [];
+
+    function openAddModal() {
+        setOpen(true);
+        setModalType("add");
+    }
 
     return (
         <>
@@ -141,13 +154,27 @@ const StaffPage = () => {
                             type="primary"
                             icon={<PlusCircleOutlined />}
                             className="btn bg-green-500 hover:bg-green-600 text-white"
-                            onClick={openAddModal}
+                            onClick={() => openAddModal()}
                         >
                             New
                         </Button>
                     </div>
                 </div>
-                <Table columns={staffColumns} dataSource={staffData} />
+                <Table<StaffDataType>
+                    columns={columns}
+                    dataSource={staff.map((staff: StaffDataType) => ({
+                        ...staff,
+                        key: staff.mobile,
+                    }))}
+                />
+                {open && modalType === "add" && (
+                    <AddStaff
+                        isType="ADD STAFF"
+                        buttonType="Save"
+                        isOpen={open}
+                        onClose={() => setOpen(false)}
+                    />
+                )}
             </section>
         </>
     );
