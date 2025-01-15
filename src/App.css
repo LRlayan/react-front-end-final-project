@@ -1,0 +1,12 @@
+.custom-dropdown .ant-select-item-option {
+    color: black;
+}
+
+.custom-dropdown .ant-select-item-option-selected {
+    background-color: #f0f0f0 !important; /* Highlight selected item */
+    color: black !important;
+}
+
+.ant-select-selector {
+    color: black !important;
+}
