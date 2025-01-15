@@ -65,16 +65,16 @@ const AddStaff: React.FC<{ isOpen:boolean; onClose: () => void}> = ({ isOpen, on
         <>
             <MainModal isOpen={isOpen} isType={"ADD STAFF MEMBER"} buttonType={"Save"} onClose={onClose} onSubmit={handleSubmit}>
                 <form>
-                    <div className="mb-4">
+                    <div className="mb-4 custom-input">
                         {/*<label className="block text-sm font-medium text-gray-50">First Name</label>*/}
                         <Label labelName={"First Name"}/>
                         <Input
                             type="text"
-                            className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
+                            className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm custom-input"
                             onChange={(e) => setFirstName(e.target.value)}
                         />
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-4 custom-input">
                         <Label labelName={"Last Name"}/>
                         <Input
                             type="text"
@@ -105,7 +105,7 @@ const AddStaff: React.FC<{ isOpen:boolean; onClose: () => void}> = ({ isOpen, on
                         />
 
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-4 custom-input">
                         <Label labelName={"Email"}/>
                         <Input
                             type="email"
@@ -113,7 +113,7 @@ const AddStaff: React.FC<{ isOpen:boolean; onClose: () => void}> = ({ isOpen, on
                             onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-4 custom-input">
                         <Label labelName={"Joined Date"}/>
                         <Input
                             type="date"
@@ -165,7 +165,7 @@ const AddStaff: React.FC<{ isOpen:boolean; onClose: () => void}> = ({ isOpen, on
                             dropdownClassName="custom-dropdown"
                         />
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-4 custom-input">
                         <Label labelName={"Date Of Birth"}/>
                         <Input
                             type="date"
@@ -173,7 +173,7 @@ const AddStaff: React.FC<{ isOpen:boolean; onClose: () => void}> = ({ isOpen, on
                             onChange={(e) => setDob(e.target.value)}
                         />
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-4 custom-input">
                         <Label labelName={"Address Line 01"}/>
                         <Input
                             type="text"
@@ -181,7 +181,7 @@ const AddStaff: React.FC<{ isOpen:boolean; onClose: () => void}> = ({ isOpen, on
                             onChange={(e) => setAddressLine01(e.target.value)}
                         />
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-4 custom-input">
                         <Label labelName={"Address Line 02"}/>
                         <Input
                             type="text"
@@ -189,7 +189,7 @@ const AddStaff: React.FC<{ isOpen:boolean; onClose: () => void}> = ({ isOpen, on
                             onChange={(e) => setAddressLine02(e.target.value)}
                         />
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-4 custom-input">
                         <Label labelName={"Address Line 03"}/>
                         <Input
                             type="text"
@@ -197,7 +197,7 @@ const AddStaff: React.FC<{ isOpen:boolean; onClose: () => void}> = ({ isOpen, on
                             onChange={(e) => setAddressLine03(e.target.value)}
                         />
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-4 custom-input">
                         <Label labelName={"Address Line 04"}/>
                         <Input
                             type="text"
@@ -205,7 +205,7 @@ const AddStaff: React.FC<{ isOpen:boolean; onClose: () => void}> = ({ isOpen, on
                             onChange={(e) => setAddressLine04(e.target.value)}
                         />
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-4 custom-input">
                         <Label labelName={"Address Line 05"}/>
                         <Input
                             type="text"
@@ -213,7 +213,7 @@ const AddStaff: React.FC<{ isOpen:boolean; onClose: () => void}> = ({ isOpen, on
                             onChange={(e) => setAddressLine05(e.target.value)}
                         />
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-4 custom-input">
                         <Label labelName={"Mobile"}/>
                         <Input
                             type="email"
