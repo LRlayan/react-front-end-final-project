@@ -4,7 +4,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {IdGenerator} from "../../util/IdGenerator.ts";
 import {Staff} from "../../model/Staff.ts";
 import {addStaff} from "../../reducer/StaffSlice.ts";
-import {Select} from "antd";
+import {Input, Select} from "antd";
+import Label from "../../components/label/Label.tsx";
 
 const AddStaff: React.FC<{ isOpen:boolean; onClose: () => void}> = ({ isOpen, onClose }) => {
 
@@ -35,153 +36,189 @@ const AddStaff: React.FC<{ isOpen:boolean; onClose: () => void}> = ({ isOpen, on
         onClose();
     }
 
+    const roleOptions = [
+        { value: "MANAGER", label: "MANAGER" },
+        { value: "ADMINISTRATIVE", label: "ADMINISTRATIVE" },
+        { value: "SCIENTIST", label: "SCIENTIST" },
+        { value: "OTHER", label: "OTHER" },
+    ];
+
+    const designationOptions = [
+        { value: "ASSISTANT MANAGER", label: "ASSISTANT MANAGER" },
+        { value: "ADMIN AND HR STAFF", label: "ADMIN AND HR STAFF" },
+        { value: "OFFICE ASSISTANT", label: "OFFICE ASSISTANT" },
+        { value: "SENIOR AGRONOMIST", label: "SENIOR AGRONOMIST" },
+        { value: "AGRONOMIST", label: "AGRONOMIST" },
+        { value: "SOIL SCIENTIST", label: "SOILS SCIENTIST" },
+        { value: "SENIOR TECHNICIAN", label: "SENIOR TECHNICIAN" },
+        { value: "TECHNICIAN", label: "TECHNICIAN" },
+        { value: "SUPERVISOR", label: "SUPERVISOR" },
+        { value: "LABOUR", label: "LABOUR" },
+    ];
+
+    const genderOption = [
+        { value: "MALE", label: "MALE" },
+        { value: "FEMALE", label: "FEMALE" },
+    ];
+
     return(
         <>
             <MainModal isOpen={isOpen} isType={"ADD STAFF MEMBER"} buttonType={"Save"} onClose={onClose} onSubmit={handleSubmit}>
                 <form>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-50">First Name</label>
-                        <input
+                        {/*<label className="block text-sm font-medium text-gray-50">First Name</label>*/}
+                        <Label labelName={"First Name"}/>
+                        <Input
                             type="text"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setFirstName(e.target.value)}
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-50">Last Name</label>
-                        <input
+                        <Label labelName={"Last Name"}/>
+                        <Input
                             type="text"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setLastName(e.target.value)}
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-50">Role</label>
+                        <Label labelName={"Role"}/>
                         <Select
                             showSearch
                             placeholder="Select your role"
                             optionFilterProp="label"
-                            options={[
-                                {value: "MANAGER", label: "MANAGER"},
-                                {value: "ADMINISTRATIVE", label: "ADMINISTRATIVE"},
-                                {value: "SCIENTIST", label: "SCIENTIST"},
-                                {value: "OTHER", label: "OTHER"},
-                            ]}
-                            onChange={(e) => setRole(e.target.value)}
+                            options={roleOptions}
+                            value={role || undefined}
+                            onChange={(value) => setRole(value)}
+                            style={{
+                                color: role ? "black" : "gray",
+                            }}
+                            dropdownStyle={{
+                                backgroundColor: "white",
+                                color: "black",
+                            }}
+                            className={`w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-300 ${
+                                role ? "text-black" : "text-gray-500"
+                            }`}
+                            dropdownClassName="custom-dropdown"
                         />
+
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-50">Email</label>
-                        <input
+                        <Label labelName={"Email"}/>
+                        <Input
                             type="email"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-50">Joined Date</label>
-                        <input
+                        <Label labelName={"Joined Date"}/>
+                        <Input
                             type="date"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setJoinedDate(e.target.value)}
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-50">Designation</label>
+                        <Label labelName={"Designation"}/>
                         <Select
                             showSearch
                             placeholder="Select your designation"
                             optionFilterProp="label"
-                            options={[
-                                { value: "ASSISTANTMANAGER", label: "ASSISTANT MANAGER" },
-                                { value: "ADMINANDHRSTAFF", label: "ADMIN AND HR STAFF" },
-                                { value: "OFFICEASSISTANT", label: "OFFICE ASSISTANT" },
-                                { value: "SENIORAGRONOMIST", label: "SENIOR AGRONOMIST" },
-                                { value: "AGRONOMIST", label: "AGRONOMIST" },
-                                { value: "SOILSCIENTIST", label: "SOILS SCIENTIST" },
-                                { value: "SENIORTECHNICIAN", label: "SENIOR TECHNICIAN" },
-                                { value: "TECHNICIAN", label: "TECHNICIAN" },
-                                { value: "SUPERVISOR", label: "SUPERVISOR" },
-                                { value: "LABOUR", label: "LABOUR" },
-                            ]}
-                            onChange={(e) => setDesignation(e.target.value)}
+                            options={designationOptions}
+                            value={designation || undefined}
+                            onChange={(value) => setDesignation(value)}
+                            style={{
+                                color: designation ? "black" : "gray",
+                            }}
+                            dropdownStyle={{
+                                backgroundColor: "white",
+                                color: "black",
+                            }}
+                            className={`w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-300 ${
+                                designation ? "text-black" : "text-gray-500"
+                            }`}
+                            dropdownClassName="custom-dropdown"
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-50">Gender</label>
+                        <Label labelName={"Gender"}/>
                         <Select
                             showSearch
                             placeholder="Select your gender"
                             optionFilterProp="label"
-                            options={[
-                                {value: "MALE", label: "MALE"},
-                                {value: "FEMALE", label: "FEMALE"},
-                            ]}
-                            onChange={(e) => setGender(e.target.value)}
+                            options={genderOption}
+                            value={gender || undefined}
+                            onChange={(value) => setGender(value)}
+                            style={{
+                                color: gender ? "black" : "gray",
+                            }}
+                            dropdownStyle={{
+                                backgroundColor: "white",
+                                color: "black",
+                            }}
+                            className={`w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-300 ${
+                                gender ? "text-black" : "text-gray-500"
+                            }`}
+                            dropdownClassName="custom-dropdown"
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-50">Date Of Birth</label>
-                        <input
+                        <Label labelName={"Date Of Birth"}/>
+                        <Input
                             type="date"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setDob(e.target.value)}
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-50">Address Line 01</label>
-                        <input
+                        <Label labelName={"Address Line 01"}/>
+                        <Input
                             type="text"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setAddressLine01(e.target.value)}
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-50">Address Line 02</label>
-                        <input
+                        <Label labelName={"Address Line 02"}/>
+                        <Input
                             type="text"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setAddressLine02(e.target.value)}
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-50">Address Line 03</label>
-                        <input
+                        <Label labelName={"Address Line 03"}/>
+                        <Input
                             type="text"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setAddressLine03(e.target.value)}
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-50">Address Line 04</label>
-                        <input
+                        <Label labelName={"Address Line 04"}/>
+                        <Input
                             type="text"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setAddressLine04(e.target.value)}
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-50">Address Line 05</label>
-                        <input
+                        <Label labelName={"Address Line 05"}/>
+                        <Input
                             type="text"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setAddressLine05(e.target.value)}
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-50">Mobile</label>
-                        <input
+                        <Label labelName={"Mobile"}/>
+                        <Input
                             type="email"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setMobile(e.target.value)}
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-50">Email</label>
-                        <input
-                            type="email"
-                            className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
-                            onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
                 </form>
