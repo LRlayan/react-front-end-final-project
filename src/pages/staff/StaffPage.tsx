@@ -5,6 +5,7 @@ import { PlusCircleOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import Search from "antd/es/input/Search";
 import Table from "../../components/table/Table";
+import UpdateStaff from "./UpdateStaff.tsx";
 
 interface StaffDataType {
     key: React.Key;
@@ -108,7 +109,7 @@ const StaffPage = () => {
                     className="text-blue-500"
                     type="link"
                     onClick={() => {
-                        console.log("Edit:", record);
+                        openUpdateModal(staff)
                     }}
                 >
                     Edit
@@ -144,6 +145,12 @@ const StaffPage = () => {
         setModalType("add");
     }
 
+    const openUpdateModal = (staff: any) => {
+        setOpen(true);
+        setSelectedStaff(staff);
+        setModalType("update");
+    }
+
     return (
         <>
             <section id="staff-sec" className="mt-4 p-6">
@@ -173,6 +180,18 @@ const StaffPage = () => {
                         buttonType="Save"
                         isOpen={open}
                         onClose={() => setOpen(false)}
+                    />
+                )}
+                {open && modalType === "update" && selectedStaff && (
+                    <UpdateStaff
+                        isType={"UPDATE STAFF"}
+                        buttonType={"Update"}
+                        isOpen={open}
+                        onClose={() => {
+                            setOpen(false);
+                            setSelectedStaff(null);
+                        }}
+                        staff={selectedStaff}
                     />
                 )}
             </section>
