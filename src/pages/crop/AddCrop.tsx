@@ -4,6 +4,8 @@ import { addCrop } from "../../reducer/CropSlice.ts";
 import MainModal from "../../components/modal/MainModal.tsx";
 import {Crop} from "../../model/Crop.ts";
 import {IdGenerator} from "../../util/IdGenerator.ts";
+import {Input} from "antd";
+import Label from "../../components/label/Label.tsx";
 
 const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
     const dispatch = useDispatch();
@@ -28,40 +30,40 @@ const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, o
         <MainModal isType="ADD CROP" buttonType="Save" isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
             <form>
                 <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-50">Crop Name</label>
-                    <input
+                    <Label labelName={"Crop Name"}/>
+                    <Input
                         type="text"
                         className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                         onChange={(e) => setCropName(e.target.value)}
                     />
                 </div>
                 <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-50">Scientific Name</label>
-                    <input
+                    <Label labelName={"Scientific Name"}/>
+                    <Input
                         type="text"
                         className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                         onChange={(e) => setScientificName(e.target.value)}
                     />
                 </div>
                 <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-50">Category</label>
-                    <input
+                    <Label labelName={"Category"}/>
+                    <Input
                         type="text"
                         className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                         onChange={(e) => setCategory(e.target.value)}
                     />
                 </div>
                 <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-50">Season</label>
-                    <input
+                    <Label labelName={"Season"}/>
+                    <Input
                         type="text"
                         className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                         onChange={(e) => setSeason(e.target.value)}
                     />
                 </div>
                 <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-50">Crop Image</label>
-                    <input
+                    <Label labelName={"Crop Image"}/>
+                    <Input
                         type="file"
                         accept="image/*"
                         className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
