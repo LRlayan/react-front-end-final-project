@@ -3,7 +3,6 @@ import {useDispatch} from "react-redux";
 import {Log} from "../../model/Log.ts";
 import {updateLog} from "../../reducer/LogSlice.ts";
 import MainModal from "../../components/modal/MainModal.tsx";
-import Label from "../../components/label/Label.tsx";
 import {Input} from "antd";
 import Label from "../../components/label/Label.tsx";
 
