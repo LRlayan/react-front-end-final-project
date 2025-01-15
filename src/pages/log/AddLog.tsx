@@ -4,6 +4,8 @@ import {Log} from "../../model/Log.ts";
 import {addLog} from "../../reducer/LogSlice.ts";
 import {IdGenerator} from "../../util/IdGenerator.ts";
 import MainModal from "../../components/modal/MainModal.tsx";
+import {Input} from "antd";
+import Label from "../../components/label/Label.tsx";
 
 const AddLog: React.FC<{isOpen: boolean; onClose: () => void}> = ({ isOpen, onClose }) => {
 
@@ -28,24 +30,24 @@ const AddLog: React.FC<{isOpen: boolean; onClose: () => void}> = ({ isOpen, onCl
             <MainModal isOpen={isOpen} isType={"ADD LOG"} buttonType={"Save"} onClose={onClose} onSubmit={handleSubmit}>
                 <form>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-50">Log Date</label>
-                        <input
+                        <Label labelName={"Log Date"}/>
+                        <Input
                             type="date"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setLogDate(e.target.value)}
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-50">Log details</label>
-                        <input
+                        <Label labelName={"Log Details"}/>
+                        <Input
                             type="text"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setLogDetails(e.target.value)}
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-50">Log Image</label>
-                        <input
+                        <Label labelName={"Log Image"}/>
+                        <Input
                             type="file"
                             accept="image/*"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"

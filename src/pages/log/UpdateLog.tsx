@@ -3,6 +3,9 @@ import {useDispatch} from "react-redux";
 import {Log} from "../../model/Log.ts";
 import {updateLog} from "../../reducer/LogSlice.ts";
 import MainModal from "../../components/modal/MainModal.tsx";
+import Label from "../../components/label/Label.tsx";
+import {Input} from "antd";
+import Label from "../../components/label/Label.tsx";
 
 const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void}> = ({ isOpen, onClose, logs }) => {
 
@@ -30,24 +33,24 @@ const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void}> = ({ isOpen, o
             <MainModal isOpen={isOpen} isType={"UPDATE LOG"} buttonType={"Update"} onClose={onClose} onSubmit={handleSubmit}>
                 <form>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-50">Log Date</label>
-                        <input
+                        <Label labelName={"Log Date"}/>
+                        <Input
                             type="date"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setLogDate(e.target.value)}
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-50">Log details</label>
-                        <input
+                        <Label labelName={"Log Details"}/>
+                        <Input
                             type="text"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setLogDetails(e.target.value)}
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-50">Log Image</label>
-                        <input
+                        <Label labelName={"Log Image"}/>
+                        <Input
                             type="file"
                             accept="image/*"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
