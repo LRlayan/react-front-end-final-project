@@ -4,6 +4,8 @@ import {Field} from "../../model/Field.ts";
 import {addField} from "../../reducer/FieldSlice.ts";
 import MainModal from "../../components/modal/MainModal.tsx";
 import {IdGenerator} from "../../util/IdGenerator.ts";
+import {Input} from "antd";
+import Label from "../../components/label/Label.tsx";
 
 const AddField: React.FC<{isOpen: boolean; onClose: () => void}> = ({isOpen, onClose }) => {
 
@@ -29,32 +31,32 @@ const AddField: React.FC<{isOpen: boolean; onClose: () => void}> = ({isOpen, onC
             <MainModal isType="ADD FIELD" buttonType={"Save"} isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
                 <form>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-50">Field Name</label>
-                        <input
+                        <Label labelName={"Field Name"}/>
+                        <Input
                             type="text"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setFieldName(e.target.value)}
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-50">Location</label>
-                        <input
+                        <Label labelName={"Location"}/>
+                        <Input
                             type="text"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setLocation(e.target.value)}
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-50">Extent Size</label>
-                        <input
+                        <Label labelName={"Extent Size"}/>
+                        <Input
                             type="text"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setExtentSize(e.target.value)}
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-50">Field Image</label>
-                        <input
+                        <Label labelName={"Field Image"}/>
+                        <Input
                             type="file"
                             accept="image/*"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
