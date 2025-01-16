@@ -12,7 +12,7 @@ const DeleteCrop: React.FC<{isOpen: boolean; onClose: () => void; crop:Crop; isT
     const [scientificName, setScientificName] = useState("");
     const [category, setCategory] = useState("");
     const [season, setSeason] = useState("");
-    const [image, setImage] = useState<File | null>(null);
+    const [image, setImage] = useState<File | null>();
 
     useEffect(() => {
         if (crop) {
@@ -35,8 +35,8 @@ const DeleteCrop: React.FC<{isOpen: boolean; onClose: () => void; crop:Crop; isT
             <MainModal isType={isType} buttonType={buttonType} isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
                 <div>
                     <img
-                        src={URL.createObjectURL(crop.image)}
-                        alt={crop.cropName}
+                        src={crop.image ? URL.createObjectURL(crop.image) : ""}
+                        alt={crop.cropName || "Crop Image"}
                         className="w-full h-32 object-cover rounded-md mb-2"
                     />
                     <div>
