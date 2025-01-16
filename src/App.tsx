@@ -6,7 +6,7 @@ import {Equipment} from "./pages/equipment/Equipment.tsx";
 import StaffPage from "./pages/staff/StaffPage.tsx";
 import LogPage from "./pages/log/LogPage.tsx";
 import {FieldPage} from "./pages/field/FieldPage.tsx";
-import {Vehicle} from "./pages/vehicle/Vehicle.tsx";
+import {VehiclePage} from "./pages/vehicle/VehiclePage.tsx";
 import CropPage from "./pages/crop/CropPage.tsx";
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
             {path:'/field-manage',element:<FieldPage/>},
             {path:'/log-manage',element:<LogPage/>},
             {path:'/staff-manage',element:<StaffPage/>},
-            {path:'/vehicle-manage',element:<Vehicle/>},
+            {path:'/vehicle-manage',element:<VehiclePage/>},
             {path:'/equipment-manage',element:<Equipment/>}
           ]
     }

@@ -15,6 +15,7 @@ import CropPage from "../pages/crop/CropPage.tsx";
 import {FieldPage} from "../pages/field/FieldPage.tsx";
 import LogPage from "../pages/log/LogPage.tsx";
 import StaffPage from "../pages/staff/StaffPage.tsx";
+import {VehiclePage} from "../pages/vehicle/VehiclePage.tsx";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -58,7 +59,7 @@ const items = [
     {
         key: '/vehicle-manage',
         icon: <CarOutlined />,
-        label: 'Vehicle Manage',
+        label: 'VehiclePage Manage',
         path: '/vehicle-manage'
     },
 ];
@@ -119,7 +120,7 @@ const RootLayout: React.FC = () => {
                             <Route path="/log-manage" element={<LogPage/>}/>
                             <Route path="/staff-manage" element={<StaffPage/>}/>
                             <Route path="/equipment-manage" element={<div>Equipment Manage</div>}/>
-                            <Route path="/vehicle-manage" element={<div>Vehicle Manage</div>}/>
+                            <Route path="/vehicle-manage" element={<VehiclePage/>}/>
                             {/* Redirect unknown routes to Dashboard */}
                             <Route path="*" element={<Navigate to="/"/>}/>
                         </Routes>
