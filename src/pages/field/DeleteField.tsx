@@ -4,7 +4,7 @@ import MainModal from "../../components/modal/MainModal.tsx";
 import {Field} from "../../model/Field.ts";
 import {deleteField} from "../../reducer/FieldSlice.ts";
 
-const DeleteField: React.FC<{isOpen: boolean; onClose: () => void}> = ({isOpen, onClose, field}) => {
+const DeleteField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; isType:string; buttonType:string}> = ({isOpen, onClose, field, isType, buttonType}) => {
 
     const dispatch = useDispatch();
     const [fieldCode, setFieldCode] = useState("");
@@ -30,7 +30,7 @@ const DeleteField: React.FC<{isOpen: boolean; onClose: () => void}> = ({isOpen, 
 
     return(
         <>
-            <MainModal isType={"DELETE FIELD"} buttonType={"Yes,I'm Sure"} isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
+            <MainModal isType={isType} buttonType={buttonType} isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
                 <div>
                     <img
                         src={URL.createObjectURL(field.image)}

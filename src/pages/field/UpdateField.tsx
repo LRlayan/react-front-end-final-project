@@ -6,7 +6,7 @@ import {updateField} from "../../reducer/FieldSlice.ts";
 import Label from "../../components/label/Label.tsx";
 import {Input} from "antd";
 
-const UpdateField: React.FC<{isOpen: boolean; onClose: () => void}> = ({ isOpen, onClose, field }) =>{
+const UpdateField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; isType:string; buttonType:string}> = ({ isOpen, onClose, field, isType, buttonType }) =>{
 
     const dispatch = useDispatch();
     const [fieldCode, setFieldCode] = useState("");
@@ -32,9 +32,9 @@ const UpdateField: React.FC<{isOpen: boolean; onClose: () => void}> = ({ isOpen,
 
     return(
         <>
-            <MainModal isType="UPDATE CROP" buttonType={"Update"} isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
+            <MainModal isType={isType} buttonType={buttonType} isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
                 <form>
-                    <div className="mb-4">
+                    <div className="mb-4 custom-input">
                         <Label labelName={"Field Name"}/>
                         <Input
                             type="text"
@@ -42,7 +42,7 @@ const UpdateField: React.FC<{isOpen: boolean; onClose: () => void}> = ({ isOpen,
                             onChange={(e) => setFieldName(e.target.value)}
                         />
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-4 custom-input">
                         <Label labelName={"Location"}/>
                         <Input
                             type="text"
@@ -50,7 +50,7 @@ const UpdateField: React.FC<{isOpen: boolean; onClose: () => void}> = ({ isOpen,
                             onChange={(e) => setLocation(e.target.value)}
                         />
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-4 custom-input">
                         <Label labelName={"Extent Size"}/>
                         <Input
                             type="text"
@@ -58,7 +58,7 @@ const UpdateField: React.FC<{isOpen: boolean; onClose: () => void}> = ({ isOpen,
                             onChange={(e) => setExtentSize(e.target.value)}
                         />
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-4 custom-input">
                         <Label labelName={"Field Image"}/>
                         <Input
                             type="file"

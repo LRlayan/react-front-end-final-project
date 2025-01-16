@@ -6,26 +6,27 @@ import {PlusCircleOutlined} from "@ant-design/icons";
 import AddField from "./AddField.tsx";
 import UpdateField from "./UpdateField.tsx";
 import DeleteField from "./DeleteField.tsx";
+import {Field} from "../../model/Field.ts";
 
 export function FieldPage() {
 
     const [open, setOpen] = useState(false);
     const fields = useSelector((state) => state.field.fields) || []
     const [modalType , setModalType] = useState("");
-    const [selectedField, setSelectedField] = useState(null)
+    const [selectedField, setSelectedField] = useState<Field | null>();
 
     function openAddModal() {
         setOpen(true);
         setModalType("add");
     }
 
-    function openUpdateModal(field: any) {
+    function openUpdateModal(field: Field) {
         setOpen(true);
         setSelectedField(field);
         setModalType("update");
     }
 
-    function openDeleteModal(field: any) {
+    function openDeleteModal(field: Field) {
         setOpen(true);
         setSelectedField(field);
         setModalType("delete");
@@ -52,7 +53,7 @@ export function FieldPage() {
                     <div id="fieldCard" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {/* Add card dynamically */}
                         {
-                            fields.map((field, index) => (
+                            fields.map((field:Field, index:number) => (
                                 <div key={index} className="border rounded-lg bg-gray-700 text-white p-4 shadow-md">
                                     {field.image && (
                                         <img
@@ -78,8 +79,7 @@ export function FieldPage() {
 
                                         {/* Delete Button */}
                                         <Button
-                                            type="danger"
-                                            className="btn bg-red-500 hover:bg-red-600 text-white"
+                                            className="btn bg-red-500 hover:bg-red-600 text-white border-red-500"
                                             style={{width: '140px'}}
                                             onClick={() => openDeleteModal(field)}
                                         >
@@ -94,16 +94,19 @@ export function FieldPage() {
                 {open && modalType === "add" && (
                     <AddField
                         isOpen={open}
+                        buttonType={"Save"}
+                        isType={"ADD FIELD"}
                         onClose={() => {
                             setOpen(false);
                             setSelectedField(null);
                         }}
-                        field={selectedField}
                     />
                 )}
                 {open && selectedField && modalType === "update" && (
                     <UpdateField
                         isOpen={open}
+                        isType={"UPDATE FIELD"}
+                        buttonType={"Update"}
                         onClose={() => {
                             setOpen(false);
                             setSelectedField(null);
@@ -114,6 +117,8 @@ export function FieldPage() {
                 {open && selectedField && modalType === "delete" && (
                     <DeleteField
                         isOpen={open}
+                        isType={"DELETE FIELD"}
+                        buttonType={"Yes,I'm Sure"}
                         onClose={() => {
                             setOpen(false);
                             setSelectedField(null);
