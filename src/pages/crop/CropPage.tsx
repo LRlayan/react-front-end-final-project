@@ -73,7 +73,7 @@ const CropPage = () => {
 
                                 {/* Delete Button */}
                                 <Button
-                                    className="btn bg-red-500 hover:bg-red-600 text-white"
+                                    className="btn bg-red-500 hover:bg-red-600 text-white border-red-500"
                                     style={{width: '140px'}}
                                     onClick={() => openDeleteModal(crop)}
                                 >
