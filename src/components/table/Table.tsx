@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Table as AntTable } from 'antd';
 import type { TableColumnsType } from 'antd';
 
