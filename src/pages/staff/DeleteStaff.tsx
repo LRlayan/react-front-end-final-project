@@ -4,7 +4,7 @@ import {Staff} from "../../model/Staff.ts";
 import {useDispatch} from "react-redux";
 import {deleteStaff} from "../../reducer/StaffSlice.ts";
 
-const DeleteStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff}> = ({ isOpen, onClose, staff }) => {
+const DeleteStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; isType:string; buttonType:string}> = ({ isOpen, onClose, staff, isType, buttonType }) => {
 
     const dispatch = useDispatch();
     const [memberCode, setMemberCode] = useState("");
@@ -49,8 +49,7 @@ const DeleteStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff}> 
 
     return(
         <>
-            <MainModal isType={"DELETE STAFF"} isOpen={isOpen} buttonType={"Yes,I'm Sure"} onClose={onClose}
-                       onSubmit={handleSubmit}>
+            <MainModal isType={isType} isOpen={isOpen} buttonType={buttonType} onClose={onClose} onSubmit={handleSubmit}>
                 <div>
                     <div>
                         <p className="text-white">Member Code : {staff.code}</p>

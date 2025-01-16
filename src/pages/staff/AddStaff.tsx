@@ -7,7 +7,7 @@ import {addStaff} from "../../reducer/StaffSlice.ts";
 import {Input, Select} from "antd";
 import Label from "../../components/label/Label.tsx";
 
-const AddStaff: React.FC<{ isOpen:boolean; onClose: () => void}> = ({ isOpen, onClose }) => {
+const AddStaff: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; buttonType:string}> = ({isOpen, onClose, isType, buttonType}) => {
 
     const dispatch = useDispatch();
     const [firstName, setFirstName] = useState("");
@@ -29,41 +29,41 @@ const AddStaff: React.FC<{ isOpen:boolean; onClose: () => void}> = ({ isOpen, on
     const idGenerator = new IdGenerator();
 
     function handleSubmit() {
-        const getLastIndex = staff.length > 0 ? staff[staff.length -1].code : "STAFF-";
-        const newCode = idGenerator.codeGenerator("STAFF",getLastIndex);
-        const newStaff = new Staff(newCode,firstName,lastName,joinedDate,designation,gender,dob,addressLine01,addressLine02,addressLine03,addressLine04,addressLine05,contactNo,email,role);
+        const getLastIndex = staff.length > 0 ? staff[staff.length - 1].code : "STAFF-";
+        const newCode = idGenerator.codeGenerator("STAFF", getLastIndex);
+        const newStaff = new Staff(newCode, firstName, lastName, joinedDate, designation, gender, dob, addressLine01, addressLine02, addressLine03, addressLine04, addressLine05, contactNo, email, role);
         dispatch(addStaff(newStaff));
         onClose();
     }
 
     const roleOptions = [
-        { value: "MANAGER", label: "MANAGER" },
-        { value: "ADMINISTRATIVE", label: "ADMINISTRATIVE" },
-        { value: "SCIENTIST", label: "SCIENTIST" },
-        { value: "OTHER", label: "OTHER" },
+        {value: "MANAGER", label: "MANAGER"},
+        {value: "ADMINISTRATIVE", label: "ADMINISTRATIVE"},
+        {value: "SCIENTIST", label: "SCIENTIST"},
+        {value: "OTHER", label: "OTHER"},
     ];
 
     const designationOptions = [
-        { value: "ASSISTANT MANAGER", label: "ASSISTANT MANAGER" },
-        { value: "ADMIN AND HR STAFF", label: "ADMIN AND HR STAFF" },
-        { value: "OFFICE ASSISTANT", label: "OFFICE ASSISTANT" },
-        { value: "SENIOR AGRONOMIST", label: "SENIOR AGRONOMIST" },
-        { value: "AGRONOMIST", label: "AGRONOMIST" },
-        { value: "SOIL SCIENTIST", label: "SOILS SCIENTIST" },
-        { value: "SENIOR TECHNICIAN", label: "SENIOR TECHNICIAN" },
-        { value: "TECHNICIAN", label: "TECHNICIAN" },
-        { value: "SUPERVISOR", label: "SUPERVISOR" },
-        { value: "LABOUR", label: "LABOUR" },
+        {value: "ASSISTANT MANAGER", label: "ASSISTANT MANAGER"},
+        {value: "ADMIN AND HR STAFF", label: "ADMIN AND HR STAFF"},
+        {value: "OFFICE ASSISTANT", label: "OFFICE ASSISTANT"},
+        {value: "SENIOR AGRONOMIST", label: "SENIOR AGRONOMIST"},
+        {value: "AGRONOMIST", label: "AGRONOMIST"},
+        {value: "SOIL SCIENTIST", label: "SOILS SCIENTIST"},
+        {value: "SENIOR TECHNICIAN", label: "SENIOR TECHNICIAN"},
+        {value: "TECHNICIAN", label: "TECHNICIAN"},
+        {value: "SUPERVISOR", label: "SUPERVISOR"},
+        {value: "LABOUR", label: "LABOUR"},
     ];
 
     const genderOption = [
-        { value: "MALE", label: "MALE" },
-        { value: "FEMALE", label: "FEMALE" },
+        {value: "MALE", label: "MALE"},
+        {value: "FEMALE", label: "FEMALE"},
     ];
 
-    return(
+    return (
         <>
-            <MainModal isOpen={isOpen} isType={"ADD STAFF MEMBER"} buttonType={"Save"} onClose={onClose} onSubmit={handleSubmit}>
+            <MainModal isOpen={isOpen} isType={isType} buttonType={buttonType} onClose={onClose} onSubmit={handleSubmit}>
                 <form>
                     <div className="mb-4 custom-input">
                         {/*<label className="block text-sm font-medium text-gray-50">First Name</label>*/}

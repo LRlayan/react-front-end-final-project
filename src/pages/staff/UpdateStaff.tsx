@@ -6,7 +6,7 @@ import {Input, Select} from "antd";
 import {Staff} from "../../model/Staff.ts";
 import {updateStaff} from "../../reducer/StaffSlice.ts";
 
-const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void}> = ({ isOpen, onClose, staff }) => {
+const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; isType:string; buttonType:string}> = ({ isOpen, onClose, staff, isType, buttonType }) => {
 
     const dispatch = useDispatch();
     const [memberCode, setMemberCode] = useState("");
@@ -76,7 +76,7 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void}> = ({ isOpen, 
 
     return(
         <>
-            <MainModal isType={"UPDATE STAFF"} buttonType={"Update"} isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
+            <MainModal isType={isType} buttonType={buttonType} isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
                 <form>
                     <div className="mb-4 custom-input">
                         {/*<label className="block text-sm font-medium text-gray-50">First Name</label>*/}

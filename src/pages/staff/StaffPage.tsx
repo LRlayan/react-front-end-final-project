@@ -11,6 +11,7 @@ import {Staff} from "../../model/Staff.ts";
 
 interface StaffDataType {
     key: React.Key;
+    code:string;
     firstName: string;
     lastName: string;
     role: string;
@@ -106,7 +107,7 @@ const StaffPage = () => {
             title: 'Action 1',
             key: 'update',
             fixed:'right',
-            render: (_: any, record: StaffDataType) => (
+            render: (_: Staff, record: StaffDataType) => (
                 <Button
                     className="text-blue-500"
                     type="link"
@@ -122,7 +123,7 @@ const StaffPage = () => {
             title: 'Action 2',
             key: 'delete',
             fixed:'right',
-            render: (_: any, record: StaffDataType) => (
+            render: (_: Staff, record: StaffDataType) => (
                 <Button
                     className="text-red-500"
                     type="link"
@@ -147,7 +148,7 @@ const StaffPage = () => {
         setModalType("add");
     }
 
-    const openUpdateModal = (staff: any) => {
+    const openUpdateModal = (staff: Staff) => {
         setOpen(true);
         setSelectedStaff(staff);
         setModalType("update");
@@ -184,8 +185,8 @@ const StaffPage = () => {
                 />
                 {open && modalType === "add" && (
                     <AddStaff
-                        isType="ADD STAFF"
-                        buttonType="Save"
+                        isType={"ADD STAFF"}
+                        buttonType={"Save"}
                         isOpen={open}
                         onClose={() => setOpen(false)}
                     />
@@ -206,7 +207,7 @@ const StaffPage = () => {
                     <DeleteStaff
                         isType={"DELETE STAFF"}
                         isOpen={open}
-                        buttonType={"Yes'I'm Sure"}
+                        buttonType={"Yes,I'm Sure"}
                         onClose={() => {
                             setOpen(false);
                             setSelectedStaff(null);
