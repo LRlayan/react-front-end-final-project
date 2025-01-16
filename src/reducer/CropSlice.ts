@@ -4,6 +4,20 @@ const initialState = {
     crops:[]
 }
 
+export type RootState = {
+    crop: {
+        crops: Array<{
+            code: string;
+            cropName: string;
+            scientificName: string;
+            category: string;
+            season: string;
+            image: File | null;
+        }>;
+    };
+};
+
+
 const CropSlice = createSlice({
     name:"crop",
     initialState:initialState,
