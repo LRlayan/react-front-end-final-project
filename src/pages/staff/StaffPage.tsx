@@ -6,6 +6,8 @@ import { Button } from "antd";
 import Search from "antd/es/input/Search";
 import Table from "../../components/table/Table";
 import UpdateStaff from "./UpdateStaff.tsx";
+import DeleteStaff from "./DeleteStaff.tsx";
+import {Staff} from "../../model/Staff.ts";
 
 interface StaffDataType {
     key: React.Key;
@@ -125,7 +127,7 @@ const StaffPage = () => {
                     className="text-red-500"
                     type="link"
                     onClick={() => {
-                        console.log("Edit:", record);
+                        openDeleteModal(record);
                     }}
                 >
                     Delete
@@ -136,7 +138,7 @@ const StaffPage = () => {
     ];
 
     const [open, setOpen] = useState(false);
-    const [selectedStaff, setSelectedStaff] = useState(null);
+    const [selectedStaff, setSelectedStaff] = useState<Staff | null>(null);
     const [modalType, setModalType] = useState("");
     const staff = useSelector((state) => state.staff.staffs) || [];
 
@@ -149,6 +151,12 @@ const StaffPage = () => {
         setOpen(true);
         setSelectedStaff(staff);
         setModalType("update");
+    }
+
+    const openDeleteModal = (staff: Staff) => {
+        setOpen(true);
+        setSelectedStaff(staff);
+        setModalType("delete");
     }
 
     return (
@@ -187,6 +195,18 @@ const StaffPage = () => {
                         isType={"UPDATE STAFF"}
                         buttonType={"Update"}
                         isOpen={open}
+                        onClose={() => {
+                            setOpen(false);
+                            setSelectedStaff(null);
+                        }}
+                        staff={selectedStaff}
+                    />
+                )}
+                {open && modalType === "delete" && selectedStaff && (
+                    <DeleteStaff
+                        isType={"DELETE STAFF"}
+                        isOpen={open}
+                        buttonType={"Yes'I'm Sure"}
                         onClose={() => {
                             setOpen(false);
                             setSelectedStaff(null);
