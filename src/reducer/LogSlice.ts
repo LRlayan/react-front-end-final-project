@@ -4,6 +4,17 @@ const initialState = {
     logs:[]
 }
 
+export type RootState = {
+    log: {
+        logs: Array<{
+            code: string;
+            logDate: string;
+            logDetails: string;
+            image: File | null;
+        }>;
+    };
+};
+
 const LogSlice = createSlice({
     name:"log",
     initialState:initialState,

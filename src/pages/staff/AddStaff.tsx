@@ -3,7 +3,7 @@ import MainModal from "../../components/modal/MainModal.tsx";
 import {useDispatch, useSelector} from "react-redux";
 import {IdGenerator} from "../../util/IdGenerator.ts";
 import {Staff} from "../../model/Staff.ts";
-import {addStaff} from "../../reducer/StaffSlice.ts";
+import {addStaff, RootState} from "../../reducer/StaffSlice.ts";
 import {Input, Select} from "antd";
 import Label from "../../components/label/Label.tsx";
 
@@ -24,7 +24,7 @@ const AddStaff: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; 
     const [contactNo, setMobile] = useState("");
     const [email, setEmail] = useState("");
     const [role, setRole] = useState("");
-    const staff = useSelector((state) => state.staff.staffs);
+    const staff = useSelector((state:RootState) => state.staff.staffs);
 
     const idGenerator = new IdGenerator();
 

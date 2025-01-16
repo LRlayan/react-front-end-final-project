@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Log} from "../../model/Log.ts";
-import {addLog} from "../../reducer/LogSlice.ts";
+import {addLog, RootState} from "../../reducer/LogSlice.ts";
 import {IdGenerator} from "../../util/IdGenerator.ts";
 import MainModal from "../../components/modal/MainModal.tsx";
 import {Input} from "antd";
@@ -13,7 +13,7 @@ const AddLog: React.FC<{isOpen: boolean; onClose: () => void; isType:string; but
     const [lodDate, setLogDate] = useState("");
     const [logDetails, setLogDetails] = useState("");
     const [image, setImage] = useState<File | null>(null);
-    const logs = useSelector((state) => state.log.logs);
+    const logs = useSelector((state:RootState) => state.log.logs);
 
     const idGenerator = new IdGenerator();
 

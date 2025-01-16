@@ -7,11 +7,12 @@ import AddField from "./AddField.tsx";
 import UpdateField from "./UpdateField.tsx";
 import DeleteField from "./DeleteField.tsx";
 import {Field} from "../../model/Field.ts";
+import {RootState} from "../../reducer/FieldSlice.ts";
 
 export function FieldPage() {
 
     const [open, setOpen] = useState(false);
-    const fields = useSelector((state) => state.field.fields) || []
+    const fields = useSelector((state: RootState) => state.field.fields) || []
     const [modalType , setModalType] = useState("");
     const [selectedField, setSelectedField] = useState<Field | null>();
 

@@ -4,6 +4,18 @@ const initialState = {
     fields:[]
 }
 
+export type RootState = {
+    field: {
+        fields: Array<{
+            code: string;
+            fieldName: string;
+            location: string;
+            extentSize: string;
+            image: File | null;
+        }>;
+    };
+};
+
 const FieldSlice = createSlice({
    name:"field",
    initialState:initialState,

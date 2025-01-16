@@ -7,12 +7,13 @@ import AddLog from "./AddLog.tsx";
 import UpdateLog from "./UpdateLog.tsx";
 import DeleteLog from "./DeleteLog.tsx";
 import {Log} from "../../model/Log.ts";
+import {RootState} from "../../reducer/LogSlice.ts";
 
 const LogPage = () => {
     const [open, setOpen] = useState(false);
     const [selectedLogs, setSelectedLogs] = useState<Log | null>();
     const [modalType, setModalType] = useState("");
-    const logs = useSelector((state) => state.log.logs) || [];
+    const logs = useSelector((state: RootState) => state.log.logs) || [];
 
     function openAddModal() {
         setOpen(true);
@@ -47,7 +48,7 @@ const LogPage = () => {
                         </Button>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {logs.map((log:Log, index:number) => (
+                        {logs.map((log, index) => (
                             <div key={index} className="border rounded-lg bg-gray-700 text-white p-4 shadow-md">
                                 {log.image && (
                                     <img

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Field} from "../../model/Field.ts";
-import {addField} from "../../reducer/FieldSlice.ts";
+import {addField, RootState} from "../../reducer/FieldSlice.ts";
 import MainModal from "../../components/modal/MainModal.tsx";
 import {IdGenerator} from "../../util/IdGenerator.ts";
 import {Input} from "antd";
@@ -14,7 +14,7 @@ const AddField: React.FC<{isOpen: boolean; onClose: () => void; isType:string; b
     const [location, setLocation] = useState("");
     const [extentSize, setExtentSize] = useState("");
     const [image, setImage] = useState<File | null>(null);
-    const fields = useSelector((state) => state.field.fields);
+    const fields = useSelector((state:RootState) => state.field.fields);
 
     const idGenerator = new IdGenerator();
 

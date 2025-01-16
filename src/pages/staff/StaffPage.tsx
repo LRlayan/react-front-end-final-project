@@ -8,6 +8,7 @@ import Table from "../../components/table/Table";
 import UpdateStaff from "./UpdateStaff.tsx";
 import DeleteStaff from "./DeleteStaff.tsx";
 import {Staff} from "../../model/Staff.ts";
+import {RootState} from "../../reducer/StaffSlice.ts";
 
 interface StaffDataType {
     key: React.Key;
@@ -141,7 +142,7 @@ const StaffPage = () => {
     const [open, setOpen] = useState(false);
     const [selectedStaff, setSelectedStaff] = useState<Staff | null>(null);
     const [modalType, setModalType] = useState("");
-    const staff = useSelector((state) => state.staff.staffs) || [];
+    const staff = useSelector((state:RootState) => state.staff.staffs) || [];
 
     function openAddModal() {
         setOpen(true);
@@ -176,9 +177,9 @@ const StaffPage = () => {
                         </Button>
                     </div>
                 </div>
-                <Table<StaffDataType>
+                <Table<Staff>
                     columns={columns}
-                    dataSource={staff.map((staff: StaffDataType) => ({
+                    dataSource={staff.map((staff:Staff) => ({
                         ...staff,
                         key: staff.email,
                     }))}
