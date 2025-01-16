@@ -6,8 +6,8 @@ interface ModalProps {
     buttonType: string;
     isOpen: boolean;
     onClose: () => void;
-    onSubmit: (cropData: any) => void;
-    crop?: any;
+    onSubmit: () => void;
+    children:React.ReactNode
 }
 
 const MainModal: React.FC<ModalProps> = ({
@@ -16,7 +16,6 @@ const MainModal: React.FC<ModalProps> = ({
     isOpen,
     onClose,
     onSubmit,
-    crop,
     children,
 }) => {
     const [confirmLoading, setConfirmLoading] = useState(false);
