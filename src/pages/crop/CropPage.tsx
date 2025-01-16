@@ -84,16 +84,13 @@ const CropPage = () => {
                     ))}
                 </div>
             </div>
-
-            {/* AddCrop Modal */}
             {open && modalType === "add" && (
-                <AddCrop isType="ADD CROP" buttonType="Save" isOpen={open} onClose={() => setOpen(false)}/>
+                <AddCrop isType={"ADD CROP"} buttonType={"Save"} isOpen={open} onClose={() => setOpen(false)}/>
             )}
-            {/* UpdateCrop Modal */}
             {open && selectedCrop && modalType === "update" && (
                 <UpdateCrop
-                    isType="UPDATE CROP"
-                    buttonType="Update"
+                    isType={"UPDATE CROP"}
+                    buttonType={"Update"}
                     isOpen={open}
                     onClose={() => {
                         setOpen(false);
@@ -104,8 +101,8 @@ const CropPage = () => {
             )}
             {open && selectedCrop && modalType === "delete" && (
                 <DeleteCrop
-                    isType="DELETE CROP"
-                    buttonType="Delete"
+                    isType={"DELETE CROP"}
+                    buttonType={"Yes,I'm Sure"}
                     isOpen={open}
                     onClose={() => {
                         setOpen(false);
