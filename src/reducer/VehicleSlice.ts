@@ -6,7 +6,7 @@ const initialState = {
 
 export type RootState = {
     vehicle: {
-        staffs: Array<{
+        vehicles: Array<{
            code: string;
            licensePlateNumber: string;
            vehicleName: string;
