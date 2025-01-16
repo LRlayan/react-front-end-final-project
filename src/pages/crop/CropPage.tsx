@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import AddCrop from "./AddCrop";
 import { PlusCircleOutlined } from "@ant-design/icons";
@@ -7,10 +7,11 @@ import Search from "antd/es/input/Search";
 import UpdateCrop from "./UpdateCrop.tsx";
 import DeleteCrop from "./DeleteCrop.tsx";
 import {Crop} from "../../model/Crop.ts";
+import {RootState} from "../../reducer/CropSlice.ts";
 
 const CropPage = () => {
     const [open, setOpen] = useState(false);
-    const crops = useSelector((state) => state.crop.crops) || [];
+    const crops = useSelector((state: RootState) => state.crop.crops) || [];
     const [selectedCrop, setSelectedCrop] = useState<Crop | null>();
     const [modalType, setModalType] = useState("");
 
@@ -46,7 +47,7 @@ const CropPage = () => {
                     </Button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {crops.map((crop:Crop, index:number) => (
+                    {crops.map((crop, index) => (
                         <div key={index} className="border rounded-lg bg-gray-700 text-white p-4 shadow-md">
                             {crop.image && (
                                 <img

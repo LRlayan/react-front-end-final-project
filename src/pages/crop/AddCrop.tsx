@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {useDispatch, useSelector} from "react-redux";
-import { addCrop } from "../../reducer/CropSlice.ts";
+import {addCrop, RootState} from "../../reducer/CropSlice.ts";
 import MainModal from "../../components/modal/MainModal.tsx";
 import {Crop} from "../../model/Crop.ts";
 import {IdGenerator} from "../../util/IdGenerator.ts";
@@ -14,7 +14,7 @@ const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; b
     const [category, setCategory] = useState("");
     const [season, setSeason] = useState("");
     const [image, setImage] = useState<File | null>(null);
-    const crops = useSelector((state) => state.crop.crops);
+    const crops = useSelector((state:RootState) => state.crop.crops);
 
     const idGenerator = new IdGenerator();
 
