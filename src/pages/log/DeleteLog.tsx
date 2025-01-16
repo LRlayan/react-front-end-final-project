@@ -4,7 +4,7 @@ import {useDispatch} from "react-redux";
 import {Log} from "../../model/Log.ts";
 import {deleteLog} from "../../reducer/LogSlice.ts";
 
-const DeleteLog: React.FC<{isOpen: boolean; onClose: () => void}> = ({ isOpen, onClose, logs }) => {
+const DeleteLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isType:string; buttonType:string}> = ({ isOpen, onClose, logs, isType, buttonType }) => {
 
     const dispatch = useDispatch();
     const [logCode, setLogCode] = useState("");
@@ -27,7 +27,7 @@ const DeleteLog: React.FC<{isOpen: boolean; onClose: () => void}> = ({ isOpen, o
 
     return(
         <>
-            <MainModal isOpen={isOpen} isType={"DELETE MODAL"} buttonType={"Yes,I'm Sure"} onClose={onClose} onSubmit={handleSubmit}>
+            <MainModal isOpen={isOpen} isType={isType} buttonType={buttonType} onClose={onClose} onSubmit={handleSubmit}>
                 <div>
                     <img
                         src={URL.createObjectURL(logs.image)}

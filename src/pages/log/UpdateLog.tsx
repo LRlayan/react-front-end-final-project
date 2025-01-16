@@ -6,7 +6,7 @@ import MainModal from "../../components/modal/MainModal.tsx";
 import {Input} from "antd";
 import Label from "../../components/label/Label.tsx";
 
-const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void}> = ({ isOpen, onClose, logs }) => {
+const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isType:string; buttonType:string}> = ({ isOpen, onClose, logs, isType, buttonType }) => {
 
     const dispatch = useDispatch();
     const [logCode, setLogCode] = useState("");
@@ -29,9 +29,9 @@ const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void}> = ({ isOpen, o
 
     return(
         <>
-            <MainModal isOpen={isOpen} isType={"UPDATE LOG"} buttonType={"Update"} onClose={onClose} onSubmit={handleSubmit}>
+            <MainModal isOpen={isOpen} isType={isType} buttonType={buttonType} onClose={onClose} onSubmit={handleSubmit}>
                 <form>
-                    <div className="mb-4">
+                    <div className="mb-4 custom-input">
                         <Label labelName={"Log Date"}/>
                         <Input
                             type="date"
@@ -39,7 +39,7 @@ const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void}> = ({ isOpen, o
                             onChange={(e) => setLogDate(e.target.value)}
                         />
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-4 custom-input">
                         <Label labelName={"Log Details"}/>
                         <Input
                             type="text"
@@ -47,7 +47,7 @@ const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void}> = ({ isOpen, o
                             onChange={(e) => setLogDetails(e.target.value)}
                         />
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-4 custom-input">
                         <Label labelName={"Log Image"}/>
                         <Input
                             type="file"

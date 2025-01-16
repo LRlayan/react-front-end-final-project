@@ -7,7 +7,7 @@ import MainModal from "../../components/modal/MainModal.tsx";
 import {Input} from "antd";
 import Label from "../../components/label/Label.tsx";
 
-const AddLog: React.FC<{isOpen: boolean; onClose: () => void}> = ({ isOpen, onClose }) => {
+const AddLog: React.FC<{isOpen: boolean; onClose: () => void; isType:string; buttonType:string}> = ({ isOpen, onClose, isType, buttonType }) => {
 
     const dispatch = useDispatch();
     const [lodDate, setLogDate] = useState("");
@@ -27,9 +27,9 @@ const AddLog: React.FC<{isOpen: boolean; onClose: () => void}> = ({ isOpen, onCl
 
     return(
         <>
-            <MainModal isOpen={isOpen} isType={"ADD LOG"} buttonType={"Save"} onClose={onClose} onSubmit={handleSubmit}>
+            <MainModal isOpen={isOpen} isType={isType} buttonType={buttonType} onClose={onClose} onSubmit={handleSubmit}>
                 <form>
-                    <div className="mb-4">
+                    <div className="mb-4 custom-input">
                         <Label labelName={"Log Date"}/>
                         <Input
                             type="date"
@@ -37,7 +37,7 @@ const AddLog: React.FC<{isOpen: boolean; onClose: () => void}> = ({ isOpen, onCl
                             onChange={(e) => setLogDate(e.target.value)}
                         />
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-4 custom-input">
                         <Label labelName={"Log Details"}/>
                         <Input
                             type="text"
@@ -45,7 +45,7 @@ const AddLog: React.FC<{isOpen: boolean; onClose: () => void}> = ({ isOpen, onCl
                             onChange={(e) => setLogDetails(e.target.value)}
                         />
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-4 custom-input">
                         <Label labelName={"Log Image"}/>
                         <Input
                             type="file"

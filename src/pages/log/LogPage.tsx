@@ -6,10 +6,11 @@ import {useSelector} from "react-redux";
 import AddLog from "./AddLog.tsx";
 import UpdateLog from "./UpdateLog.tsx";
 import DeleteLog from "./DeleteLog.tsx";
+import {Log} from "../../model/Log.ts";
 
 const LogPage = () => {
     const [open, setOpen] = useState(false);
-    const [selectedLogs, setSelectedLogs] = useState(null);
+    const [selectedLogs, setSelectedLogs] = useState<Log | null>();
     const [modalType, setModalType] = useState("");
     const logs = useSelector((state) => state.log.logs) || [];
 
@@ -18,13 +19,13 @@ const LogPage = () => {
         setModalType("add");
     }
 
-    function openUpdateModal(logs: any) {
+    function openUpdateModal(logs: Log) {
         setOpen(true);
         setSelectedLogs(logs);
         setModalType("update");
     }
 
-    function openDeleteModal(logs: any) {
+    function openDeleteModal(logs: Log) {
         setOpen(true);
         setSelectedLogs(logs);
         setModalType("delete");
@@ -46,7 +47,7 @@ const LogPage = () => {
                         </Button>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {logs.map((log, index) => (
+                        {logs.map((log:Log, index:number) => (
                             <div key={index} className="border rounded-lg bg-gray-700 text-white p-4 shadow-md">
                                 {log.image && (
                                     <img
@@ -71,8 +72,7 @@ const LogPage = () => {
 
                                     {/* Delete Button */}
                                     <Button
-                                        type="danger"
-                                        className="btn bg-red-500 hover:bg-red-600 text-white"
+                                        className="btn bg-red-500 hover:bg-red-600 text-white border-red-500"
                                         style={{width: '140px'}}
                                         onClick={() => openDeleteModal(log)}
                                     >
@@ -86,6 +86,8 @@ const LogPage = () => {
                 {open && modalType === "add" && (
                     <AddLog
                         isOpen={open}
+                        isType={"ADD LOG"}
+                        buttonType={"Save"}
                         onClose={() => {
                             setOpen(false);
                             setSelectedLogs(null);
@@ -96,6 +98,8 @@ const LogPage = () => {
                 {open && modalType === "update" && selectedLogs && (
                     <UpdateLog
                         isOpen={open}
+                        isType={"UPDATE LOG"}
+                        buttonType={"Update"}
                         onClose={() => {
                             setOpen(false);
                             setSelectedLogs(null);
@@ -106,6 +110,8 @@ const LogPage = () => {
                 {open && modalType === "delete" && selectedLogs && (
                     <DeleteLog
                         isOpen={open}
+                        isType={"DELETE LOG"}
+                        buttonType={"Yes,I'm Sure"}
                         onClose={() => {
                             setOpen(false);
                             setSelectedLogs(null);
