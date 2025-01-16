@@ -4,9 +4,9 @@ export class Crop{
     scientificName:string;
     category:string;
     season:string;
-    image: File | null;
+    image: File | null | undefined;
 
-    constructor(code: string | number, cropName: string, scientificName: string, category: string, season: string, image: File | null) {
+    constructor(code: string | number, cropName: string, scientificName: string, category: string, season: string, image: File | null | undefined) {
         this.code = code;
         this.cropName = cropName;
         this.scientificName = scientificName;
