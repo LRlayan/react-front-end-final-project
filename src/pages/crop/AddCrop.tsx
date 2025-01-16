@@ -21,7 +21,7 @@ const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; b
     const handleSubmit = () => {
         const getLastCropCode = crops.length > 0 ? crops[crops.length - 1].code : "CROP-";
         const newCode = idGenerator.codeGenerator("CROP",getLastCropCode);
-        const newCrop = new Crop(newCode,cropName,scientificName,category,season,image);
+        const newCrop = new Crop(newCode, cropName, scientificName, category, season, image);
         dispatch(addCrop(newCrop));
         onClose();
     };
