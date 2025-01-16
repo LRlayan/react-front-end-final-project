@@ -3,6 +3,9 @@ import React, {useState} from "react";
 import {Button} from "antd";
 import Search from "antd/es/input/Search";
 import {PlusCircleOutlined} from "@ant-design/icons";
+import Table from "../../components/table/Table.tsx";
+import {useSelector} from "react-redux";
+import {RootState} from "../../reducer/VehicleSlice.ts";
 
 interface VehicleDataType {
     key: React.Key;
@@ -16,6 +19,11 @@ interface VehicleDataType {
 }
 
 const VehiclePage = () => {
+
+    const [open, setOpen] = useState(false);
+    const [modalType, setModalType] = useState("");
+    const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
+    const vehicles = useSelector((state:RootState) => state.vehicle.vehicles) || [];
 
     const columns = [
         {
@@ -117,6 +125,13 @@ const VehiclePage = () => {
                         </Button>
                     </div>
                 </div>
+                <Table<Vehicle>
+                    columns={columns}
+                    dataSource={vehicles.map((vehicle:Vehicle) => ({
+                        ...vehicle,
+                        key: vehicle.licensePlateNumber,
+                    }))}
+                />
             </section>
         </>
     )
