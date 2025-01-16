@@ -109,7 +109,7 @@ const StaffPage = () => {
                     className="text-blue-500"
                     type="link"
                     onClick={() => {
-                        openUpdateModal(staff)
+                        openUpdateModal(record)
                     }}
                 >
                     Edit
@@ -171,7 +171,7 @@ const StaffPage = () => {
                     columns={columns}
                     dataSource={staff.map((staff: StaffDataType) => ({
                         ...staff,
-                        key: staff.mobile,
+                        key: staff.email,
                     }))}
                 />
                 {open && modalType === "add" && (
