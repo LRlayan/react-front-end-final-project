@@ -6,7 +6,7 @@ import {Equipment} from "./pages/equipment/Equipment.tsx";
 import StaffPage from "./pages/staff/StaffPage.tsx";
 import LogPage from "./pages/log/LogPage.tsx";
 import {FieldPage} from "./pages/field/FieldPage.tsx";
-import {VehiclePage} from "./pages/vehicle/VehiclePage.tsx";
+import VehiclePage from "./pages/vehicle/VehiclePage.tsx";
 import CropPage from "./pages/crop/CropPage.tsx";
 
 function App() {
