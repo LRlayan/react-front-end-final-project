@@ -7,7 +7,7 @@ import {IdGenerator} from "../../util/IdGenerator.ts";
 import {Input} from "antd";
 import Label from "../../components/label/Label.tsx";
 
-const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
+const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; buttonType:string}> = ({ isOpen, onClose, isType, buttonType }) => {
     const dispatch = useDispatch();
     const [cropName, setCropName] = useState("");
     const [scientificName, setScientificName] = useState("");
@@ -27,9 +27,9 @@ const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, o
     };
 
     return (
-        <MainModal isType="ADD CROP" buttonType="Save" isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
+        <MainModal isType={isType} buttonType={buttonType} isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
             <form>
-                <div className="mb-4">
+                <div className="mb-4 custom-input">
                     <Label labelName={"Crop Name"}/>
                     <Input
                         type="text"
@@ -37,7 +37,7 @@ const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, o
                         onChange={(e) => setCropName(e.target.value)}
                     />
                 </div>
-                <div className="mb-4">
+                <div className="mb-4 custom-input">
                     <Label labelName={"Scientific Name"}/>
                     <Input
                         type="text"
@@ -45,7 +45,7 @@ const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, o
                         onChange={(e) => setScientificName(e.target.value)}
                     />
                 </div>
-                <div className="mb-4">
+                <div className="mb-4 custom-input">
                     <Label labelName={"Category"}/>
                     <Input
                         type="text"
@@ -53,7 +53,7 @@ const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, o
                         onChange={(e) => setCategory(e.target.value)}
                     />
                 </div>
-                <div className="mb-4">
+                <div className="mb-4 custom-input">
                     <Label labelName={"Season"}/>
                     <Input
                         type="text"
@@ -61,7 +61,7 @@ const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, o
                         onChange={(e) => setSeason(e.target.value)}
                     />
                 </div>
-                <div className="mb-4">
+                <div className="mb-4 custom-input">
                     <Label labelName={"Crop Image"}/>
                     <Input
                         type="file"

@@ -6,20 +6,21 @@ import { Button } from "antd";
 import Search from "antd/es/input/Search";
 import UpdateCrop from "./UpdateCrop.tsx";
 import DeleteCrop from "./DeleteCrop.tsx";
+import {Crop} from "../../model/Crop.ts";
 
 const CropPage = () => {
     const [open, setOpen] = useState(false);
     const crops = useSelector((state) => state.crop.crops) || [];
-    const [selectedCrop, setSelectedCrop] = useState(null);
+    const [selectedCrop, setSelectedCrop] = useState<Crop | null>();
     const [modalType, setModalType] = useState("");
 
-    function openUpdateModal(crop: any) {
+    function openUpdateModal(crop: Crop) {
         setSelectedCrop(crop);
         setOpen(true);
         setModalType("update");
     }
 
-    function openDeleteModal(crop: any) {
+    function openDeleteModal(crop: Crop) {
         setSelectedCrop(crop);
         setOpen(true);
         setModalType("delete");
@@ -45,7 +46,7 @@ const CropPage = () => {
                     </Button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {crops.map((crop, index) => (
+                    {crops.map((crop:Crop, index:number) => (
                         <div key={index} className="border rounded-lg bg-gray-700 text-white p-4 shadow-md">
                             {crop.image && (
                                 <img
@@ -72,7 +73,6 @@ const CropPage = () => {
 
                                 {/* Delete Button */}
                                 <Button
-                                    type="danger"
                                     className="btn bg-red-500 hover:bg-red-600 text-white"
                                     style={{width: '140px'}}
                                     onClick={() => openDeleteModal(crop)}

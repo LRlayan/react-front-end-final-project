@@ -4,10 +4,10 @@ import {Crop} from "../../model/Crop.ts";
 import {deleteCrop} from "../../reducer/CropSlice.ts";
 import React, {useEffect, useState} from "react";
 
-const DeleteCrop: React.FC<{isOpen: boolean; onClose: () => void}> = ({isOpen, onClose, crop}) => {
+const DeleteCrop: React.FC<{isOpen: boolean; onClose: () => void; crop:Crop; isType:string; buttonType:string}> = ({isOpen, onClose, crop, isType, buttonType}) => {
 
     const dispatch = useDispatch();
-    const [cropCode, setCropCode] = useState("");
+    const [cropCode, setCropCode] = useState<string | number>("");
     const [cropName, setCropName] = useState("");
     const [scientificName, setScientificName] = useState("");
     const [category, setCategory] = useState("");
@@ -32,7 +32,7 @@ const DeleteCrop: React.FC<{isOpen: boolean; onClose: () => void}> = ({isOpen, o
 
     return(
         <>
-            <MainModal isType="DELETE CROP" buttonType="Delete" isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
+            <MainModal isType={isType} buttonType={buttonType} isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
                 <div>
                     <img
                         src={URL.createObjectURL(crop.image)}
