@@ -28,19 +28,19 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void}> = ({ isOpen, 
     useEffect(() => {
         setMemberCode(staff.code);
         setFirstName(staff.firstName);
-        setLastName(staff.firstName);
-        setJoinedDate(staff.firstName);
-        setDesignation(staff.firstName);
-        setGender(staff.firstName);
-        setDob(staff.firstName);
-        setAddressLine01(staff.firstName);
-        setAddressLine02(staff.firstName);
-        setAddressLine03(staff.firstName);
-        setAddressLine04(staff.firstName);
-        setAddressLine05(staff.firstName);
-        setMobile(staff.firstName);
-        setEmail(staff.firstName);
-        setRole(staff.firstName);
+        setLastName(staff.lastName);
+        setJoinedDate(staff.joinedDate);
+        setDesignation(staff.designation);
+        setGender(staff.gender);
+        setDob(staff.dob);
+        setAddressLine01(staff.addressLine01);
+        setAddressLine02(staff.addressLine02);
+        setAddressLine03(staff.addressLine03);
+        setAddressLine04(staff.addressLine04);
+        setAddressLine05(staff.addressLine05);
+        setMobile(staff.mobile);
+        setEmail(staff.email);
+        setRole(staff.role);
     }, [staff]);
 
     function handleSubmit() {
