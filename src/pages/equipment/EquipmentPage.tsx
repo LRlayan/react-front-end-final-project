@@ -6,7 +6,6 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../reducer/EquipmentSlice.ts";
 import {Equipment} from "../../model/Equipment.ts";
 import Table from "../../components/table/Table.tsx";
-import {Vehicle} from "../../model/Vehicle.ts";
 import AddEquipment from "./AddEquipment.tsx";
 
 interface EquipmentDataType {
@@ -29,6 +28,9 @@ const EquipmentPage = () => {
         setOpen(true);
         setModalType("add");
     }
+
+    const openUpdateModal = () => {}
+    const openDeleteModal = () => {}
 
     const columns = [
         {
@@ -62,7 +64,7 @@ const EquipmentPage = () => {
             title: 'Action 1',
             key: 'update',
             fixed: 'right',
-            render: (_:Vehicle, record: EquipmentDataType) => (
+            render: (_:Equipment, record: EquipmentDataType) => (
                 <Button
                     className="text-blue-500"
                     type="link"
@@ -78,7 +80,7 @@ const EquipmentPage = () => {
             title: 'Action 2',
             key: 'delete',
             fixed: 'right',
-            render: (_:Vehicle, record: EquipmentDataType) => (
+            render: (_:Equipment, record: EquipmentDataType) => (
                 <Button
                     className="text-red-500"
                     type="link"
