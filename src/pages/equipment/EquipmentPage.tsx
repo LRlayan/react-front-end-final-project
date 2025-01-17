@@ -8,6 +8,7 @@ import {Equipment} from "../../model/Equipment.ts";
 import Table from "../../components/table/Table.tsx";
 import AddEquipment from "./AddEquipment.tsx";
 import UpdateEquipment from "./UpdateEquipment.tsx";
+import DeleteEquipment from "./DeleteEquipment.tsx";
 
 interface EquipmentDataType {
     key: React.Key;
@@ -142,6 +143,18 @@ const EquipmentPage = () => {
                         isType={"UPDATE EQUIPMENT"}
                         isOpen={open}
                         buttonType={"Update"}
+                        onClose={() => {
+                            setOpen(false);
+                            setSelectedEquipment(null);
+                        }}
+                        equipments={selectedEquipment}
+                    />
+                )}
+                {open && modalType === "delete" && selectedEquipment && (
+                    <DeleteEquipment
+                        isOpen={open}
+                        isType={"DELETE EQUIPMENT"}
+                        buttonType={"Delete"}
                         onClose={() => {
                             setOpen(false);
                             setSelectedEquipment(null);
