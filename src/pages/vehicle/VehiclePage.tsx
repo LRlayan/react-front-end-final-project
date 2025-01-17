@@ -30,75 +30,99 @@ const VehiclePage = () => {
 
     const columns = [
         {
-            title:'Code',
-            dataIndex:'code',
-            fixed:'left',
-            key:'code'
+            title: 'Code',
+            dataIndex: 'code',
+            fixed: 'left',
+            key: 'code',
         },
         {
-            title:'License Plate Number',
-            dataIndex:'licensePlateNumber',
-            fixed:'left',
-            key:'licensePlateNumber'
+            title: 'License Plate Number',
+            dataIndex: 'licensePlateNumber',
+            fixed: 'left',
+            key: 'licensePlateNumber',
         },
         {
-            title:'Vehicle Name',
-            dataIndex:'vehicleName',
-            key: 'vehicleName'
+            title: 'Vehicle Name',
+            dataIndex: 'vehicleName',
+            key: 'vehicleName',
         },
         {
-            title:'Category',
+            title: 'Category',
             dataIndex: 'category',
-            key: 'category'
+            key: 'category',
+            filters: [
+                { text: 'Car', value: 'Car' },
+                { text: 'Van', value: 'Van' },
+                { text: 'Motorbike', value: 'Motorbike' },
+                { text: 'Tractors-Land masters', value: 'Tractors-Land masters' },
+                { text: 'Tractors-4WD', value: 'Tractors-4WD' },
+                { text: 'Tankers truck', value: 'Tankers truck' },
+                { text: 'Land vehicles', value: 'Tankers truck' },
+                { text: 'Lorry', value: 'Lorry' },
+            ],
+            onFilter: (value:string, record:Vehicle) => record.category.includes(value),
         },
         {
             title: 'Fuel Type',
             dataIndex: 'fuelType',
-            key: 'fuelType'
+            key: 'fuelType',
+            filters: [
+                { text: 'Petrol', value: 'Petrol' },
+                { text: 'Diesel', value: 'Diesel' },
+                { text: 'Electric', value: 'Electric' },
+            ],
+            onFilter: (value:string, record:Vehicle) => record.fuelType.includes(value),
         },
         {
             title: 'Status',
             dataIndex: 'status',
-            key: 'status'
+            key: 'status',
+            filters: [
+                { text: 'Available', value: 'Available' },
+                { text: 'Unavailable', value: 'Unavailable' },
+                { text: 'In Service', value: 'In Service' },
+            ],
+            onFilter: (value:string, record:Vehicle) => record.status.includes(value),
         },
         {
             title: 'Remark',
             dataIndex: 'remark',
-            key: 'remark'
+            key: 'remark',
         },
         {
             title: 'Action 1',
             key: 'update',
             fixed: 'right',
-            render: (_:Vehicle, record: VehicleDataType) => (
+            render: (_: Vehicle, record: VehicleDataType) => (
                 <Button
                     className="text-blue-500"
                     type="link"
                     onClick={() => {
-                        openUpdateModal(record)
+                        openUpdateModal(record);
                     }}
                 >
                     Edit
                 </Button>
-            )
+            ),
         },
         {
             title: 'Action 2',
             key: 'delete',
             fixed: 'right',
-            render: (_:Vehicle, record: VehicleDataType) => (
+            render: (_: Vehicle, record: VehicleDataType) => (
                 <Button
                     className="text-red-500"
                     type="link"
                     onClick={() => {
-                        openDeleteModal(record)
+                        openDeleteModal(record);
                     }}
                 >
                     Delete
                 </Button>
-            )
-        }
+            ),
+        },
     ];
+
 
     const openAddModal = () => {
         setOpen(true);
