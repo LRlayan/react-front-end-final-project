@@ -112,7 +112,7 @@ const AddVehicle: React.FC<{ isOpen:boolean; onClose: () => void; isType: string
 
     const statusOptions = [
         {value: "Available", label: "Available"},
-        {value: "Not Available", label: "Not Available"},
+        {value: "Unavailable", label: "Unavailable"},
     ]
 
     return(

@@ -118,7 +118,7 @@ const UpdateVehicle: React.FC<{ isOpen:boolean; onClose: () => void; vehicles:Ve
 
     const statusOptions = [
         {value: "Available", label: "Available"},
-        {value: "Not Available", label: "Not Available"},
+        {value: "Unavailable", label: "Unavailable"},
     ]
 
     return(
