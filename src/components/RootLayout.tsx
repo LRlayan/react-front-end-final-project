@@ -16,6 +16,7 @@ import {FieldPage} from "../pages/field/FieldPage.tsx";
 import LogPage from "../pages/log/LogPage.tsx";
 import StaffPage from "../pages/staff/StaffPage.tsx";
 import VehiclePage from "../pages/vehicle/VehiclePage.tsx";
+import {EquipmentPage} from "../pages/equipment/EquipmentPage.tsx";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -53,7 +54,7 @@ const items = [
     {
         key: '/equipment-manage',
         icon: <ToolOutlined />,
-        label: 'Equipment Manage',
+        label: 'EquipmentPage Manage',
         path: '/equipment-manage'
     },
     {
@@ -119,7 +120,7 @@ const RootLayout: React.FC = () => {
                             <Route path="/field-manage" element={<FieldPage/>}/>
                             <Route path="/log-manage" element={<LogPage/>}/>
                             <Route path="/staff-manage" element={<StaffPage/>}/>
-                            <Route path="/equipment-manage" element={<div>Equipment Manage</div>}/>
+                            <Route path="/equipment-manage" element={<EquipmentPage/>}/>
                             <Route path="/vehicle-manage" element={<VehiclePage/>}/>
                             {/* Redirect unknown routes to Dashboard */}
                             <Route path="*" element={<Navigate to="/"/>}/>

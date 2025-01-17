@@ -2,7 +2,7 @@ import './App.css'
 import {createBrowserRouter, RouterProvider} from "react-router";
 import RootLayout from "./components/RootLayout.tsx";
 import {Dashboard} from "./pages/Dashboard.tsx";
-import {Equipment} from "./pages/equipment/Equipment.tsx";
+import {EquipmentPage} from "./pages/equipment/EquipmentPage.tsx";
 import StaffPage from "./pages/staff/StaffPage.tsx";
 import LogPage from "./pages/log/LogPage.tsx";
 import {FieldPage} from "./pages/field/FieldPage.tsx";
@@ -21,7 +21,7 @@ function App() {
             {path:'/log-manage',element:<LogPage/>},
             {path:'/staff-manage',element:<StaffPage/>},
             {path:'/vehicle-manage',element:<VehiclePage/>},
-            {path:'/equipment-manage',element:<Equipment/>}
+            {path:'/equipment-manage',element:<EquipmentPage/>}
           ]
     }
   ]);
