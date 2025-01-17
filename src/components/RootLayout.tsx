@@ -16,7 +16,7 @@ import {FieldPage} from "../pages/field/FieldPage.tsx";
 import LogPage from "../pages/log/LogPage.tsx";
 import StaffPage from "../pages/staff/StaffPage.tsx";
 import VehiclePage from "../pages/vehicle/VehiclePage.tsx";
-import {EquipmentPage} from "../pages/equipment/EquipmentPage.tsx";
+import EquipmentPage from "../pages/equipment/EquipmentPage.tsx";
 
 const { Header, Content, Footer, Sider } = Layout;
 

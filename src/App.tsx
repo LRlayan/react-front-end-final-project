@@ -2,7 +2,7 @@ import './App.css'
 import {createBrowserRouter, RouterProvider} from "react-router";
 import RootLayout from "./components/RootLayout.tsx";
 import {Dashboard} from "./pages/Dashboard.tsx";
-import {EquipmentPage} from "./pages/equipment/EquipmentPage.tsx";
+import EquipmentPage from "./pages/equipment/EquipmentPage.tsx";
 import StaffPage from "./pages/staff/StaffPage.tsx";
 import LogPage from "./pages/log/LogPage.tsx";
 import {FieldPage} from "./pages/field/FieldPage.tsx";
