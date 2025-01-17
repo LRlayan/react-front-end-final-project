@@ -7,6 +7,7 @@ import {RootState} from "../../reducer/EquipmentSlice.ts";
 import {Equipment} from "../../model/Equipment.ts";
 import Table from "../../components/table/Table.tsx";
 import AddEquipment from "./AddEquipment.tsx";
+import UpdateEquipment from "./UpdateEquipment.tsx";
 
 interface EquipmentDataType {
     key: React.Key;
@@ -29,8 +30,17 @@ const EquipmentPage = () => {
         setModalType("add");
     }
 
-    const openUpdateModal = () => {}
-    const openDeleteModal = () => {}
+    const openUpdateModal = (equipment: Equipment) => {
+        setOpen(true);
+        setSelectedEquipment(equipment);
+        setModalType("update");
+    }
+
+    const openDeleteModal = (equipment: Equipment) => {
+        setOpen(true);
+        setSelectedEquipment(equipment);
+        setModalType("delete");
+    }
 
     const columns = [
         {
@@ -125,6 +135,18 @@ const EquipmentPage = () => {
                         onClose={() => {
                             setOpen(false);
                         }}
+                    />
+                )}
+                {open && selectedEquipment && modalType === "update" && (
+                    <UpdateEquipment
+                        isType={"UPDATE EQUIPMENT"}
+                        isOpen={open}
+                        buttonType={"Update"}
+                        onClose={() => {
+                            setOpen(false);
+                            setSelectedEquipment(null);
+                        }}
+                        equipments={selectedEquipment}
                     />
                 )}
             </section>
