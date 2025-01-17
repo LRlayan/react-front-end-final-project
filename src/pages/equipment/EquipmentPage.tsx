@@ -9,6 +9,7 @@ import Table from "../../components/table/Table.tsx";
 import AddEquipment from "./AddEquipment.tsx";
 import UpdateEquipment from "./UpdateEquipment.tsx";
 import DeleteEquipment from "./DeleteEquipment.tsx";
+import SearchingTableData from "../../util/SearchingTableData.ts";
 
 interface EquipmentDataType {
     key: React.Key;
@@ -26,6 +27,7 @@ const EquipmentPage = () => {
     const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null);
     const equipment = useSelector((state:RootState) => state.equipment.equipments) || [];
     const [filteredEquipment, setFilteredEquipment] = useState<Equipment[]>(equipment);
+    const searchingTableData = new SearchingTableData();
 
     // Sync `filteredEquipment` with `equipment` whenever `equipment` updates
     useEffect(() => {
@@ -50,14 +52,8 @@ const EquipmentPage = () => {
     }
 
     const searching = (value:string) => {
-        const lowercasedValue = value.toLowerCase();
-        const filtered = equipment.filter(
-            (item) =>
-                item.name.toLowerCase().includes(lowercasedValue) ||
-                item.type.toLowerCase().includes(lowercasedValue) ||
-                item.status.toLowerCase().includes(lowercasedValue)
-        );
-        setFilteredEquipment(filtered);
+        const filteredData = searchingTableData.findData(value,equipment);
+        setFilteredEquipment(filteredData);
     }
 
     const columns = [
