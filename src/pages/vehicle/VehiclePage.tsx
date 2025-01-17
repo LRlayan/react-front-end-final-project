@@ -57,7 +57,7 @@ const VehiclePage = () => {
                 { text: 'Tractors-Land masters', value: 'Tractors-Land masters' },
                 { text: 'Tractors-4WD', value: 'Tractors-4WD' },
                 { text: 'Tankers truck', value: 'Tankers truck' },
-                { text: 'Land vehicles', value: 'Tankers truck' },
+                { text: 'Land vehicles', value: 'Land vehicles' },
                 { text: 'Lorry', value: 'Lorry' },
             ],
             onFilter: (value:string, record:Vehicle) => record.category.includes(value),
@@ -80,7 +80,6 @@ const VehiclePage = () => {
             filters: [
                 { text: 'Available', value: 'Available' },
                 { text: 'Unavailable', value: 'Unavailable' },
-                { text: 'In Service', value: 'In Service' },
             ],
             onFilter: (value:string, record:Vehicle) => record.status.includes(value),
         },
@@ -159,7 +158,7 @@ const VehiclePage = () => {
                 </div>
                 <Table<Vehicle>
                     columns={columns}
-                    dataSource={vehicles.map((vehicle:Vehicle) => ({
+                    dataSource={vehicles.map((vehicle: Vehicle) => ({
                         ...vehicle,
                         key: vehicle.licensePlateNumber,
                     }))}
