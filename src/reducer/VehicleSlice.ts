@@ -16,9 +16,9 @@ export type RootState = {
            remark: string;
         }>;
     }
-}
+};
 
-const StaffSlice = createSlice({
+const VehicleSlice = createSlice({
     name:"vehicle",
     initialState:initialState,
     reducers: {
@@ -39,5 +39,5 @@ const StaffSlice = createSlice({
     }
 });
 
-export {addVehicle,updateVehicle,deleteVehicle} = VehicleSlice.actions;
-export default StaffSlice.reducer;
+export const {addVehicle,updateVehicle,deleteVehicle} = VehicleSlice.actions
+export default VehicleSlice.reducer;
