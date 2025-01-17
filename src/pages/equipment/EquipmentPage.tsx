@@ -1,7 +1,7 @@
 import Search from "antd/es/input/Search";
 import {Button} from "antd";
 import {PlusCircleOutlined} from "@ant-design/icons";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../../reducer/EquipmentSlice.ts";
 import {Equipment} from "../../model/Equipment.ts";
@@ -25,6 +25,12 @@ const EquipmentPage = () => {
     const [modalType, setModalType] = useState("");
     const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null);
     const equipment = useSelector((state:RootState) => state.equipment.equipments) || [];
+    const [filteredEquipment, setFilteredEquipment] = useState<Equipment[]>(equipment);
+
+    // Sync `filteredEquipment` with `equipment` whenever `equipment` updates
+    useEffect(() => {
+        setFilteredEquipment(equipment);
+    }, [equipment]);
 
     const openAddModal = () => {
         setOpen(true);
@@ -41,6 +47,17 @@ const EquipmentPage = () => {
         setOpen(true);
         setSelectedEquipment(equipment);
         setModalType("delete");
+    }
+
+    const searching = (value:string) => {
+        const lowercasedValue = value.toLowerCase();
+        const filtered = equipment.filter(
+            (item) =>
+                item.name.toLowerCase().includes(lowercasedValue) ||
+                item.type.toLowerCase().includes(lowercasedValue) ||
+                item.status.toLowerCase().includes(lowercasedValue)
+        );
+        setFilteredEquipment(filtered);
     }
 
     const columns = [
@@ -136,7 +153,7 @@ const EquipmentPage = () => {
             <section id="staff-sec" className="mt-4 p-6">
                 <div className="container mx-auto">
                     <div className="flex justify-between items-center mb-4">
-                        <Search className="mr-5" placeholder="Search staff by name or role" enterButton/>
+                        <Search className="mr-5" placeholder="Search staff by name or role" enterButton onChange={(e) => {searching(e.target.value)}}/>
                         <Button
                             type="primary"
                             icon={<PlusCircleOutlined/>}
@@ -149,7 +166,7 @@ const EquipmentPage = () => {
                 </div>
                 <Table<Equipment>
                     columns={columns}
-                    dataSource={equipment.map((equipment) => ({
+                    dataSource={filteredEquipment.map((equipment) => ({
                         ...equipment,
                         key: equipment.code,
                     }))}
