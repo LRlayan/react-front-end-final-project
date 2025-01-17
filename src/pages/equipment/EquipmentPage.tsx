@@ -59,12 +59,38 @@ const EquipmentPage = () => {
         {
             title:"Type",
             dataIndex:"type",
-            key:"type"
+            key:"type",
+            filters: [
+                { text:"Plough", value: 'Plough'},
+                { text:"Mamotee'", value: 'Mamotee'},
+                { text:"Shovel'", value: 'Shovel'},
+                { text:"Irrigation pumps", value: 'Irrigation pumps'},
+                { text:"Wheelbarrow'", value: 'Wheelbarrow'},
+                { text:"Sprayer'", value: 'Sprayer'},
+                { text:"Axe'", value: 'Axe'},
+                { text:"Chain saw", value: 'Chain saw'},
+                { text:"Combine harvester", value: 'Combine harvester'},
+                { text:"Seeder'", value: 'Seeder'},
+                { text:"Weeder'", value: 'Weeder'},
+                { text:"Wheel wrench", value: 'Wheel wrench'},
+                { text:"Screw drivers", value: 'Screw drivers'},
+            ],
+            filterMode: 'tree',
+            filterSearch: true,
+            onFilter: (value:string, record:Equipment) => record.type.includes(value),
         },
         {
             title:"Status",
             dataIndex:"status",
-            key:"status"
+            key:"status",
+            filters: [
+                {text:"Available", value:"Available"},
+                {text:"Unavailable", value:"Unavailable"},
+            ],
+            filterMode: 'tree',
+            filterSearch: true,
+            onFilter: (value:string, record:Equipment) => record.status.includes(value),
+
         },
         {
             title:"Count",
