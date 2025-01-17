@@ -59,7 +59,7 @@ const items = [
     {
         key: '/vehicle-manage',
         icon: <CarOutlined />,
-        label: 'VehiclePage Manage',
+        label: 'Vehicle Manage',
         path: '/vehicle-manage'
     },
 ];
