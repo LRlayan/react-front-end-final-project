@@ -47,7 +47,7 @@ const UpdateEquipment: React.FC<{ isOpen:boolean; onClose: () => void; isType:st
 
     const statusOptions = [
         {label:"Available", value:"Available"},
-        {label:"Not Available", value:"Not Available"},
+        {label:"Unavailable", value:"Unavailable"},
     ];
 
     return(
