@@ -60,6 +60,8 @@ const VehiclePage = () => {
                 { text: 'Land vehicles', value: 'Land vehicles' },
                 { text: 'Lorry', value: 'Lorry' },
             ],
+            filterMode: 'tree',
+            filterSearch: true,
             onFilter: (value:string, record:Vehicle) => record.category.includes(value),
         },
         {
@@ -71,6 +73,8 @@ const VehiclePage = () => {
                 { text: 'Diesel', value: 'Diesel' },
                 { text: 'Electric', value: 'Electric' },
             ],
+            filterMode: 'tree',
+            filterSearch: true,
             onFilter: (value:string, record:Vehicle) => record.fuelType.includes(value),
         },
         {
@@ -81,6 +85,8 @@ const VehiclePage = () => {
                 { text: 'Available', value: 'Available' },
                 { text: 'Unavailable', value: 'Unavailable' },
             ],
+            filterMode: 'tree',
+            filterSearch: true,
             onFilter: (value:string, record:Vehicle) => record.status.includes(value),
         },
         {
@@ -121,7 +127,6 @@ const VehiclePage = () => {
             ),
         },
     ];
-
 
     const openAddModal = () => {
         setOpen(true);
