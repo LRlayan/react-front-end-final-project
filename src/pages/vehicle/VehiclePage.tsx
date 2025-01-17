@@ -8,6 +8,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../reducer/VehicleSlice.ts";
 import AddVehicle from "./AddVehicle.tsx";
 import UpdateVehicle from "./UpdateVehicle.tsx";
+import DeleteVehicle from "./DeleteVehicle.tsx";
 
 interface VehicleDataType {
     key: React.Key;
@@ -111,7 +112,9 @@ const VehiclePage = () => {
     }
 
     const openDeleteModal = (vehicle: Vehicle) => {
-
+        setOpen(true);
+        setSelectedVehicle(vehicle);
+        setModalType("delete");
     }
 
     return (
@@ -150,6 +153,18 @@ const VehiclePage = () => {
                         isOpen={open}
                         isType={"UPDATE VEHICLE"}
                         buttonType={"Update"}
+                        onClose={() => {
+                            setOpen(false);
+                            setSelectedVehicle(null);
+                        }}
+                        vehicles={selectedVehicle}
+                    />
+                )}
+                {open && modalType === "delete" && selectedVehicle && (
+                    <DeleteVehicle
+                        isOpen={open}
+                        isType={"DELETE VEHICLE"}
+                        buttonType={"Yes,I'm Sure"}
                         onClose={() => {
                             setOpen(false);
                             setSelectedVehicle(null);
