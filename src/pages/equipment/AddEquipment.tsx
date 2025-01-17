@@ -34,7 +34,7 @@ const AddEquipment: React.FC<{ isOpen:boolean; onClose: () => void; isType:strin
     ];
     const statusOptions = [
         {label:"Available", value:"Available"},
-        {label:"Not Available", value:"Not Available"},
+        {label:"Unavailable", value:"Unavailable"},
     ];
 
     function handleSubmit(){
