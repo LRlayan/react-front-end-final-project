@@ -6,6 +6,7 @@ import {PlusCircleOutlined} from "@ant-design/icons";
 import Table from "../../components/table/Table.tsx";
 import {useSelector} from "react-redux";
 import {RootState} from "../../reducer/VehicleSlice.ts";
+import AddVehicle from "./AddVehicle.tsx";
 
 interface VehicleDataType {
     key: React.Key;
@@ -98,7 +99,8 @@ const VehiclePage = () => {
     ];
 
     const openAddModal = () => {
-
+        setOpen(true);
+        setModalType("add");
     }
 
     const openUpdateModal = (vehicle: Vehicle) => {
@@ -132,6 +134,14 @@ const VehiclePage = () => {
                         key: vehicle.licensePlateNumber,
                     }))}
                 />
+                {open && modalType === "add" && (
+                    <AddVehicle
+                        isOpen={open}
+                        isType={"ADD VEHICLE"}
+                        buttonType={"Save"}
+                        onClose={() => setOpen(false)}
+                    />
+                )}
             </section>
         </>
     )
