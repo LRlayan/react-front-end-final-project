@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import AddStaff from "./AddStaff.tsx";
 import { PlusCircleOutlined } from "@ant-design/icons";
@@ -9,6 +9,9 @@ import UpdateStaff from "./UpdateStaff.tsx";
 import DeleteStaff from "./DeleteStaff.tsx";
 import {Staff} from "../../model/Staff.ts";
 import {RootState} from "../../reducer/StaffSlice.ts";
+import {Vehicle} from "../../model/Vehicle.ts";
+import SearchingTableData from "../../util/SearchingTableData.ts";
+import {Equipment} from "../../model/Equipment.ts";
 
 interface StaffDataType {
     key: React.Key;
@@ -174,6 +177,13 @@ const StaffPage = () => {
     const [selectedStaff, setSelectedStaff] = useState<Staff | null>(null);
     const [modalType, setModalType] = useState("");
     const staff = useSelector((state:RootState) => state.staff.staffs) || [];
+    const [filteredStaff, setFilteredStaff] = useState<Staff[]>(staff);
+    const searchingTableData = new SearchingTableData();
+
+    // Sync `filteredEquipment` with `equipment` whenever `equipment` updates
+    useEffect(() => {
+        setFilteredStaff(staff);
+    }, [staff]);
 
     function openAddModal() {
         setOpen(true);
@@ -192,12 +202,17 @@ const StaffPage = () => {
         setModalType("delete");
     }
 
+    const searching = (value:string) => {
+        const filteredData = searchingTableData.findData(value,staff,"STAFF");
+        setFilteredStaff(filteredData);
+    }
+
     return (
         <>
             <section id="staff-sec" className="mt-4 p-6">
                 <div className="container mx-auto">
                     <div className="flex justify-between items-center mb-4">
-                        <Search className="mr-5" placeholder="Search staff by name or role" enterButton />
+                        <Search className="mr-5" placeholder="Search staff by name or role" enterButton onChange={(e) => {searching(e.target.value)}}/>
                         <Button
                             type="primary"
                             icon={<PlusCircleOutlined />}
@@ -208,11 +223,11 @@ const StaffPage = () => {
                         </Button>
                     </div>
                 </div>
-                <Table<Staff>
+                <Table<Equipment>
                     columns={columns}
-                    dataSource={staff.map((staff:Staff) => ({
+                    dataSource={filteredStaff.map((staff) => ({
                         ...staff,
-                        key: staff.email,
+                        key: staff.code,
                     }))}
                 />
                 {open && modalType === "add" && (

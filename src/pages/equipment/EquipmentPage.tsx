@@ -26,7 +26,7 @@ const EquipmentPage = () => {
     const [modalType, setModalType] = useState("");
     const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null);
     const equipment = useSelector((state:RootState) => state.equipment.equipments) || [];
-    const [filteredEquipment, setFilteredEquipment] = useState<Equipment[]>(equipment);
+    const [filteredEquipment, setFilteredEquipment] = useState<Equipment[] | undefined>(equipment);
     const searchingTableData = new SearchingTableData();
 
     // Sync `filteredEquipment` with `equipment` whenever `equipment` updates
@@ -52,7 +52,7 @@ const EquipmentPage = () => {
     }
 
     const searching = (value:string) => {
-        const filteredData = searchingTableData.findData(value,equipment);
+        const filteredData = searchingTableData.findData(value,equipment,"EQUIPMENT");
         setFilteredEquipment(filteredData);
     }
 

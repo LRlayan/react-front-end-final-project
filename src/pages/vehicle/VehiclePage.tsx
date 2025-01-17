@@ -1,5 +1,5 @@
 import {Vehicle} from "../../model/Vehicle.ts";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button} from "antd";
 import Search from "antd/es/input/Search";
 import {PlusCircleOutlined} from "@ant-design/icons";
@@ -9,6 +9,8 @@ import {RootState} from "../../reducer/VehicleSlice.ts";
 import AddVehicle from "./AddVehicle.tsx";
 import UpdateVehicle from "./UpdateVehicle.tsx";
 import DeleteVehicle from "./DeleteVehicle.tsx";
+import {Equipment} from "../../model/Equipment.ts";
+import SearchingTableData from "../../util/SearchingTableData.ts";
 
 interface VehicleDataType {
     key: React.Key;
@@ -27,6 +29,8 @@ const VehiclePage = () => {
     const [modalType, setModalType] = useState("");
     const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
     const vehicles = useSelector((state:RootState) => state.vehicle.vehicles) || [];
+    const [filteredVehicle, setFilteredVehicle] = useState<Vehicle[]>(vehicles);
+    const searchingTableData = new SearchingTableData();
 
     const columns = [
         {
@@ -128,6 +132,11 @@ const VehiclePage = () => {
         },
     ];
 
+    // Sync `filteredEquipment` with `equipment` whenever `equipment` updates
+    useEffect(() => {
+        setFilteredVehicle(vehicles);
+    }, [vehicles]);
+
     const openAddModal = () => {
         setOpen(true);
         setModalType("add");
@@ -145,12 +154,17 @@ const VehiclePage = () => {
         setModalType("delete");
     }
 
+    const searching = (value:string) => {
+        const filteredData = searchingTableData.findData(value,vehicles,"VEHICLE");
+        setFilteredVehicle(filteredData);
+    }
+
     return (
         <>
             <section id="staff-sec" className="mt-4 p-6">
                 <div className="container mx-auto">
                     <div className="flex justify-between items-center mb-4">
-                        <Search className="mr-5" placeholder="Search staff by name or role" enterButton/>
+                        <Search className="mr-5" placeholder="Search staff by name or role" enterButton onChange={(e) => {searching(e.target.value)}}/>
                         <Button
                             type="primary"
                             icon={<PlusCircleOutlined/>}
@@ -161,11 +175,11 @@ const VehiclePage = () => {
                         </Button>
                     </div>
                 </div>
-                <Table<Vehicle>
+                <Table<Equipment>
                     columns={columns}
-                    dataSource={vehicles.map((vehicle: Vehicle) => ({
+                    dataSource={filteredVehicle.map((vehicle) => ({
                         ...vehicle,
-                        key: vehicle.licensePlateNumber,
+                        key: vehicle.code,
                     }))}
                 />
                 {open && modalType === "add" && (
