@@ -47,6 +47,11 @@ class SearchingTableData {
                     (item:Log) =>
                         item.logDate.toLowerCase().includes(lowercasedValue)
                 );
+            case "FIELD":
+                return selectType.filter(
+                    (item:Field) =>
+                        item.fieldName.toLowerCase().includes(lowercasedValue)
+                );
             default:
                 return ""
         }
