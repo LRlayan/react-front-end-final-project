@@ -1,6 +1,7 @@
 import {Equipment} from "../model/Equipment.ts";
 import {Vehicle} from "../model/Vehicle.ts";
 import {Staff} from "../model/Staff.ts";
+import {Crop} from "../model/Crop.ts";
 
 class SearchingTableData {
     findData(value:string,selectType:any,type:string){
@@ -32,8 +33,15 @@ class SearchingTableData {
                         item.email.toLowerCase().includes(lowercasedValue) ||
                         item.gender.toLowerCase().includes(lowercasedValue)
                 );
+            case "CROP":
+                return selectType.filter(
+                    (item:Crop) =>
+                        item.cropName.toLowerCase().includes(lowercasedValue) ||
+                        item.category.toLowerCase().includes(lowercasedValue) ||
+                        item.scientificName.toLowerCase().includes(lowercasedValue)
+                );
             default:
-                ""
+                return ""
         }
     }
 }
