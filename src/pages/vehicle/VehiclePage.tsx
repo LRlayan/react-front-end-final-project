@@ -164,7 +164,7 @@ const VehiclePage = () => {
             <section id="staff-sec" className="mt-4 p-6">
                 <div className="container mx-auto">
                     <div className="flex justify-between items-center mb-4">
-                        <Search className="mr-5" placeholder="Search staff by name or role" enterButton onChange={(e) => {searching(e.target.value)}}/>
+                        <Search className="mr-5" placeholder="Search staff by name or vehicleName, category, status, licensePlateNumber" enterButton onChange={(e) => {searching(e.target.value)}}/>
                         <Button
                             type="primary"
                             icon={<PlusCircleOutlined/>}
