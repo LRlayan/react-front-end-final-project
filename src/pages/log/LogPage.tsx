@@ -1,19 +1,26 @@
 import Search from "antd/es/input/Search";
 import {Button} from "antd";
 import {PlusCircleOutlined} from "@ant-design/icons";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import AddLog from "./AddLog.tsx";
 import UpdateLog from "./UpdateLog.tsx";
 import DeleteLog from "./DeleteLog.tsx";
 import {Log} from "../../model/Log.ts";
 import {RootState} from "../../reducer/LogSlice.ts";
+import SearchingTableData from "../../util/SearchingTableData.ts";
 
 const LogPage = () => {
     const [open, setOpen] = useState(false);
     const [selectedLogs, setSelectedLogs] = useState<Log | null>();
     const [modalType, setModalType] = useState("");
     const logs = useSelector((state: RootState) => state.log.logs) || [];
+    const [filteredLog, setFilteredLog] = useState<Log[]>(logs);
+    const searchingTableData = new SearchingTableData();
+
+    useEffect(() => {
+        setFilteredLog(logs);
+    }, [logs]);
 
     function openAddModal() {
         setOpen(true);
@@ -32,12 +39,17 @@ const LogPage = () => {
         setModalType("delete");
     }
 
+    const searching = (value:string) => {
+        const filteredData = searchingTableData.findData(value,logs,"LOG");
+        setFilteredLog(filteredData);
+    }
+
     return(
         <>
             <section id="log-sec" className="mt-4 p-6">
                 <div className="container mx-auto">
                     <div className="flex justify-between items-center mb-4">
-                        <Search className="mr-5" placeholder="search log by name" enterButton/>
+                        <Search className="mr-5" placeholder="search log by date" enterButton onChange={(e) => {searching(e.target.value)}}/>
                         <Button
                             type="primary"
                             icon={<PlusCircleOutlined/>}
@@ -48,7 +60,7 @@ const LogPage = () => {
                         </Button>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {logs.map((log, index) => (
+                        {filteredLog.map((log, index) => (
                             <div key={index} className="border rounded-lg bg-gray-700 text-white p-4 shadow-md">
                                 {log.image && (
                                     <img
