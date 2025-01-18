@@ -1,5 +1,5 @@
 import {useSelector} from "react-redux";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Search from "antd/es/input/Search";
 import {Button} from "antd";
 import {PlusCircleOutlined} from "@ant-design/icons";
@@ -8,6 +8,7 @@ import UpdateField from "./UpdateField.tsx";
 import DeleteField from "./DeleteField.tsx";
 import {Field} from "../../model/Field.ts";
 import {RootState} from "../../reducer/FieldSlice.ts";
+import SearchingTableData from "../../util/SearchingTableData.ts";
 
 export function FieldPage() {
 
@@ -15,6 +16,12 @@ export function FieldPage() {
     const fields = useSelector((state: RootState) => state.field.fields) || []
     const [modalType , setModalType] = useState("");
     const [selectedField, setSelectedField] = useState<Field | null>();
+    const [filteredField, setFilteredField] = useState<Field[]>(fields);
+    const searchingTableData = new SearchingTableData();
+
+    useEffect(() => {
+        setFilteredField(fields);
+    }, [fields]);
 
     function openAddModal() {
         setOpen(true);
@@ -33,13 +40,19 @@ export function FieldPage() {
         setModalType("delete");
     }
 
+    const searching = (value:string) => {
+        const filteredData = searchingTableData.findData(value,fields,"FIELD");
+        setFilteredField(filteredData);
+    }
+
+
     return(
         <>
             <section id="fields-sec" className="mt-4 p-6">
                 <div className="container mx-auto">
                     {/* Search Bar */}
                     <div className="flex justify-between items-center mb-4">
-                        <Search className="mr-5" placeholder="search field by name" enterButton/>
+                        <Search className="mr-5" placeholder="search field by name" enterButton onChange={(e) => {searching(e.target.value)}}/>
                         <Button
                             type="primary"
                             icon={<PlusCircleOutlined/>}
@@ -54,7 +67,7 @@ export function FieldPage() {
                     <div id="fieldCard" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {/* Add card dynamically */}
                         {
-                            fields.map((field:Field, index:number) => (
+                            filteredField.map((field:Field, index:number) => (
                                 <div key={index} className="border rounded-lg bg-gray-700 text-white p-4 shadow-md">
                                     {field.image && (
                                         <img
