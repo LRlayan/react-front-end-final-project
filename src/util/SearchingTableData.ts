@@ -2,6 +2,8 @@ import {Equipment} from "../model/Equipment.ts";
 import {Vehicle} from "../model/Vehicle.ts";
 import {Staff} from "../model/Staff.ts";
 import {Crop} from "../model/Crop.ts";
+import {Log} from "../model/Log.ts";
+import {Field} from "../model/Field.ts";
 
 class SearchingTableData {
     findData(value:string,selectType:any,type:string){
@@ -39,6 +41,11 @@ class SearchingTableData {
                         item.cropName.toLowerCase().includes(lowercasedValue) ||
                         item.category.toLowerCase().includes(lowercasedValue) ||
                         item.scientificName.toLowerCase().includes(lowercasedValue)
+                );
+            case "LOG":
+                return selectType.filter(
+                    (item:Log) =>
+                        item.logDate.toLowerCase().includes(lowercasedValue)
                 );
             default:
                 return ""
