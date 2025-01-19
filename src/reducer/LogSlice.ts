@@ -8,6 +8,7 @@ export type RootState = {
     log: {
         logs: Array<{
             code: string;
+            name: string;
             logDate: string;
             logDetails: string;
             image: File | null;
