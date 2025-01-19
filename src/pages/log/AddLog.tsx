@@ -10,6 +10,7 @@ import Label from "../../components/label/Label.tsx";
 const AddLog: React.FC<{isOpen: boolean; onClose: () => void; isType:string; buttonType:string}> = ({ isOpen, onClose, isType, buttonType }) => {
 
     const dispatch = useDispatch();
+    const [logName, setLogName] = useState("");
     const [lodDate, setLogDate] = useState("");
     const [logDetails, setLogDetails] = useState("");
     const [image, setImage] = useState<File | null>(null);
@@ -20,7 +21,7 @@ const AddLog: React.FC<{isOpen: boolean; onClose: () => void; isType:string; but
     function handleSubmit() {
         const getLastLogCode = logs.length > 0 ? logs[logs.length -1].code : "LOG-";
         const newCode = idGenerator.codeGenerator("LOG",getLastLogCode);
-        const newLogs = new Log(newCode,lodDate,logDetails,image);
+        const newLogs = new Log(newCode,logName,lodDate,logDetails,image);
         dispatch(addLog(newLogs));
         onClose();
     }
@@ -29,6 +30,14 @@ const AddLog: React.FC<{isOpen: boolean; onClose: () => void; isType:string; but
         <>
             <MainModal isOpen={isOpen} isType={isType} buttonType={buttonType} onClose={onClose} onSubmit={handleSubmit}>
                 <form>
+                    <div className="mb-4 custom-input">
+                        <Label labelName={"Log Name"}/>
+                        <Input
+                            type="text"
+                            className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
+                            onChange={(e) => setLogName(e.target.value)}
+                        />
+                    </div>
                     <div className="mb-4 custom-input">
                         <Label labelName={"Log Date"}/>
                         <Input
