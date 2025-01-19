@@ -1,10 +1,11 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {Crop} from "../model/Crop.ts";
 
 const initialState = {
     logs:[]
 }
 
-export type RootState = {
+export type LogRootState = {
     log: {
         logs: Array<{
             code: string;
@@ -12,6 +13,7 @@ export type RootState = {
             logDate: string;
             logDetails: string;
             image: File | null;
+            assignCrops: Crop[];
         }>;
     };
 };
