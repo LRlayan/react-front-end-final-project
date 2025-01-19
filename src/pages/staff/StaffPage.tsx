@@ -8,10 +8,9 @@ import Table from "../../components/table/Table";
 import UpdateStaff from "./UpdateStaff.tsx";
 import DeleteStaff from "./DeleteStaff.tsx";
 import {Staff} from "../../model/Staff.ts";
-import {RootState} from "../../reducer/StaffSlice.ts";
-import {Vehicle} from "../../model/Vehicle.ts";
+import {StaffRootState} from "../../reducer/StaffSlice.ts";
 import SearchingTableData from "../../util/SearchingTableData.ts";
-import {Equipment} from "../../model/Equipment.ts";
+import {Log} from "../../model/Log.ts";
 
 interface StaffDataType {
     key: React.Key;
@@ -30,6 +29,7 @@ interface StaffDataType {
     addressLine04:string;
     addressLine05:string;
     mobile:string;
+    assignLog: Log[];
 }
 
 const StaffPage = () => {
@@ -139,6 +139,16 @@ const StaffPage = () => {
             key: 'mobile',
         },
         {
+            title: 'Assign Logs',
+            dataIndex: 'logs',
+            key: 'logs',
+            render: (logs: Log[]) =>
+                logs && Array.isArray(logs)
+                    ? logs.map((log: Log) => log.name).join(', ')
+                    : 'N/A',
+
+        },
+        {
             title: 'Action 1',
             key: 'update',
             fixed:'right',
@@ -176,7 +186,13 @@ const StaffPage = () => {
     const [open, setOpen] = useState(false);
     const [selectedStaff, setSelectedStaff] = useState<Staff | null>(null);
     const [modalType, setModalType] = useState("");
-    const staff = useSelector((state:RootState) => state.staff.staffs) || [];
+    const staff = useSelector((state: StaffRootState) =>
+        state.staff.staffs.map((staff) => ({
+            ...staff,
+            assignLog: staff.assignLog || [],
+        }))
+    ) || [];
+
     const [filteredStaff, setFilteredStaff] = useState<Staff[]>(staff);
     const searchingTableData = new SearchingTableData();
 
@@ -222,11 +238,12 @@ const StaffPage = () => {
                         </Button>
                     </div>
                 </div>
-                <Table<Equipment>
+                <Table<Staff>
                     columns={columns}
                     dataSource={filteredStaff.map((staff) => ({
                         ...staff,
                         key: staff.code,
+                        logs: staff.assignLog || [],
                     }))}
                 />
                 {open && modalType === "add" && (

@@ -3,9 +3,12 @@ import MainModal from "../../components/modal/MainModal.tsx";
 import {useDispatch, useSelector} from "react-redux";
 import {IdGenerator} from "../../util/IdGenerator.ts";
 import {Staff} from "../../model/Staff.ts";
-import {addStaff, RootState} from "../../reducer/StaffSlice.ts";
-import {Input, Select} from "antd";
+import {addStaff, StaffRootState} from "../../reducer/StaffSlice.ts";
+import {Input, Select, SelectProps} from "antd";
 import Label from "../../components/label/Label.tsx";
+import {Log} from "../../model/Log.ts";
+import {LogRootState} from "../../reducer/LogSlice.ts";
+import tagRender from "../../util/TagRender.tsx";
 
 const AddStaff: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; buttonType:string}> = ({isOpen, onClose, isType, buttonType}) => {
 
@@ -24,14 +27,20 @@ const AddStaff: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; 
     const [contactNo, setMobile] = useState("");
     const [email, setEmail] = useState("");
     const [role, setRole] = useState("");
-    const staff = useSelector((state:RootState) => state.staff.staffs);
-
+    const [selectedLogs, setLogs] = useState<[]>([]);
+    const logs = useSelector((state:LogRootState) => state.log.logs);
+    const staff = useSelector((state:StaffRootState) => state.staff.staffs);
     const idGenerator = new IdGenerator();
+
+    const logOptions: SelectProps['options'] = logs.map((log) => ({
+        label: log.name,
+        value: log.code
+    }));
 
     function handleSubmit() {
         const getLastIndex = staff.length > 0 ? staff[staff.length - 1].code : "STAFF-";
         const newCode = idGenerator.codeGenerator("STAFF", getLastIndex);
-        const newStaff = new Staff(newCode, firstName, lastName, joinedDate, designation, gender, dob, addressLine01, addressLine02, addressLine03, addressLine04, addressLine05, contactNo, email, role);
+        const newStaff = new Staff(newCode, firstName, lastName, joinedDate, designation, gender, dob, addressLine01, addressLine02, addressLine03, addressLine04, addressLine05, contactNo, email, role, selectedLogs);
         dispatch(addStaff(newStaff));
         onClose();
     }
@@ -219,6 +228,35 @@ const AddStaff: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; 
                             type="email"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setMobile(e.target.value)}
+                        />
+                    </div>
+                    <div className="mb-4 custom-input">
+                        <Label labelName={"Assign Logs"}/>
+                        <Select
+                            mode="multiple"
+                            tagRender={tagRender}
+                            style={{
+                                width: '100%',
+                                color: 'black',
+                            }}
+                            options={logOptions}
+                            dropdownStyle={{
+                                backgroundColor: 'white',
+                            }}
+                            dropdownClassName="custom-dropdown"
+                            onChange={(selectedValues) => {
+                                const selectedLogs = selectedValues.map((value: string) => {
+                                    const matchedLogs = logs.find((l) => l.code === value);
+                                    return matchedLogs
+                                        ? {
+                                            ...matchedLogs,
+                                            fieldName: matchedLogs.name,
+                                        }
+                                        : null;
+                                });
+                                const validLogs = selectedLogs.filter((l: Log) => l !== null);
+                                setLogs(validLogs as []);
+                            }}
                         />
                     </div>
                 </form>
