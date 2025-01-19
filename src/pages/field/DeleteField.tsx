@@ -16,7 +16,7 @@ const DeleteField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; 
     useEffect(() => {
         if (field) {
             setFieldCode(field.code);
-            setFieldName(field.fieldName);
+            setFieldName(field.name);
             setLocation(field.location);
             setExtentSize(field.extentSize);
             setImage(field.image);
@@ -34,12 +34,12 @@ const DeleteField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; 
                 <div>
                     <img
                         src={field.image ? URL.createObjectURL(field.image) : ""}
-                        alt={field.fieldName}
+                        alt={field.name}
                         className="w-full h-32 object-cover rounded-md mb-2"
                     />
                     <div>
                         <p className="text-white">Field Code : {field.code}</p>
-                        <p className="text-white">Field Name : {field.fieldName}</p>
+                        <p className="text-white">Field Name : {field.name}</p>
                     </div>
                     <div className="flex justify-end">
                         <h3 className="text-white mb-3">Are you sure delete this field?</h3>

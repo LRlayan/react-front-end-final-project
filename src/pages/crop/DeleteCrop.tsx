@@ -36,12 +36,12 @@ const DeleteCrop: React.FC<{isOpen: boolean; onClose: () => void; crop:Crop; isT
                 <div>
                     <img
                         src={crop.image ? URL.createObjectURL(crop.image) : ""}
-                        alt={crop.cropName || "Crop Image"}
+                        alt={crop.name || "Crop Image"}
                         className="w-full h-32 object-cover rounded-md mb-2"
                     />
                     <div>
                         <p className="text-white">Crop Code : {crop.code}</p>
-                        <p className="text-white">Crop Name : {crop.cropName}</p>
+                        <p className="text-white">Crop Name : {crop.name}</p>
                     </div>
                     <div className="flex justify-end">
                         <h3 className="text-white mb-3">Are you sure delete this crop?</h3>

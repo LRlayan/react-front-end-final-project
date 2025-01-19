@@ -20,7 +20,7 @@ const UpdateCrop: React.FC<{ isOpen: boolean; onClose: () => void; crop:Crop; is
     useEffect(() => {
         if (crop) {
             setCropCode(crop.code);
-            setCropName(crop.cropName);
+            setCropName(crop.name);
             setScientificName(crop.scientificName);
             setCategory(crop.category);
             setSeason(crop.season);
