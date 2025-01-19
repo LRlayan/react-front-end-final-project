@@ -17,9 +17,9 @@ const tagRendering: TagRender = (props) => {
             onClose={onClose}
             style={{
                 marginInlineEnd: 4,
-                backgroundColor: 'brown',
-                color: 'black',
-                border: '1px solid #d9d9d9',
+                backgroundColor: '#00851e',
+                color: '#91ffaa',
+                border: '1px solid #005c15',
             }}
         >
             {label}
