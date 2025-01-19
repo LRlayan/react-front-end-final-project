@@ -9,6 +9,8 @@ import {Input, Select, SelectProps} from "antd";
 import Label from "../../components/label/Label.tsx";
 import {Field} from "../../model/Field.ts";
 import tagRender from "../../util/TagRender.tsx";
+import {Log} from "../../model/Log.ts";
+import {LogRootState} from "../../reducer/LogSlice.ts";
 
 const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; buttonType:string}> = ({ isOpen, onClose, isType, buttonType }) => {
     const dispatch = useDispatch();
@@ -17,9 +19,11 @@ const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; b
     const [category, setCategory] = useState("");
     const [season, setSeason] = useState("");
     const [image, setImage] = useState<File | null>(null);
-    const [fields, setFields] = useState<Field[]>([]);
+    const [selectedFields, setFields] = useState<Field[]>([]);
+    const [selectedLogs, setLogs] = useState<Log[]>([]);
     const crops = useSelector((state:CropRootState) => state.crop.crops);
     const field = useSelector((state:FieldRootState) => state.field.fields);
+    const logs = useSelector((state:LogRootState) => state.log.logs);
     const idGenerator = new IdGenerator();
 
     const fieldOptions: SelectProps['options'] = field.map((field) => ({
@@ -27,10 +31,15 @@ const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; b
         value: field.code
     }));
 
+    const logOptions: SelectProps['options'] = logs.map((log) => ({
+        label: log.name,
+        value: log.code
+    }));
+
     const handleSubmit = () => {
         const getLastCropCode = crops.length > 0 ? crops[crops.length - 1].code : "CROP-";
         const newCode = idGenerator.codeGenerator("CROP",getLastCropCode);
-        const newCrop = new Crop(newCode, cropName, scientificName, category, season, image, fields);
+        const newCrop = new Crop(newCode, cropName, scientificName, category, season, image, selectedFields, selectedLogs);
         dispatch(addCrop(newCrop));
         onClose();
     };
@@ -85,7 +94,7 @@ const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; b
                         }}
                         dropdownClassName="custom-dropdown"
                         onChange={(selectedValues) => {
-                            const selectedFields = selectedValues.map((value:string) => {
+                            const selectedFields = selectedValues.map((value: string) => {
                                 const matchedField = field.find((f) => f.code === value);
                                 return matchedField
                                     ? {
@@ -94,8 +103,37 @@ const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; b
                                     }
                                     : null;
                             });
-                            const validFields = selectedFields.filter((f:Field) => f !== null);
+                            const validFields = selectedFields.filter((f: Field) => f !== null);
                             setFields(validFields as Field[]);
+                        }}
+                    />
+                </div>
+                <div className="mb-4 custom-input">
+                    <Label labelName={"Assign Logs"}/>
+                    <Select
+                        mode="multiple"
+                        tagRender={tagRender}
+                        style={{
+                            width: '100%',
+                            color: 'black',
+                        }}
+                        options={logOptions}
+                        dropdownStyle={{
+                            backgroundColor: 'white',
+                        }}
+                        dropdownClassName="custom-dropdown"
+                        onChange={(selectedValues) => {
+                            const selectedLogs = selectedValues.map((value: string) => {
+                                const matchedLogs = logs.find((l) => l.code === value);
+                                return matchedLogs
+                                    ? {
+                                        ...matchedLogs,
+                                        fieldName: matchedLogs.name,
+                                    }
+                                    : null;
+                            });
+                            const validLogs = selectedLogs.filter((l: Log) => l !== null);
+                            setLogs(validLogs as Log[]);
                         }}
                     />
                 </div>

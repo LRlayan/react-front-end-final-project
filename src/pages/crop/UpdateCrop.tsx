@@ -4,10 +4,12 @@ import {Crop} from "../../model/Crop.ts";
 import {updateCrop} from "../../reducer/CropSlice.ts";
 import MainModal from "../../components/modal/MainModal.tsx";
 import Label from "../../components/label/Label.tsx";
-import {Input, Select, SelectProps, Tag} from "antd";
+import {Input, Select, SelectProps} from "antd";
 import {Field} from "../../model/Field.ts";
 import {FieldRootState} from "../../reducer/FieldSlice.ts";
 import tagRender from "../../util/TagRender.tsx";
+import {LogRootState} from "../../reducer/LogSlice.ts";
+import {Log} from "../../model/Log.ts";
 
 
 const UpdateCrop: React.FC<{ isOpen: boolean; onClose: () => void; crop:Crop; isType:string; buttonType:string}> = ({isOpen, onClose, crop, isType, buttonType}) => {
@@ -20,7 +22,9 @@ const UpdateCrop: React.FC<{ isOpen: boolean; onClose: () => void; crop:Crop; is
     const [season, setSeason] = useState("");
     const [image, setImage] = useState<File | null>(null);
     const [fields, setFields] = useState<Field[]>([]);
+    const [selectedLogs, setLogs] = useState<Log[]>([]);
     const field = useSelector((state:FieldRootState) => state.field.fields);
+    const logs = useSelector((state:LogRootState) => state.log.logs);
 
     useEffect(() => {
         if (crop) {
@@ -31,6 +35,7 @@ const UpdateCrop: React.FC<{ isOpen: boolean; onClose: () => void; crop:Crop; is
             setSeason(crop.season);
             setImage(crop.image);
             setFields(crop.assignFields);
+            setLogs(crop.assignLogs);
         }
     }, [crop]);
 
@@ -39,8 +44,13 @@ const UpdateCrop: React.FC<{ isOpen: boolean; onClose: () => void; crop:Crop; is
         value: field.code
     }));
 
+    const logOptions: SelectProps['options'] = logs.map((log) => ({
+        label: log.name,
+        value: log.code
+    }));
+
     const handleSubmit = () => {
-        const updateCropDetails = new Crop(cropCode, cropName, scientificName, category, season, image, fields);
+        const updateCropDetails = new Crop(cropCode, cropName, scientificName, category, season, image, fields, selectedLogs);
         dispatch(updateCrop(updateCropDetails))
     }
 
@@ -106,6 +116,35 @@ const UpdateCrop: React.FC<{ isOpen: boolean; onClose: () => void; crop:Crop; is
                                 });
                                 const validFields = selectedFields.filter((f: Field) => f !== null);
                                 setFields(validFields as Field[]);
+                            }}
+                        />
+                    </div>
+                    <div className="mb-4 custom-input">
+                        <Label labelName={"Assign Logs"}/>
+                        <Select
+                            mode="multiple"
+                            tagRender={tagRender}
+                            style={{
+                                width: '100%',
+                                color: 'black',
+                            }}
+                            options={logOptions}
+                            dropdownStyle={{
+                                backgroundColor: 'white',
+                            }}
+                            dropdownClassName="custom-dropdown"
+                            onChange={(selectedValues) => {
+                                const selectedLogs = selectedValues.map((value: string) => {
+                                    const matchedLogs = logs.find((l) => l.code === value);
+                                    return matchedLogs
+                                        ? {
+                                            ...matchedLogs,
+                                            fieldName: matchedLogs.name,
+                                        }
+                                        : null;
+                                });
+                                const validLogs = selectedLogs.filter((l: Log) => l !== null);
+                                setLogs(validLogs as Log[]);
                             }}
                         />
                     </div>

@@ -9,6 +9,8 @@ import Label from "../../components/label/Label.tsx";
 import {CropRootState} from "../../reducer/CropSlice.ts";
 import {Crop} from "../../model/Crop.ts";
 import tagRender from "../../util/TagRender.tsx";
+import {Log} from "../../model/Log.ts";
+import {LogRootState} from "../../reducer/LogSlice.ts";
 
 const AddField: React.FC<{isOpen: boolean; onClose: () => void; isType:string; buttonType:string}> = ({isOpen, onClose, isType, buttonType }) => {
 
@@ -18,8 +20,10 @@ const AddField: React.FC<{isOpen: boolean; onClose: () => void; isType:string; b
     const [extentSize, setExtentSize] = useState("");
     const [image, setImage] = useState<File | null>(null);
     const [selectedCrops, setCrops] = useState<Crop[]>([]);
+    const [selectedLogs, setLogs] = useState<Log[]>([]);
     const crops = useSelector((state:CropRootState) => state.crop.crops);
     const fields = useSelector((state:FieldRootState) => state.field.fields);
+    const logs = useSelector((state:LogRootState) => state.log.logs);
     const idGenerator = new IdGenerator();
 
     const cropOptions: SelectProps['options'] = crops.map((crop) => ({
@@ -27,10 +31,15 @@ const AddField: React.FC<{isOpen: boolean; onClose: () => void; isType:string; b
         value: crop.code
     }));
 
+    const logOptions: SelectProps['options'] = logs.map((log) => ({
+        label: log.name,
+        value: log.code
+    }));
+
     const handleSubmit = () => {
         const getLastFieldCode = fields.length > 0 ? fields[fields.length - 1].code : "FIELD-";
         const newCode = idGenerator.codeGenerator("FIELD",getLastFieldCode);
-        const newField = new Field(newCode,fieldName,location,extentSize,image,selectedCrops);
+        const newField = new Field(newCode,fieldName,location,extentSize,image,selectedCrops,selectedLogs);
         dispatch(addField(newField));
         onClose();
     }
@@ -89,6 +98,35 @@ const AddField: React.FC<{isOpen: boolean; onClose: () => void; isType:string; b
                                 });
                                 const validCrops = selectedCrops.filter((c: Crop) => c !== null);
                                 setCrops(validCrops as Crop[]);
+                            }}
+                        />
+                    </div>
+                    <div className="mb-4 custom-input">
+                        <Label labelName={"Assign Logs"}/>
+                        <Select
+                            mode="multiple"
+                            tagRender={tagRender}
+                            style={{
+                                width: '100%',
+                                color: 'black',
+                            }}
+                            options={logOptions}
+                            dropdownStyle={{
+                                backgroundColor: 'white',
+                            }}
+                            dropdownClassName="custom-dropdown"
+                            onChange={(selectedValues) => {
+                                const selectedLogs = selectedValues.map((value: string) => {
+                                    const matchedLogs = logs.find((l) => l.code === value);
+                                    return matchedLogs
+                                        ? {
+                                            ...matchedLogs,
+                                            fieldName: matchedLogs.name,
+                                        }
+                                        : null;
+                                });
+                                const validLogs = selectedLogs.filter((l: Log) => l !== null);
+                                setLogs(validLogs as Log[]);
                             }}
                         />
                     </div>

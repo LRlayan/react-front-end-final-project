@@ -4,6 +4,7 @@ import {Crop} from "../../model/Crop.ts";
 import {deleteCrop} from "../../reducer/CropSlice.ts";
 import React, {useEffect, useState} from "react";
 import {Field} from "../../model/Field.ts";
+import {Log} from "../../model/Log.ts";
 
 const DeleteCrop: React.FC<{isOpen: boolean; onClose: () => void; crop:Crop; isType:string; buttonType:string}> = ({isOpen, onClose, crop, isType, buttonType}) => {
 
@@ -14,6 +15,7 @@ const DeleteCrop: React.FC<{isOpen: boolean; onClose: () => void; crop:Crop; isT
     const [category, setCategory] = useState("");
     const [season, setSeason] = useState("");
     const [selectedFields, setFields] = useState<Field[]>([]);
+    const [selectedLogs, setLogs] = useState<Log[]>([]);
     const [image, setImage] = useState<File | null>();
 
     useEffect(() => {
@@ -25,11 +27,12 @@ const DeleteCrop: React.FC<{isOpen: boolean; onClose: () => void; crop:Crop; isT
             setSeason(crop.season);
             setImage(crop.image);
             setFields(crop.assignFields);
+            setLogs(crop.assignLogs);
         }
     }, [crop]);
 
     const handleSubmit = () => {
-        const delCrop = new Crop(cropCode, cropName, scientificName, category, season, image, selectedFields);
+        const delCrop = new Crop(cropCode, cropName, scientificName, category, season, image, selectedFields,selectedLogs);
         dispatch(deleteCrop(delCrop))
     }
 
