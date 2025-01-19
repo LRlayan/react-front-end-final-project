@@ -5,9 +5,10 @@ import {FieldRootState} from "../../reducer/FieldSlice.ts";
 import MainModal from "../../components/modal/MainModal.tsx";
 import {Crop} from "../../model/Crop.ts";
 import {IdGenerator} from "../../util/IdGenerator.ts";
-import {Input, Select, SelectProps, Tag} from "antd";
+import {Input, Select, SelectProps} from "antd";
 import Label from "../../components/label/Label.tsx";
 import {Field} from "../../model/Field.ts";
+import tagRender from "../../util/TagRender.tsx";
 
 const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; buttonType:string}> = ({ isOpen, onClose, isType, buttonType }) => {
     const dispatch = useDispatch();
@@ -19,39 +20,12 @@ const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; b
     const [fields, setFields] = useState<Field[]>([]);
     const crops = useSelector((state:CropRootState) => state.crop.crops);
     const field = useSelector((state:FieldRootState) => state.field.fields);
-
     const idGenerator = new IdGenerator();
 
-    type TagRender = SelectProps['tagRender'];
-
     const fieldOptions: SelectProps['options'] = field.map((field) => ({
-        label: field.fieldName,
+        label: field.name,
         value: field.code
     }));
-
-    const tagRender: TagRender = (props) => {
-        const { label, value, closable, onClose } = props;
-        const onPreventMouseDown = (event: React.MouseEvent<HTMLSpanElement>) => {
-            event.preventDefault();
-            event.stopPropagation();
-        };
-        return (
-            <Tag
-                color={value}
-                onMouseDown={onPreventMouseDown}
-                closable={closable}
-                onClose={onClose}
-                style={{
-                    marginInlineEnd: 4,
-                    backgroundColor: 'brown',
-                    color: 'black',
-                    border: '1px solid #d9d9d9',
-            }}
-            >
-                {label}
-            </Tag>
-        );
-    };
 
     const handleSubmit = () => {
         const getLastCropCode = crops.length > 0 ? crops[crops.length - 1].code : "CROP-";
@@ -116,7 +90,7 @@ const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; b
                                 return matchedField
                                     ? {
                                         ...matchedField,
-                                        fieldName: matchedField.fieldName,
+                                        fieldName: matchedField.name,
                                     }
                                     : null;
                             });
