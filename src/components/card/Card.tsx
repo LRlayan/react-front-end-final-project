@@ -5,17 +5,17 @@ import {Crop} from "../../model/Crop.ts";
 import {Log} from "../../model/Log.ts";
 
 interface CardProps {
+    cardType: string;
     filteredData: Crop[] | Field[] | Log[];
     openUpdateModal: (data:any) => void;
     openDeleteModal: (data:any) => void;
-    children: React.ReactNode;
 }
 
 const Card: React.FC<CardProps> = ({
+    cardType,
     filteredData,
     openUpdateModal,
     openDeleteModal,
-    children,
 }) => {
     return(
         <>
@@ -28,7 +28,32 @@ const Card: React.FC<CardProps> = ({
                             className="w-full h-32 object-cover rounded-md mb-2"
                         />
                     )}
-                    {children}
+                    <div className="flex flex-col space-y-2">
+                        {cardType === "CROP" && (
+                            <>
+                                <h4 className="text-lg font-semibold">{data.code}</h4>
+                                <p className="text-sm">Scientific Name: {data.name}</p>
+                                <p className="text-sm">Category: {data.category}</p>
+                                <p className="text-sm">Season: {data.season}</p>
+                                <p className="text-sm">Fields: {data.assignFields.map((f:Field) => f.name).join(", ")}</p>
+                            </>
+                        )}
+                        {cardType === "FIELD" && (
+                            <>
+                                <h4 className="text-lg font-semibold">{data.code}</h4>
+                                <p className="text-sm">Name: {data.name}</p>
+                                <p className="text-sm">Location: {data.location}</p>
+                                <p className="text-sm">Extent Size: {data.extentSize}</p>
+                            </>
+                        )}
+                        {cardType === "LOG" && (
+                            <>
+                                <h4 className="text-lg font-semibold">{data.code}</h4>
+                                <p className="text-sm">Log Date: {data.logDate}</p>
+                                <p className="text-sm">Log Details: {data.logDetails}</p>
+                            </>
+                        )}
+                    </div>
                     <div className="flex space-x-2 mt-2">
                         {/* Update Button */}
                         <Button
@@ -39,7 +64,6 @@ const Card: React.FC<CardProps> = ({
                         >
                             Update
                         </Button>
-
                         {/* Delete Button */}
                         <Button
                             className="btn bg-red-500 hover:bg-red-600 text-white border-red-500"
