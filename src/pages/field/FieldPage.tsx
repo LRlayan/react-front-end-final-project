@@ -9,6 +9,7 @@ import DeleteField from "./DeleteField.tsx";
 import {Field} from "../../model/Field.ts";
 import {FieldRootState} from "../../reducer/FieldSlice.ts";
 import SearchingTableData from "../../util/SearchingTableData.ts";
+import Card from "../../components/card/Card.tsx";
 
 export function FieldPage() {
 
@@ -65,44 +66,7 @@ export function FieldPage() {
 
                     {/* Field Card */}
                     <div id="fieldCard" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {/* Add card dynamically */}
-                        {
-                            filteredField.map((field:Field, index:number) => (
-                                <div key={index} className="border rounded-lg bg-gray-700 text-white p-4 shadow-md">
-                                    {field.image && (
-                                        <img
-                                            src={URL.createObjectURL(field.image)}
-                                            alt={field.fieldName}
-                                            className="w-full h-32 object-cover rounded-md mb-2"
-                                        />
-                                    )}
-                                    <h4 className="text-lg font-semibold">{field.code}</h4>
-                                    <p className="text-sm">Name: {field.fieldName}</p>
-                                    <p className="text-sm">Location: {field.location}</p>
-                                    <p className="text-sm">Extent Size: {field.extentSize}</p>
-                                    <div className="flex space-x-2 mt-2">
-                                        {/* Update Button */}
-                                        <Button
-                                            type="primary"
-                                            className="btn bg-green-500 hover:bg-green-600 text-white"
-                                            style={{width: '140px'}}
-                                            onClick={() => openUpdateModal(field)}
-                                        >
-                                            Update
-                                        </Button>
-
-                                        {/* Delete Button */}
-                                        <Button
-                                            className="btn bg-red-500 hover:bg-red-600 text-white border-red-500"
-                                            style={{width: '140px'}}
-                                            onClick={() => openDeleteModal(field)}
-                                        >
-                                            Delete
-                                        </Button>
-                                    </div>
-                                </div>
-                            ))
-                        }
+                        <Card cardType={"FIELD"} filteredData={filteredField} openUpdateModal={openUpdateModal} openDeleteModal={openDeleteModal}/>
                     </div>
                 </div>
                 {open && modalType === "add" && (
