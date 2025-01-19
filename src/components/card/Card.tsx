@@ -44,6 +44,7 @@ const Card: React.FC<CardProps> = ({
                                 <p className="text-sm">Name: {data.name}</p>
                                 <p className="text-sm">Location: {data.location}</p>
                                 <p className="text-sm">Extent Size: {data.extentSize}</p>
+                                <p className="text-sm">Crops: {data.assignCrops.map((c: Crop) => c.name).join(", ")}</p>
                             </>
                         )}
                         {cardType === "LOG" && (
@@ -52,6 +53,7 @@ const Card: React.FC<CardProps> = ({
                                 <p className="text-sm">Log Title: {data.name}</p>
                                 <p className="text-sm">Log Date: {data.logDate}</p>
                                 <p className="text-sm">Log Details: {data.logDetails}</p>
+                                <p className="text-sm">Crops: {data.assignCrops.map((c: Crop) => c.name).join(", ")}</p>
                             </>
                         )}
                     </div>
