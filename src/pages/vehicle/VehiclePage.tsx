@@ -175,7 +175,7 @@ const VehiclePage = () => {
                         </Button>
                     </div>
                 </div>
-                <Table<Equipment>
+                <Table<Vehicle>
                     columns={columns}
                     dataSource={filteredVehicle.map((vehicle) => ({
                         ...vehicle,
