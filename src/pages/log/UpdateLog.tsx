@@ -8,6 +8,8 @@ import Label from "../../components/label/Label.tsx";
 import {Crop} from "../../model/Crop.ts";
 import {CropRootState} from "../../reducer/CropSlice.ts";
 import tagRender from "../../util/TagRender.tsx";
+import {Field} from "../../model/Field.ts";
+import {FieldRootState} from "../../reducer/FieldSlice.ts";
 
 const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isType:string; buttonType:string}> = ({ isOpen, onClose, logs, isType, buttonType }) => {
 
@@ -18,7 +20,9 @@ const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isTyp
     const [logDetails, setLogDetails] = useState("");
     const [logImage, setImage] = useState<File | null>(null);
     const [selectedCrops, setCrops] = useState<Crop[]>([]);
+    const [fields, setFields] = useState<Field[]>([]);
     const crops = useSelector((state:CropRootState) => state.crop.crops);
+    const field = useSelector((state:FieldRootState) => state.field.fields);
 
     useEffect(() => {
         setLogCode(logs.code);
@@ -27,11 +31,17 @@ const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isTyp
         setLogDetails(logs.logDetails);
         setImage(logs.image);
         setCrops(logs.assignCrops);
+        setFields(logs.assignFields);
     }, [logs]);
 
     const cropOptions: SelectProps['options'] = crops.map((crop) => ({
         label: crop.name,
         value: crop.code
+    }));
+
+    const fieldOptions: SelectProps['options'] = field.map((field) => ({
+        label: field.name,
+        value: field.code
     }));
 
     function handleSubmit() {
@@ -94,6 +104,35 @@ const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isTyp
                                 });
                                 const validCrops = selectedCrops.filter((c: Crop) => c !== null);
                                 setCrops(validCrops as Crop[]);
+                            }}
+                        />
+                    </div>
+                    <div className="mb-4 custom-input">
+                        <Label labelName={"Assign Field"}/>
+                        <Select
+                            mode="multiple"
+                            tagRender={tagRender}
+                            style={{
+                                width: '100%',
+                                color: 'black',
+                            }}
+                            options={fieldOptions}
+                            dropdownStyle={{
+                                backgroundColor: 'white',
+                            }}
+                            dropdownClassName="custom-dropdown"
+                            onChange={(selectedValues) => {
+                                const selectedFields = selectedValues.map((value: string) => {
+                                    const matchedField = field.find((f) => f.code === value);
+                                    return matchedField
+                                        ? {
+                                            ...matchedField,
+                                            fieldName: matchedField.name,
+                                        }
+                                        : null;
+                                });
+                                const validFields = selectedFields.filter((f: Field) => f !== null);
+                                setFields(validFields as Field[]);
                             }}
                         />
                     </div>
