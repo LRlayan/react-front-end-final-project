@@ -49,6 +49,7 @@ const Card: React.FC<CardProps> = ({
                         {cardType === "LOG" && (
                             <>
                                 <h4 className="text-lg font-semibold">{data.code}</h4>
+                                <p className="text-sm">Log Title: {data.name}</p>
                                 <p className="text-sm">Log Date: {data.logDate}</p>
                                 <p className="text-sm">Log Details: {data.logDetails}</p>
                             </>
