@@ -1,6 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {Crop} from "../model/Crop.ts";
 import {Log} from "../model/Log.ts";
+import {Staff} from "../model/Staff.ts";
 
 const initialState = {
     logs:[]
@@ -16,6 +17,7 @@ export type LogRootState = {
             image: File | null;
             assignCrops: Crop[];
             assignFields: Log[];
+            assignStaff: Staff[];
         }>;
     };
 };

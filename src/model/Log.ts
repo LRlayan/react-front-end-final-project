@@ -1,5 +1,6 @@
 import {Crop} from "./Crop.ts";
 import {Field} from "./Field.ts";
+import {Staff} from "./Staff.ts";
 
 export class Log{
     code:string;
@@ -9,8 +10,9 @@ export class Log{
     image:File | null;
     assignCrops: Crop[];
     assignFields: Field[];
+    assignStaff: Staff[];
 
-    constructor(code: string, logName:string, logDate: string, logDetails: string, image:File | null, assignCrops: Crop[], assignFields: Field[]) {
+    constructor(code: string, logName:string, logDate: string, logDetails: string, image:File | null, assignCrops: Crop[], assignFields: Field[], assignStaff: Staff[]) {
         this.code = code;
         this.name = logName;
         this.logDate = logDate;
@@ -18,5 +20,6 @@ export class Log{
         this.image = image;
         this.assignCrops = assignCrops;
         this.assignFields = assignFields;
+        this.assignStaff = assignStaff;
     }
 }

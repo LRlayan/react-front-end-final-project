@@ -11,6 +11,8 @@ import {Crop} from "../../model/Crop.ts";
 import {CropRootState} from "../../reducer/CropSlice.ts";
 import {FieldRootState} from "../../reducer/FieldSlice.ts";
 import {Field} from "../../model/Field.ts";
+import {Staff} from "../../model/Staff.ts";
+import {StaffRootState} from "../../reducer/StaffSlice.ts";
 
 const AddLog: React.FC<{isOpen: boolean; onClose: () => void; isType:string; buttonType:string}> = ({ isOpen, onClose, isType, buttonType }) => {
 
@@ -21,9 +23,11 @@ const AddLog: React.FC<{isOpen: boolean; onClose: () => void; isType:string; but
     const [image, setImage] = useState<File | null>(null);
     const [selectedCrops, setCrops] = useState<Crop[]>([]);
     const [selectedFields, setFields] = useState<Field[]>([]);
+    const [selectedStaff, setStaff] = useState<Staff[]>([]);
     const logs = useSelector((state:LogRootState) => state.log.logs);
     const crops = useSelector((state:CropRootState) => state.crop.crops);
     const field = useSelector((state:FieldRootState) => state.field.fields);
+    const staff = useSelector((state:StaffRootState) => state.staff.staffs);
     const idGenerator = new IdGenerator();
 
     const cropOptions: SelectProps['options'] = crops.map((crop) => ({
@@ -36,10 +40,15 @@ const AddLog: React.FC<{isOpen: boolean; onClose: () => void; isType:string; but
         value: field.code
     }));
 
+    const staffOptions: SelectProps['options'] = staff.map((staff) => ({
+        label: staff.firstName,
+        value: staff.code
+    }));
+
     function handleSubmit() {
         const getLastLogCode = logs.length > 0 ? logs[logs.length -1].code : "LOG-";
         const newCode = idGenerator.codeGenerator("LOG",getLastLogCode);
-        const newLogs = new Log(newCode,logName,lodDate,logDetails,image,selectedCrops,selectedFields);
+        const newLogs = new Log(newCode,logName,lodDate,logDetails,image,selectedCrops,selectedFields,selectedStaff);
         dispatch(addLog(newLogs));
         onClose();
     }
@@ -127,6 +136,35 @@ const AddLog: React.FC<{isOpen: boolean; onClose: () => void; isType:string; but
                                 });
                                 const validFields = selectedFields.filter((f: Field) => f !== null);
                                 setFields(validFields as Field[]);
+                            }}
+                        />
+                    </div>
+                    <div className="mb-4 custom-input">
+                        <Label labelName={"Assign Staff Members"}/>
+                        <Select
+                            mode="multiple"
+                            tagRender={tagRender}
+                            style={{
+                                width: '100%',
+                                color: 'black',
+                            }}
+                            options={staffOptions}
+                            dropdownStyle={{
+                                backgroundColor: 'white',
+                            }}
+                            dropdownClassName="custom-dropdown"
+                            onChange={(selectedValues) => {
+                                const selectedStaff = selectedValues.map((value: string) => {
+                                    const matchedStaff = staff.find((s) => s.code === value);
+                                    return matchedStaff
+                                        ? {
+                                            ...matchedStaff,
+                                            staffName: matchedStaff.firstName,
+                                        }
+                                        : null;
+                                });
+                                const validStaff = selectedStaff.filter((s: Staff) => s !== null);
+                                setStaff(validStaff as Staff[]);
                             }}
                         />
                     </div>

@@ -4,7 +4,7 @@ const initialState = {
     staffs:[]
 }
 
-export type RootState = {
+export type StaffRootState = {
     staff: {
         staffs: Array<{
             code: string;

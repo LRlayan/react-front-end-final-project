@@ -3,6 +3,7 @@ import {Button} from "antd";
 import {Field} from "../../model/Field.ts";
 import {Crop} from "../../model/Crop.ts";
 import {Log} from "../../model/Log.ts";
+import {Staff} from "../../model/Staff.ts";
 
 interface CardProps {
     cardType: string;
@@ -57,6 +58,7 @@ const Card: React.FC<CardProps> = ({
                                 <p className="text-sm">Log Details: {data.logDetails}</p>
                                 <p className="text-sm">Crops: {data.assignCrops.map((c: Crop) => c.name).join(", ")}</p>
                                 <p className="text-sm">Fields: {data.assignFields.map((f: Field) => f.name).join(", ")}</p>
+                                <p className="text-sm">Members: {data.assignStaff.map((s: Staff) => s.firstName).join(", ")}</p>
                             </>
                         )}
                     </div>

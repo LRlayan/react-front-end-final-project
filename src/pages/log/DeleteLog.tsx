@@ -4,6 +4,8 @@ import {useDispatch} from "react-redux";
 import {Log} from "../../model/Log.ts";
 import {deleteLog} from "../../reducer/LogSlice.ts";
 import {Crop} from "../../model/Crop.ts";
+import {Staff} from "../../model/Staff.ts";
+import {Field} from "../../model/Field.ts";
 
 const DeleteLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isType:string; buttonType:string}> = ({ isOpen, onClose, logs, isType, buttonType }) => {
 
@@ -14,6 +16,8 @@ const DeleteLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isTyp
     const [logDetails, setLogDetails] = useState("");
     const [logImage, setImage] = useState<File | null>(null);
     const [selectedCrops, setCrops] = useState<Crop[]>([]);
+    const [selectedField, setFields] = useState<Field[]>([]);
+    const [selectedStaff, setStaff] = useState<Staff[]>([]);
 
     useEffect(() => {
         setLogCode(logs.code);
@@ -22,10 +26,12 @@ const DeleteLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isTyp
         setLogDetails(logs.logDetails);
         setImage(logs.image);
         setCrops(logs.assignCrops);
+        setFields(logs.assignFields);
+        setStaff(logs.assignStaff);
     }, [logs]);
 
     function handleSubmit() {
-        const delLog = new Log(logCode,logName,logDate,logDetails,logImage,selectedCrops);
+        const delLog = new Log(logCode,logName,logDate,logDetails,logImage,selectedCrops,selectedField,selectedStaff);
         dispatch(deleteLog(delLog));
         onClose();
     }

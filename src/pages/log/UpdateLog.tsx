@@ -10,6 +10,8 @@ import {CropRootState} from "../../reducer/CropSlice.ts";
 import tagRender from "../../util/TagRender.tsx";
 import {Field} from "../../model/Field.ts";
 import {FieldRootState} from "../../reducer/FieldSlice.ts";
+import {StaffRootState} from "../../reducer/StaffSlice.ts";
+import {Staff} from "../../model/Staff.ts";
 
 const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isType:string; buttonType:string}> = ({ isOpen, onClose, logs, isType, buttonType }) => {
 
@@ -20,9 +22,11 @@ const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isTyp
     const [logDetails, setLogDetails] = useState("");
     const [logImage, setImage] = useState<File | null>(null);
     const [selectedCrops, setCrops] = useState<Crop[]>([]);
-    const [fields, setFields] = useState<Field[]>([]);
+    const [selectedFields, setFields] = useState<Field[]>([]);
+    const [selectedStaff, setStaff] = useState<Staff[]>([]);
     const crops = useSelector((state:CropRootState) => state.crop.crops);
     const field = useSelector((state:FieldRootState) => state.field.fields);
+    const staff = useSelector((state:StaffRootState) => state.staff.staffs);
 
     useEffect(() => {
         setLogCode(logs.code);
@@ -32,6 +36,7 @@ const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isTyp
         setImage(logs.image);
         setCrops(logs.assignCrops);
         setFields(logs.assignFields);
+        setStaff(logs.assignStaff);
     }, [logs]);
 
     const cropOptions: SelectProps['options'] = crops.map((crop) => ({
@@ -44,8 +49,13 @@ const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isTyp
         value: field.code
     }));
 
+    const staffOptions: SelectProps['options'] = staff.map((staff) => ({
+        label: staff.firstName,
+        value: staff.code
+    }));
+
     function handleSubmit() {
-        const updateLogDetails = new Log(logCode,logName,logDate,logDetails,logImage,selectedCrops);
+        const updateLogDetails = new Log(logCode,logName,logDate,logDetails,logImage,selectedCrops,selectedFields,selectedStaff);
         dispatch(updateLog(updateLogDetails));
         onClose();
     }
@@ -133,6 +143,35 @@ const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isTyp
                                 });
                                 const validFields = selectedFields.filter((f: Field) => f !== null);
                                 setFields(validFields as Field[]);
+                            }}
+                        />
+                    </div>
+                    <div className="mb-4 custom-input">
+                        <Label labelName={"Assign Staff Members"}/>
+                        <Select
+                            mode="multiple"
+                            tagRender={tagRender}
+                            style={{
+                                width: '100%',
+                                color: 'black',
+                            }}
+                            options={staffOptions}
+                            dropdownStyle={{
+                                backgroundColor: 'white',
+                            }}
+                            dropdownClassName="custom-dropdown"
+                            onChange={(selectedValues) => {
+                                const selectedStaff = selectedValues.map((value: string) => {
+                                    const matchedStaff = staff.find((s) => s.code === value);
+                                    return matchedStaff
+                                        ? {
+                                            ...matchedStaff,
+                                            staffName: matchedStaff.firstName,
+                                        }
+                                        : null;
+                                });
+                                const validStaff = selectedStaff.filter((s: Staff) => s !== null);
+                                setStaff(validStaff as Staff[]);
                             }}
                         />
                     </div>
