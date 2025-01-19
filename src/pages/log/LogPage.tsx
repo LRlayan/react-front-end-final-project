@@ -9,6 +9,7 @@ import DeleteLog from "./DeleteLog.tsx";
 import {Log} from "../../model/Log.ts";
 import {RootState} from "../../reducer/LogSlice.ts";
 import SearchingTableData from "../../util/SearchingTableData.ts";
+import Card from "../../components/card/Card.tsx";
 
 const LogPage = () => {
     const [open, setOpen] = useState(false);
@@ -60,40 +61,7 @@ const LogPage = () => {
                         </Button>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {filteredLog.map((log, index) => (
-                            <div key={index} className="border rounded-lg bg-gray-700 text-white p-4 shadow-md">
-                                {log.image && (
-                                    <img
-                                        src={URL.createObjectURL(log.image)}
-                                        alt="log image"
-                                        className="w-full h-32 object-cover rounded-md mb-2"
-                                    />
-                                )}
-                                <h4 className="text-lg font-semibold">{log.code}</h4>
-                                <p className="text-sm">Log Date: {log.logDate}</p>
-                                <p className="text-sm">Log Details: {log.logDetails}</p>
-                                <div className="flex space-x-2 mt-2">
-                                    {/* Update Button */}
-                                    <Button
-                                        type="primary"
-                                        className="btn bg-green-500 hover:bg-green-600 text-white"
-                                        style={{width: '140px'}}
-                                        onClick={() => openUpdateModal(log)}
-                                    >
-                                        Update
-                                    </Button>
-
-                                    {/* Delete Button */}
-                                    <Button
-                                        className="btn bg-red-500 hover:bg-red-600 text-white border-red-500"
-                                        style={{width: '140px'}}
-                                        onClick={() => openDeleteModal(log)}
-                                    >
-                                        Delete
-                                    </Button>
-                                </div>
-                            </div>
-                        ))}
+                        <Card cardType={"LOG"} filteredData={filteredLog} openUpdateModal={openUpdateModal} openDeleteModal={openDeleteModal}/>
                     </div>
                 </div>
                 {open && modalType === "add" && (
