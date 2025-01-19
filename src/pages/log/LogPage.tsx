@@ -7,7 +7,7 @@ import AddLog from "./AddLog.tsx";
 import UpdateLog from "./UpdateLog.tsx";
 import DeleteLog from "./DeleteLog.tsx";
 import {Log} from "../../model/Log.ts";
-import {RootState} from "../../reducer/LogSlice.ts";
+import {LogRootState} from "../../reducer/LogSlice.ts";
 import SearchingTableData from "../../util/SearchingTableData.ts";
 import Card from "../../components/card/Card.tsx";
 
@@ -15,7 +15,7 @@ const LogPage = () => {
     const [open, setOpen] = useState(false);
     const [selectedLogs, setSelectedLogs] = useState<Log | null>();
     const [modalType, setModalType] = useState("");
-    const logs = useSelector((state: RootState) => state.log.logs) || [];
+    const logs = useSelector((state: LogRootState) => state.log.logs) || [];
     const [filteredLog, setFilteredLog] = useState<Log[]>(logs);
     const searchingTableData = new SearchingTableData();
 
