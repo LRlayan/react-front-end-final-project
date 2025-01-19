@@ -35,7 +35,8 @@ const Card: React.FC<CardProps> = ({
                                 <p className="text-sm">Scientific Name: {data.name}</p>
                                 <p className="text-sm">Category: {data.category}</p>
                                 <p className="text-sm">Season: {data.season}</p>
-                                <p className="text-sm">Fields: {data.assignFields.map((f:Field) => f.name).join(", ")}</p>
+                                <p className="text-sm">Fields: {data.assignFields.map((f: Field) => f.name).join(", ")}</p>
+                                <p className="text-sm">Logs: {data.assignLogs.map((l: Log) => l.name).join(", ")}</p>
                             </>
                         )}
                         {cardType === "FIELD" && (
@@ -45,6 +46,7 @@ const Card: React.FC<CardProps> = ({
                                 <p className="text-sm">Location: {data.location}</p>
                                 <p className="text-sm">Extent Size: {data.extentSize}</p>
                                 <p className="text-sm">Crops: {data.assignCrops.map((c: Crop) => c.name).join(", ")}</p>
+                                <p className="text-sm">Logs: {data.assignLogs.map((l: Log) => l.name).join(", ")}</p>
                             </>
                         )}
                         {cardType === "LOG" && (
@@ -54,6 +56,7 @@ const Card: React.FC<CardProps> = ({
                                 <p className="text-sm">Log Date: {data.logDate}</p>
                                 <p className="text-sm">Log Details: {data.logDetails}</p>
                                 <p className="text-sm">Crops: {data.assignCrops.map((c: Crop) => c.name).join(", ")}</p>
+                                <p className="text-sm">Fields: {data.assignFields.map((f: Field) => f.name).join(", ")}</p>
                             </>
                         )}
                     </div>
