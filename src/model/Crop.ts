@@ -1,4 +1,5 @@
 import {Field} from "./Field.ts";
+import {Log} from "./Log.ts";
 
 export class Crop{
     code:string | number;
@@ -8,14 +9,16 @@ export class Crop{
     season:string;
     image: File | null | undefined;
     assignFields: Field[];
+    assignLogs: Log[];
 
-    constructor(code: string | number, cropName: string, scientificName: string, category: string, season: string, image: File | null | undefined, assignFields:Field[]) {
+    constructor(code: string | number, cropName: string, scientificName: string, category: string, season: string, image: File | null | undefined, assignFields:Field[], assignLogs:Log[]) {
         this.code = code;
         this.name = cropName;
         this.scientificName = scientificName;
         this.category = category;
         this.season = season;
-        this.image = image
-        this.assignFields = assignFields
+        this.image = image;
+        this.assignFields = assignFields;
+        this.assignLogs = assignLogs;
     }
 }

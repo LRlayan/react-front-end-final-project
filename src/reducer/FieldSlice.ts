@@ -1,5 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {Crop} from "../model/Crop.ts";
+import {Log} from "../model/Log.ts";
 
 const initialState = {
     fields:[]
@@ -14,6 +15,7 @@ export type FieldRootState = {
             extentSize: string;
             image: File | null;
             assignCrops: Crop[];
+            assignLogs: Log[];
         }>;
     };
 };
