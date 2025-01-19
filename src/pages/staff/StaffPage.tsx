@@ -186,12 +186,7 @@ const StaffPage = () => {
     const [open, setOpen] = useState(false);
     const [selectedStaff, setSelectedStaff] = useState<Staff | null>(null);
     const [modalType, setModalType] = useState("");
-    const staff = useSelector((state: StaffRootState) =>
-        state.staff.staffs.map((staff) => ({
-            ...staff,
-            assignLog: staff.assignLog || [],
-        }))
-    ) || [];
+    const staff = useSelector((state: StaffRootState) => state.staff.staffs) || [];
 
     const [filteredStaff, setFilteredStaff] = useState<Staff[]>(staff);
     const searchingTableData = new SearchingTableData();
