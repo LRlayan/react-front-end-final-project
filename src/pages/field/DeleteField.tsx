@@ -3,6 +3,7 @@ import {useDispatch} from "react-redux";
 import MainModal from "../../components/modal/MainModal.tsx";
 import {Field} from "../../model/Field.ts";
 import {deleteField} from "../../reducer/FieldSlice.ts";
+import {Crop} from "../../model/Crop.ts";
 
 const DeleteField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; isType:string; buttonType:string}> = ({isOpen, onClose, field, isType, buttonType}) => {
 
@@ -12,6 +13,7 @@ const DeleteField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; 
     const [location, setLocation] = useState("");
     const [extentSize, setExtentSize] = useState("");
     const [image, setImage] = useState<File | null>(null);
+    const [selectedCrops, setCrops] = useState<Crop[]>([]);
 
     useEffect(() => {
         if (field) {
@@ -20,11 +22,12 @@ const DeleteField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; 
             setLocation(field.location);
             setExtentSize(field.extentSize);
             setImage(field.image);
+            setCrops(field.assignCrops);
         }
     }, [field]);
 
     const handleSubmit = () => {
-        const delField = new Field(fieldCode,fieldName,location,extentSize,image);
+        const delField = new Field(fieldCode,fieldName,location,extentSize,image,selectedCrops);
         dispatch(deleteField(delField));
     }
 
