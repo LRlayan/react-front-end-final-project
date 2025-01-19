@@ -1,42 +1,41 @@
 import React from "react";
-import {Crop} from "../../model/Crop.ts";
 import {Button} from "antd";
+import {Field} from "../../model/Field.ts";
+import {Crop} from "../../model/Crop.ts";
+import {Log} from "../../model/Log.ts";
 
 interface CardProps {
-    filteredCrop: Crop[];
-    openUpdateModal: (crop:Crop) => void;
-    openDeleteModal: (crop:Crop) => void;
+    filteredData: Crop[] | Field[] | Log[];
+    openUpdateModal: (data:any) => void;
+    openDeleteModal: (data:any) => void;
+    children: React.ReactNode;
 }
 
 const Card: React.FC<CardProps> = ({
-    filteredCrop,
+    filteredData,
     openUpdateModal,
     openDeleteModal,
+    children,
 }) => {
     return(
         <>
-            {filteredCrop.map((crop:Crop, index:number) => (
+            {filteredData.map((data:any, index:number) => (
                 <div key={index} className="border rounded-lg bg-gray-700 text-white p-4 shadow-md">
-                    {crop.image && (
+                    {data.image && (
                         <img
-                            src={URL.createObjectURL(crop.image)}
-                            alt={crop.cropName}
+                            src={URL.createObjectURL(data.image)}
+                            alt={data.cropName}
                             className="w-full h-32 object-cover rounded-md mb-2"
                         />
                     )}
-                    <h4 className="text-lg font-semibold">{crop.code}</h4>
-                    <p className="text-sm">Scientific Name: {crop.cropName}</p>
-                    <p className="text-sm">Scientific Name: {crop.scientificName}</p>
-                    <p className="text-sm">Category: {crop.category}</p>
-                    <p className="text-sm">Season: {crop.season}</p>
-                    <p className="text-sm">Fields: {crop.assignFields.map((f) => f.fieldName).join(", ")}</p>
+                    {children}
                     <div className="flex space-x-2 mt-2">
                         {/* Update Button */}
                         <Button
                             type="primary"
                             className="btn bg-green-500 hover:bg-green-600 text-white"
                             style={{width: '140px'}}
-                            onClick={() => openUpdateModal(crop)}
+                            onClick={() => openUpdateModal(data)}
                         >
                             Update
                         </Button>
@@ -45,7 +44,7 @@ const Card: React.FC<CardProps> = ({
                         <Button
                             className="btn bg-red-500 hover:bg-red-600 text-white border-red-500"
                             style={{width: '140px'}}
-                            onClick={() => openDeleteModal(crop)}
+                            onClick={() => openDeleteModal(data)}
                         >
                             Delete
                         </Button>
