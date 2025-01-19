@@ -9,7 +9,7 @@ export type CropRootState = {
     crop: {
         crops: Array<{
             code: string;
-            cropName: string;
+            name: string;
             scientificName: string;
             category: string;
             season: string;

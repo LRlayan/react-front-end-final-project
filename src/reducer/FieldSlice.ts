@@ -8,7 +8,7 @@ export type FieldRootState = {
     field: {
         fields: Array<{
             code: string;
-            fieldName: string;
+            name: string;
             location: string;
             extentSize: string;
             image: File | null;
