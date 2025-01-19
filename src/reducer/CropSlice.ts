@@ -1,10 +1,11 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {Field} from "../model/Field.ts";
 
 const initialState = {
     crops:[]
 }
 
-export type RootState = {
+export type CropRootState = {
     crop: {
         crops: Array<{
             code: string;
@@ -13,6 +14,7 @@ export type RootState = {
             category: string;
             season: string;
             image: File | null;
+            assignFields: Field[];
         }>;
     };
 };

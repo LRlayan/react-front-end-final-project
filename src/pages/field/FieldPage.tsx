@@ -7,13 +7,13 @@ import AddField from "./AddField.tsx";
 import UpdateField from "./UpdateField.tsx";
 import DeleteField from "./DeleteField.tsx";
 import {Field} from "../../model/Field.ts";
-import {RootState} from "../../reducer/FieldSlice.ts";
+import {FieldRootState} from "../../reducer/FieldSlice.ts";
 import SearchingTableData from "../../util/SearchingTableData.ts";
 
 export function FieldPage() {
 
     const [open, setOpen] = useState(false);
-    const fields = useSelector((state: RootState) => state.field.fields) || []
+    const fields = useSelector((state: FieldRootState) => state.field.fields) || []
     const [modalType , setModalType] = useState("");
     const [selectedField, setSelectedField] = useState<Field | null>();
     const [filteredField, setFilteredField] = useState<Field[]>(fields);

@@ -7,12 +7,12 @@ import Search from "antd/es/input/Search";
 import UpdateCrop from "./UpdateCrop.tsx";
 import DeleteCrop from "./DeleteCrop.tsx";
 import {Crop} from "../../model/Crop.ts";
-import {RootState} from "../../reducer/CropSlice.ts";
 import SearchingTableData from "../../util/SearchingTableData.ts";
+import {CropRootState} from "../../reducer/CropSlice.ts";
 
 const CropPage = () => {
     const [open, setOpen] = useState(false);
-    const crops = useSelector((state: RootState) => state.crop.crops) || [];
+    const crops = useSelector((state: CropRootState) => state.crop.crops) || [];
     const [selectedCrop, setSelectedCrop] = useState<Crop | null>();
     const [modalType, setModalType] = useState("");
     const [filteredCrop, setFilteredCrop] = useState<Crop[]>(crops);
@@ -59,7 +59,7 @@ const CropPage = () => {
                     </Button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {filteredCrop.map((crop, index) => (
+                    {filteredCrop.map((crop:Crop, index:number) => (
                         <div key={index} className="border rounded-lg bg-gray-700 text-white p-4 shadow-md">
                             {crop.image && (
                                 <img
@@ -73,6 +73,7 @@ const CropPage = () => {
                             <p className="text-sm">Scientific Name: {crop.scientificName}</p>
                             <p className="text-sm">Category: {crop.category}</p>
                             <p className="text-sm">Season: {crop.season}</p>
+                            <p className="text-sm">Fields: {crop.assignFields.map((f) => f.fieldName).join(", ")}</p>
                             <div className="flex space-x-2 mt-2">
                                 {/* Update Button */}
                                 <Button
@@ -98,7 +99,14 @@ const CropPage = () => {
                 </div>
             </div>
             {open && modalType === "add" && (
-                <AddCrop isType={"ADD CROP"} buttonType={"Save"} isOpen={open} onClose={() => setOpen(false)}/>
+                <AddCrop
+                    isType={"ADD CROP"}
+                    buttonType={"Save"}
+                    isOpen={open}
+                    onClose={() =>
+                        setOpen(false)
+                    }
+                />
             )}
             {open && selectedCrop && modalType === "update" && (
                 <UpdateCrop

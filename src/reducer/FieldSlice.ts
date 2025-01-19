@@ -4,7 +4,7 @@ const initialState = {
     fields:[]
 }
 
-export type RootState = {
+export type FieldRootState = {
     field: {
         fields: Array<{
             code: string;
