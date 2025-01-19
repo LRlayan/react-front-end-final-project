@@ -60,18 +60,7 @@ const CropPage = () => {
                     </Button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <Card filteredData={filteredCrop} openUpdateModal={openUpdateModal} openDeleteModal={openDeleteModal}>
-                        {filteredCrop.map((crop:Crop) => (
-                            <>
-                                <h4 className="text-lg font-semibold">{crop.code}
-                                </h4><p className="text-sm">Scientific Name: {crop.name}</p>
-                                <p className="text-sm">Scientific Name: {crop.scientificName}</p>
-                                <p className="text-sm">Category: {crop.category}</p>
-                                <p className="text-sm">Season: {crop.season}</p>
-                                <p className="text-sm">Fields: {crop.assignFields.map((f) => f.name).join(", ")}</p>
-                            </>
-                        ))}
-                    </Card>
+                    <Card cardType={"CROP"} filteredData={filteredCrop} openUpdateModal={openUpdateModal} openDeleteModal={openDeleteModal} />
                 </div>
             </div>
             {open && modalType === "add" && (
