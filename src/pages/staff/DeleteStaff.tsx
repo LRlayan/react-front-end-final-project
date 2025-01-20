@@ -3,7 +3,7 @@ import MainModal from "../../components/modal/MainModal.tsx";
 import {Staff} from "../../model/Staff.ts";
 import {useDispatch} from "react-redux";
 import {deleteStaff} from "../../reducer/StaffSlice.ts";
-
+import {Log} from "../../model/Log.ts";
 const DeleteStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; isType:string; buttonType:string}> = ({ isOpen, onClose, staff, isType, buttonType }) => {
 
     const dispatch = useDispatch();
@@ -22,6 +22,7 @@ const DeleteStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
     const [mobile, setMobile] = useState("");
     const [email, setEmail] = useState("");
     const [role, setRole] = useState("");
+    const [selectedLogs, setLogs] = useState<Log[]>([]);
 
     useEffect(() => {
         setMemberCode(staff.code);
@@ -39,10 +40,11 @@ const DeleteStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
         setMobile(staff.mobile);
         setEmail(staff.email);
         setRole(staff.role);
+        setLogs(staff.assignLog);
     }, [staff]);
 
     function handleSubmit() {
-        const delStaff = new Staff(memberCode,firstName,lastName,joinedDate,designation,gender,dob,addressLine01,addressLine02,addressLine03,addressLine04,addressLine05,mobile,email,role);
+        const delStaff = new Staff(memberCode,firstName,lastName,joinedDate,designation,gender,dob,addressLine01,addressLine02,addressLine03,addressLine04,addressLine05,mobile,email,role,selectedLogs);
         dispatch(deleteStaff(delStaff));
         onClose();
     }

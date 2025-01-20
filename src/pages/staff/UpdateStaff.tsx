@@ -1,10 +1,13 @@
 import React, {useEffect, useState} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import MainModal from "../../components/modal/MainModal.tsx";
 import Label from "../../components/label/Label.tsx";
-import {Input, Select} from "antd";
+import {Input, Select, SelectProps} from "antd";
 import {Staff} from "../../model/Staff.ts";
 import {updateStaff} from "../../reducer/StaffSlice.ts";
+import {LogRootState} from "../../reducer/LogSlice.ts";
+import {Log} from "../../model/Log.ts";
+import tagRender from "../../util/TagRender.tsx";
 
 const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; isType:string; buttonType:string}> = ({ isOpen, onClose, staff, isType, buttonType }) => {
 
@@ -24,6 +27,13 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
     const [mobile, setMobile] = useState("");
     const [email, setEmail] = useState("");
     const [role, setRole] = useState("");
+    const [selectedLogs, setLogs] = useState<Log[]>([]);
+    const logs = useSelector((state:LogRootState) => state.log.logs);
+
+    const logOptions: SelectProps['options'] = logs.map((log) => ({
+        label: log.name,
+        value: log.code
+    }));
 
     useEffect(() => {
         setMemberCode(staff.code);
@@ -41,10 +51,11 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
         setMobile(staff.mobile);
         setEmail(staff.email);
         setRole(staff.role);
+        setLogs(staff.assignLog);
     }, [staff]);
 
     function handleSubmit() {
-        const updateMember = new Staff(memberCode,firstName,lastName,joinedDate,designation,gender,dob,addressLine01,addressLine02,addressLine03,addressLine04,addressLine05,mobile,email,role);
+        const updateMember = new Staff(memberCode,firstName,lastName,joinedDate,designation,gender,dob,addressLine01,addressLine02,addressLine03,addressLine04,addressLine05,mobile,email,role,selectedLogs);
         dispatch(updateStaff(updateMember));
         onClose();
     }
@@ -232,6 +243,35 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
                             type="email"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setMobile(e.target.value)}
+                        />
+                    </div>
+                    <div className="mb-4 custom-input">
+                        <Label labelName={"Assign Logs"}/>
+                        <Select
+                            mode="multiple"
+                            tagRender={tagRender}
+                            style={{
+                                width: '100%',
+                                color: 'black',
+                            }}
+                            options={logOptions}
+                            dropdownStyle={{
+                                backgroundColor: 'white',
+                            }}
+                            dropdownClassName="custom-dropdown"
+                            onChange={(selectedValues) => {
+                                const selectedLogs = selectedValues.map((value: string) => {
+                                    const matchedLogs = logs.find((l) => l.code === value);
+                                    return matchedLogs
+                                        ? {
+                                            ...matchedLogs,
+                                            fieldName: matchedLogs.name,
+                                        }
+                                        : null;
+                                });
+                                const validLogs = selectedLogs.filter((l: Log) => l !== null);
+                                setLogs(validLogs as []);
+                            }}
                         />
                     </div>
                 </form>
