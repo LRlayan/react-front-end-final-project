@@ -4,8 +4,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {IdGenerator} from "../../util/IdGenerator.ts";
 import {Staff} from "../../model/Staff.ts";
 import {addStaff, StaffRootState} from "../../reducer/StaffSlice.ts";
-import {Input, Select} from "antd";
+import {Input, Select, SelectProps} from "antd";
 import Label from "../../components/label/Label.tsx";
+import {FieldRootState} from "../../reducer/FieldSlice.ts";
+import tagRender from "../../util/TagRender.tsx";
+import {Field} from "../../model/Field.ts";
 
 const AddStaff: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; buttonType:string}> = ({isOpen, onClose, isType, buttonType}) => {
 
@@ -24,13 +27,20 @@ const AddStaff: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; 
     const [contactNo, setMobile] = useState("");
     const [email, setEmail] = useState("");
     const [role, setRole] = useState("");
+    const [selectedFields, setFields] = useState<Field[]>([]);
     const staff = useSelector((state:StaffRootState) => state.staff.staffs);
+    const field = useSelector((state:FieldRootState) => state.field.fields);
     const idGenerator = new IdGenerator();
+
+    const fieldOptions: SelectProps['options'] = field.map((field) => ({
+        label: field.name,
+        value: field.code
+    }));
 
     function handleSubmit() {
         const getLastIndex = staff.length > 0 ? staff[staff.length - 1].code : "STAFF-";
         const newCode = idGenerator.codeGenerator("STAFF", getLastIndex);
-        const newStaff = new Staff(newCode, firstName, lastName, joinedDate, designation, gender, dob, addressLine01, addressLine02, addressLine03, addressLine04, addressLine05, contactNo, email, role);
+        const newStaff = new Staff(newCode, firstName, lastName, joinedDate, designation, gender, dob, addressLine01, addressLine02, addressLine03, addressLine04, addressLine05, contactNo, email, role,[],selectedFields);
         dispatch(addStaff(newStaff));
         onClose();
     }
@@ -218,6 +228,35 @@ const AddStaff: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; 
                             type="email"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setMobile(e.target.value)}
+                        />
+                    </div>
+                    <div className="mb-4 custom-input">
+                        <Label labelName={"Assign Field"}/>
+                        <Select
+                            mode="multiple"
+                            tagRender={tagRender}
+                            style={{
+                                width: '100%',
+                                color: 'black',
+                            }}
+                            options={fieldOptions}
+                            dropdownStyle={{
+                                backgroundColor: 'white',
+                            }}
+                            dropdownClassName="custom-dropdown"
+                            onChange={(selectedValues) => {
+                                const selectedFields = selectedValues.map((value: string) => {
+                                    const matchedField = field.find((f) => f.code === value);
+                                    return matchedField
+                                        ? {
+                                            ...matchedField,
+                                            fieldName: matchedField.name,
+                                        }
+                                        : null;
+                                });
+                                const validFields = selectedFields.filter((f: Field) => f !== null);
+                                setFields(validFields as Field[]);
+                            }}
                         />
                     </div>
                 </form>

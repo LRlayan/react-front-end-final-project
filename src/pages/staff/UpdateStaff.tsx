@@ -8,6 +8,8 @@ import {updateStaff} from "../../reducer/StaffSlice.ts";
 import {LogRootState} from "../../reducer/LogSlice.ts";
 import {Log} from "../../model/Log.ts";
 import tagRender from "../../util/TagRender.tsx";
+import {Field} from "../../model/Field.ts";
+import {FieldRootState} from "../../reducer/FieldSlice.ts";
 
 const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; isType:string; buttonType:string}> = ({ isOpen, onClose, staff, isType, buttonType }) => {
 
@@ -28,11 +30,18 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
     const [email, setEmail] = useState("");
     const [role, setRole] = useState("");
     const [selectedLogs, setLogs] = useState<Log[]>([]);
+    const [selectedFields, setFields] = useState<Field[]>([]);
     const logs = useSelector((state:LogRootState) => state.log.logs);
+    const field = useSelector((state:FieldRootState) => state.field.fields);
 
     const logOptions: SelectProps['options'] = logs.map((log) => ({
         label: log.name,
         value: log.code
+    }));
+
+    const fieldOptions: SelectProps['options'] = field.map((field) => ({
+        label: field.name,
+        value: field.code
     }));
 
     useEffect(() => {
@@ -52,10 +61,11 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
         setEmail(staff.email);
         setRole(staff.role);
         setLogs(staff.assignLog);
+        setFields(staff.assignFields);
     }, [staff]);
 
     function handleSubmit() {
-        const updateMember = new Staff(memberCode,firstName,lastName,joinedDate,designation,gender,dob,addressLine01,addressLine02,addressLine03,addressLine04,addressLine05,mobile,email,role,selectedLogs);
+        const updateMember = new Staff(memberCode,firstName,lastName,joinedDate,designation,gender,dob,addressLine01,addressLine02,addressLine03,addressLine04,addressLine05,mobile,email,role,selectedLogs,selectedFields);
         dispatch(updateStaff(updateMember));
         onClose();
     }
@@ -271,6 +281,35 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
                                 });
                                 const validLogs = selectedLogs.filter((l: Log) => l !== null);
                                 setLogs(validLogs as []);
+                            }}
+                        />
+                    </div>
+                    <div className="mb-4 custom-input">
+                        <Label labelName={"Assign Field"}/>
+                        <Select
+                            mode="multiple"
+                            tagRender={tagRender}
+                            style={{
+                                width: '100%',
+                                color: 'black',
+                            }}
+                            options={fieldOptions}
+                            dropdownStyle={{
+                                backgroundColor: 'white',
+                            }}
+                            dropdownClassName="custom-dropdown"
+                            onChange={(selectedValues) => {
+                                const selectedFields = selectedValues.map((value: string) => {
+                                    const matchedField = field.find((f) => f.code === value);
+                                    return matchedField
+                                        ? {
+                                            ...matchedField,
+                                            fieldName: matchedField.name,
+                                        }
+                                        : null;
+                                });
+                                const validFields = selectedFields.filter((f: Field) => f !== null);
+                                setFields(validFields as Field[]);
                             }}
                         />
                     </div>

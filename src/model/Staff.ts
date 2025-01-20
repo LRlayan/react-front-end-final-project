@@ -1,4 +1,5 @@
 import {Log} from "./Log.ts";
+import {Field} from "./Field.ts";
 
 export class Staff{
     code:string;
@@ -17,8 +18,9 @@ export class Staff{
     email:string;
     role:string;
     assignLog: Log[];
+    assignFields: Field[];
 
-    constructor(code: string, firstName: string, lastName: string, joinedDate: string, designation: string, gender: string, dob: string, addressLine01: string, addressLine02: string, addressLine03: string, addressLine04: string, addressLine05: string, mobile: string, email: string, role: string, assignLog: Log[] = []) {
+    constructor(code: string, firstName: string, lastName: string, joinedDate: string, designation: string, gender: string, dob: string, addressLine01: string, addressLine02: string, addressLine03: string, addressLine04: string, addressLine05: string, mobile: string, email: string, role: string, assignLog: Log[] = [], assignFields : Field[] = []) {
         this.code = code;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -35,5 +37,6 @@ export class Staff{
         this.email = email;
         this.role = role;
         this.assignLog = assignLog;
+        this.assignFields = assignFields
     }
 }

@@ -1,5 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {Log} from "../model/Log.ts";
+import {Field} from "../model/Field.ts";
 
 const initialState = {
     staffs:[]
@@ -24,6 +25,7 @@ export type StaffRootState = {
             email:string;
             role:string;
             assignLog: Log[];
+            assignFields: Field[];
         }>;
     };
 };
