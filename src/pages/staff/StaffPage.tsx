@@ -13,6 +13,7 @@ import SearchingTableData from "../../util/SearchingTableData.ts";
 import {Log} from "../../model/Log.ts";
 import {Field} from "../../model/Field.ts";
 import {Vehicle} from "../../model/Vehicle.ts";
+import {Equipment} from "../../model/Equipment.ts";
 
 interface StaffDataType {
     key: React.Key;
@@ -34,6 +35,7 @@ interface StaffDataType {
     assignLog: Log[];
     assignFields: Field[];
     assignVehicles: Vehicle[];
+    assignEquipments: Equipment[];
 }
 
 const StaffPage = () => {
@@ -164,12 +166,22 @@ const StaffPage = () => {
         },
         {
             title: 'Assign Vehicles',
-            dataIndex: 'vehicles',
-            key: 'vehicles',
+            dataIndex: 'vehicle',
+            key: 'vehicle',
             render: (vehicles: Vehicle[]) =>
                 vehicles && Array.isArray(vehicles)
                     ? vehicles.map((vehicles: Vehicle) => vehicles.vehicleName).join(', ')
                     : 'No vehicles',
+
+        },
+        {
+            title: 'Assign Equipments',
+            dataIndex: 'equipment',
+            key: 'equipment',
+            render: (equipments: Equipment[]) =>
+                equipments && Array.isArray(equipments)
+                    ? equipments.map((equipments: Equipment) => equipments.name).join(', ')
+                    : 'No equipments',
 
         },
         {
@@ -263,7 +275,9 @@ const StaffPage = () => {
                         ...staff,
                         key: staff.code,
                         logs: staff.assignLog || [],
-                        fields: staff.assignFields || []
+                        fields: staff.assignFields || [],
+                        vehicle: staff.assignVehicles || [],
+                        equipment: staff.assignEquipments || [],
                     }))}
                 />
                 {open && modalType === "add" && (
