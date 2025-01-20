@@ -12,6 +12,7 @@ import {StaffRootState} from "../../reducer/StaffSlice.ts";
 import SearchingTableData from "../../util/SearchingTableData.ts";
 import {Log} from "../../model/Log.ts";
 import {Field} from "../../model/Field.ts";
+import {Vehicle} from "../../model/Vehicle.ts";
 
 interface StaffDataType {
     key: React.Key;
@@ -32,6 +33,7 @@ interface StaffDataType {
     mobile:string;
     assignLog: Log[];
     assignFields: Field[];
+    assignVehicles: Vehicle[];
 }
 
 const StaffPage = () => {
@@ -158,6 +160,16 @@ const StaffPage = () => {
                 fields && Array.isArray(fields)
                     ? fields.map((field: Field) => field.name).join(', ')
                     : 'No Fields',
+
+        },
+        {
+            title: 'Assign Vehicles',
+            dataIndex: 'vehicles',
+            key: 'vehicles',
+            render: (vehicles: Vehicle[]) =>
+                vehicles && Array.isArray(vehicles)
+                    ? vehicles.map((vehicles: Vehicle) => vehicles.vehicleName).join(', ')
+                    : 'No vehicles',
 
         },
         {
