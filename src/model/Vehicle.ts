@@ -1,3 +1,5 @@
+import {Staff} from "./Staff.ts";
+
 export class Vehicle{
     code:string;
     licensePlateNumber:string
@@ -6,8 +8,9 @@ export class Vehicle{
     fuelType:string;
     status:string;
     remark:string;
+    assignStaffMember: Staff | undefined;
 
-    constructor(code: string, licensePlateNumber: string, vehicleName: string, category: string, fuelType: string, status: string, remark: string) {
+    constructor(code: string, licensePlateNumber: string, vehicleName: string, category: string, fuelType: string, status: string, remark: string, assignStaffMember: Staff | undefined) {
         this.code = code;
         this.licensePlateNumber = licensePlateNumber;
         this.vehicleName = vehicleName;
@@ -15,5 +18,6 @@ export class Vehicle{
         this.fuelType = fuelType;
         this.status = status;
         this.remark = remark;
+        this.assignStaffMember = assignStaffMember;
     }
 }

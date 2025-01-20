@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
 import MainModal from "../../components/modal/MainModal.tsx";
 import Label from "../../components/label/Label.tsx";
-import {Input, Select} from "antd";
+import {Input, Select, SelectProps} from "antd";
 import {useDispatch, useSelector} from "react-redux";
 import {IdGenerator} from "../../util/IdGenerator.ts";
-import {addVehicle, RootState} from "../../reducer/VehicleSlice.ts";
+import {addVehicle, VehicleRootState} from "../../reducer/VehicleSlice.ts";
 import {Vehicle} from "../../model/Vehicle.ts";
+import {Staff} from "../../model/Staff.ts";
+import {StaffRootState} from "../../reducer/StaffSlice.ts";
 
 const AddVehicle: React.FC<{ isOpen:boolean; onClose: () => void; isType: string; buttonType: string}> = ({ isOpen, onClose, isType, buttonType }) => {
 
@@ -16,13 +18,20 @@ const AddVehicle: React.FC<{ isOpen:boolean; onClose: () => void; isType: string
     const [fuelType, setFuelType] = useState("");
     const [status, setStatus] = useState("");
     const [remark, setRemark] = useState("");
-    const vehicles = useSelector((state: RootState) => state.vehicle.vehicles);
+    const [selectedStaffs, setStaffs] = useState<Staff>();
+    const staff = useSelector((state:StaffRootState) => state.staff.staffs);
+    const vehicles = useSelector((state: VehicleRootState) => state.vehicle.vehicles);
     const idGenerator = new IdGenerator();
+
+    const staffOptions: SelectProps['options'] = staff.map((staff) => ({
+        label: staff.code,
+        value: staff.code
+    }));
 
     function handleSubmit() {
         const getLastVehicleCode = vehicles.length > 0 ? vehicles[vehicles.length -1].code : "VEHICLE-";
         const newCode = idGenerator.codeGenerator("VEHICLE",getLastVehicleCode);
-        const newVehicle = new Vehicle(newCode,licensePlateNumber,vehicleName,category,fuelType,status,remark);
+        const newVehicle = new Vehicle(newCode,licensePlateNumber,vehicleName,category,fuelType,status,remark,selectedStaffs);
         dispatch(addVehicle(newVehicle));
         onClose();
     }
@@ -220,6 +229,26 @@ const AddVehicle: React.FC<{ isOpen:boolean; onClose: () => void; isType: string
                             type="text"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setRemark(e.target.value)}
+                        />
+                    </div>
+                    <div className="mb-4 custom-input">
+                        <Label labelName={"Assign Staff Member"}/>
+                        <Select
+                            style={{
+                                width: '100%',
+                                color: 'black',
+                            }}
+                            options={staffOptions}
+                            dropdownStyle={{
+                                backgroundColor: 'white',
+                            }}
+                            dropdownClassName="custom-dropdown"
+                            onChange={(selectedValues) => {
+                                const matchedStaffs = staff.find((s) => s.code === selectedValues);
+                                if (matchedStaffs) {
+                                    setStaffs(matchedStaffs);
+                                }
+                            }}
                         />
                     </div>
                 </form>

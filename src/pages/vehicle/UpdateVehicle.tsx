@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import MainModal from "../../components/modal/MainModal.tsx";
 import Label from "../../components/label/Label.tsx";
-import {Input, Select} from "antd";
-import {useDispatch} from "react-redux";
+import {Input, Select, SelectProps} from "antd";
+import {useDispatch, useSelector} from "react-redux";
 import {updateVehicle} from "../../reducer/VehicleSlice.ts";
 import {Vehicle} from "../../model/Vehicle.ts";
+import {Staff} from "../../model/Staff.ts";
+import {StaffRootState} from "../../reducer/StaffSlice.ts";
 
 const UpdateVehicle: React.FC<{ isOpen:boolean; onClose: () => void; vehicles:Vehicle; isType:string; buttonType:string}> = ({ isOpen, onClose,vehicles, isType, buttonType}) => {
 
@@ -16,6 +18,8 @@ const UpdateVehicle: React.FC<{ isOpen:boolean; onClose: () => void; vehicles:Ve
     const [fuelType, setFuelType] = useState("");
     const [status, setStatus] = useState("");
     const [remark, setRemark] = useState("");
+    const [selectedStaffs, setStaffs] = useState<Staff>();
+    const staff = useSelector((state:StaffRootState) => state.staff.staffs);
 
     useEffect(() => {
         setCode(vehicles.code);
@@ -25,10 +29,16 @@ const UpdateVehicle: React.FC<{ isOpen:boolean; onClose: () => void; vehicles:Ve
         setFuelType(vehicles.fuelType);
         setStatus(vehicles.status);
         setRemark(vehicles.remark);
+        setStaffs(vehicles.assignStaffMember);
     }, [vehicles]);
 
+    const staffOptions: SelectProps['options'] = staff.map((staff) => ({
+        label: staff.code,
+        value: staff.code
+    }));
+
     function handleSubmit() {
-        const updateVehicleDetails = new Vehicle(code,licensePlateNumber,vehicleName,category,fuelType,status,remark);
+        const updateVehicleDetails = new Vehicle(code,licensePlateNumber,vehicleName,category,fuelType,status,remark,selectedStaffs);
         dispatch(updateVehicle(updateVehicleDetails));
         onClose();
     }
@@ -227,6 +237,46 @@ const UpdateVehicle: React.FC<{ isOpen:boolean; onClose: () => void; vehicles:Ve
                             type="text"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setRemark(e.target.value)}
+                        />
+                    </div>
+                    <div className="mb-4 custom-input">
+                        <Label labelName={"Assign Staff Member"}/>
+                        <Select
+                            style={{
+                                width: '100%',
+                                color: 'black',
+                            }}
+                            options={staffOptions}
+                            dropdownStyle={{
+                                backgroundColor: 'white',
+                            }}
+                            dropdownClassName="custom-dropdown"
+                            onChange={(selectedValues) => {
+                                const matchedStaffs = staff.find((s) => s.code === selectedValues);
+                                if (matchedStaffs) {
+                                    setStaffs(matchedStaffs);
+                                }
+                            }}
+                        />
+                    </div>
+                    <div className="mb-4 custom-input">
+                        <Label labelName={"Assign Staff Member"}/>
+                        <Select
+                            style={{
+                                width: '100%',
+                                color: 'black',
+                            }}
+                            options={staffOptions}
+                            dropdownStyle={{
+                                backgroundColor: 'white',
+                            }}
+                            dropdownClassName="custom-dropdown"
+                            onChange={(selectedValues) => {
+                                const matchedStaffs = staff.find((s) => s.code === selectedValues);
+                                if (matchedStaffs) {
+                                    setStaffs(matchedStaffs);
+                                }
+                            }}
                         />
                     </div>
                 </form>

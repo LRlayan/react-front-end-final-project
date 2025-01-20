@@ -40,6 +40,13 @@ interface StaffDataType {
 
 const StaffPage = () => {
 
+    const [open, setOpen] = useState(false);
+    const [selectedStaff, setSelectedStaff] = useState<Staff | null>(null);
+    const [modalType, setModalType] = useState("");
+    const staff = useSelector((state: StaffRootState) => state.staff.staffs) || [];
+    const [filteredStaff, setFilteredStaff] = useState<Staff[]>(staff);
+    const searchingTableData = new SearchingTableData();
+
     const columns = [
         {
             title: 'First Name',
@@ -219,14 +226,6 @@ const StaffPage = () => {
 
     ];
 
-    const [open, setOpen] = useState(false);
-    const [selectedStaff, setSelectedStaff] = useState<Staff | null>(null);
-    const [modalType, setModalType] = useState("");
-    const staff = useSelector((state: StaffRootState) => state.staff.staffs) || [];
-
-    const [filteredStaff, setFilteredStaff] = useState<Staff[]>(staff);
-    const searchingTableData = new SearchingTableData();
-
     useEffect(() => {
         setFilteredStaff(staff);
     }, [staff]);
@@ -274,10 +273,10 @@ const StaffPage = () => {
                     dataSource={filteredStaff.map((staff) => ({
                         ...staff,
                         key: staff.code,
-                        logs: staff.assignLog || [],
-                        fields: staff.assignFields || [],
-                        vehicle: staff.assignVehicles || [],
-                        equipment: staff.assignEquipments || [],
+                        logs: staff.assignLog || "No Logs",
+                        fields: staff.assignFields || "No Fields",
+                        vehicle: staff.assignVehicles || "No Vehicles",
+                        equipment: staff.assignEquipments || "No Equipments",
                     }))}
                 />
                 {open && modalType === "add" && (

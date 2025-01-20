@@ -3,6 +3,7 @@ import {Vehicle} from "../../model/Vehicle.ts";
 import {useDispatch} from "react-redux";
 import MainModal from "../../components/modal/MainModal.tsx";
 import {deleteVehicle} from "../../reducer/VehicleSlice.ts";
+import {Staff} from "../../model/Staff.ts";
 
 const DeleteVehicle: React.FC<{ isOpen:boolean; onClose: () => void; vehicles: Vehicle; isType:string; buttonType:string}> = ({ isOpen, onClose, vehicles, isType, buttonType }) => {
 
@@ -14,6 +15,7 @@ const DeleteVehicle: React.FC<{ isOpen:boolean; onClose: () => void; vehicles: V
     const [fuelType, setFuelType] = useState("");
     const [status, setStatus] = useState("");
     const [remark, setRemark] = useState("");
+    const [selectedStaffs, setStaffs] = useState<Staff>();
 
     useEffect(() => {
         setCode(vehicles.code);
@@ -23,10 +25,11 @@ const DeleteVehicle: React.FC<{ isOpen:boolean; onClose: () => void; vehicles: V
         setFuelType(vehicles.fuelType);
         setStatus(vehicles.status);
         setRemark(vehicles.remark);
+        setStaffs(vehicles.assignStaffMember);
     }, [vehicles]);
 
     function handleSubmit() {
-        const delVehicle = new Vehicle(code,licensePlateNumber,vehicleName,category,fuelType,status,remark);
+        const delVehicle = new Vehicle(code, licensePlateNumber, vehicleName, category, fuelType, status, remark, selectedStaffs);
         dispatch(deleteVehicle(delVehicle));
         onClose();
     }

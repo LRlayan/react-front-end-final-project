@@ -1,4 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {Staff} from "../model/Staff.ts";
 
 const initialState = {
     vehicles:[]
@@ -14,6 +15,7 @@ export type VehicleRootState = {
            fuelType: string;
            status: string;
            remark: string;
+            assignStaffMember: Staff;
         }>;
     }
 };
