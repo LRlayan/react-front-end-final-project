@@ -178,15 +178,6 @@ const AddField: React.FC<{isOpen: boolean; onClose: () => void; isType:string; b
                         />
                     </div>
                     <div className="mb-4 custom-input">
-                        <Label labelName={"Field Image"}/>
-                        <Input
-                            type="file"
-                            accept="image/*"
-                            className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
-                            onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
-                        />
-                    </div>
-                    <div className="mb-4 custom-input">
                         <Label labelName={"Assign Equipments"}/>
                         <Select
                             mode="multiple"
@@ -213,6 +204,15 @@ const AddField: React.FC<{isOpen: boolean; onClose: () => void; isType:string; b
                                 const validEquipments = selectedEquipments.filter((e: Equipment) => e !== null);
                                 setEquipments(validEquipments as Equipment[]);
                             }}
+                        />
+                    </div>
+                    <div className="mb-4 custom-input">
+                        <Label labelName={"Field Image"}/>
+                        <Input
+                            type="file"
+                            accept="image/*"
+                            className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
+                            onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
                         />
                     </div>
                 </form>
