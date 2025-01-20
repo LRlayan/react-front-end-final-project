@@ -82,6 +82,7 @@ const UpdateEquipment: React.FC<{ isOpen:boolean; onClose: () => void; isType:st
                             type="text"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setName(e.target.value)}
+                            value={name}
                         />
                     </div>
                     <div className="mb-4 custom-input">
@@ -133,6 +134,7 @@ const UpdateEquipment: React.FC<{ isOpen:boolean; onClose: () => void; isType:st
                             type="text"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setCount(parseInt(e.target.value))}
+                            value={count}
                         />
                     </div>
                     <div className="mb-4 custom-input">
@@ -144,23 +146,20 @@ const UpdateEquipment: React.FC<{ isOpen:boolean; onClose: () => void; isType:st
                                 width: '100%',
                                 color: 'black',
                             }}
+                            value={selectedStaff.map((s) => s.code)}
                             options={staffOptions}
                             dropdownStyle={{
                                 backgroundColor: 'white',
                             }}
                             dropdownClassName="custom-dropdown"
                             onChange={(selectedValues) => {
-                                const selectedStaff = selectedValues.map((value: string) => {
-                                    const matchedStaff = staff.find((s) => s.code === value);
-                                    return matchedStaff
-                                        ? {
-                                            ...matchedStaff,
-                                            staffName: matchedStaff.firstName,
-                                        }
-                                        : null;
-                                });
-                                const validStaff = selectedStaff.filter((s: Staff) => s !== null);
-                                setStaff(validStaff as Staff[]);
+                                const updatedStaff = selectedValues
+                                    .map((value: string) => {
+                                        const matchedStaff = staff.find((s) => s.code === value);
+                                        return matchedStaff ? {...matchedStaff} : null;
+                                    })
+                                    .filter((s): s is Staff => s !== null);
+                                setStaff(updatedStaff);
                             }}
                         />
                     </div>
@@ -173,23 +172,20 @@ const UpdateEquipment: React.FC<{ isOpen:boolean; onClose: () => void; isType:st
                                 width: '100%',
                                 color: 'black',
                             }}
+                            value={selectedFields.map((f: Field) => f.code)}
                             options={fieldOptions}
                             dropdownStyle={{
                                 backgroundColor: 'white',
                             }}
                             dropdownClassName="custom-dropdown"
                             onChange={(selectedValues) => {
-                                const selectedFields = selectedValues.map((value: string) => {
-                                    const matchedField = field.find((f) => f.code === value);
-                                    return matchedField
-                                        ? {
-                                            ...matchedField,
-                                            fieldName: matchedField.name,
-                                        }
-                                        : null;
-                                });
-                                const validFields = selectedFields.filter((f: Field) => f !== null);
-                                setFields(validFields as Field[]);
+                                const updatedFields = selectedValues
+                                    .map((value: string) => {
+                                        const matchedField = field.find((f) => f.code === value);
+                                        return matchedField ? {...matchedField} : null;
+                                    })
+                                    .filter((f): f is Field => f !== null);
+                                setFields(updatedFields);
                             }}
                         />
                     </div>
