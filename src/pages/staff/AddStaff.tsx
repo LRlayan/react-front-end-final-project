@@ -9,6 +9,8 @@ import Label from "../../components/label/Label.tsx";
 import {FieldRootState} from "../../reducer/FieldSlice.ts";
 import tagRender from "../../util/TagRender.tsx";
 import {Field} from "../../model/Field.ts";
+import {Vehicle} from "../../model/Vehicle.ts";
+import {VehicleRootState} from "../../reducer/VehicleSlice.ts";
 
 const AddStaff: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; buttonType:string}> = ({isOpen, onClose, isType, buttonType}) => {
 
@@ -28,8 +30,10 @@ const AddStaff: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; 
     const [email, setEmail] = useState("");
     const [role, setRole] = useState("");
     const [selectedFields, setFields] = useState<Field[]>([]);
+    const [selectedVehicles, setVehicles] = useState<Vehicle[]>([]);
     const staff = useSelector((state:StaffRootState) => state.staff.staffs);
     const field = useSelector((state:FieldRootState) => state.field.fields);
+    const vehicle = useSelector((state:VehicleRootState) => state.vehicle.vehicles);
     const idGenerator = new IdGenerator();
 
     const fieldOptions: SelectProps['options'] = field.map((field) => ({
@@ -37,10 +41,15 @@ const AddStaff: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; 
         value: field.code
     }));
 
+    const vehicleOptions: SelectProps['options'] = vehicle.map((vehicle) => ({
+        label: vehicle.vehicleName,
+        value: vehicle.code
+    }));
+
     function handleSubmit() {
         const getLastIndex = staff.length > 0 ? staff[staff.length - 1].code : "STAFF-";
         const newCode = idGenerator.codeGenerator("STAFF", getLastIndex);
-        const newStaff = new Staff(newCode, firstName, lastName, joinedDate, designation, gender, dob, addressLine01, addressLine02, addressLine03, addressLine04, addressLine05, contactNo, email, role,[],selectedFields);
+        const newStaff = new Staff(newCode, firstName, lastName, joinedDate, designation, gender, dob, addressLine01, addressLine02, addressLine03, addressLine04, addressLine05, contactNo, email, role, [], selectedFields, selectedVehicles);
         dispatch(addStaff(newStaff));
         onClose();
     }
@@ -256,6 +265,35 @@ const AddStaff: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; 
                                 });
                                 const validFields = selectedFields.filter((f: Field) => f !== null);
                                 setFields(validFields as Field[]);
+                            }}
+                        />
+                    </div>
+                    <div className="mb-4 custom-input">
+                        <Label labelName={"Assign Vehicles"}/>
+                        <Select
+                            mode="multiple"
+                            tagRender={tagRender}
+                            style={{
+                                width: '100%',
+                                color: 'black',
+                            }}
+                            options={vehicleOptions}
+                            dropdownStyle={{
+                                backgroundColor: 'white',
+                            }}
+                            dropdownClassName="custom-dropdown"
+                            onChange={(selectedValues) => {
+                                const selectedVehicles = selectedValues.map((value: string) => {
+                                    const matchedVehicle = vehicle.find((v) => v.code === value);
+                                    return matchedVehicle
+                                        ? {
+                                            ...matchedVehicle,
+                                            vehicleName: matchedVehicle.vehicleName,
+                                        }
+                                        : null;
+                                });
+                                const validVehicles = selectedVehicles.filter((v: Vehicle) => v !== null);
+                                setVehicles(validVehicles as Vehicle[]);
                             }}
                         />
                     </div>

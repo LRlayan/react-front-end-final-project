@@ -10,6 +10,8 @@ import {Log} from "../../model/Log.ts";
 import tagRender from "../../util/TagRender.tsx";
 import {Field} from "../../model/Field.ts";
 import {FieldRootState} from "../../reducer/FieldSlice.ts";
+import {Vehicle} from "../../model/Vehicle.ts";
+import {VehicleRootState} from "../../reducer/VehicleSlice.ts";
 
 const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; isType:string; buttonType:string}> = ({ isOpen, onClose, staff, isType, buttonType }) => {
 
@@ -31,8 +33,10 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
     const [role, setRole] = useState("");
     const [selectedLogs, setLogs] = useState<Log[]>([]);
     const [selectedFields, setFields] = useState<Field[]>([]);
+    const [selectedVehicles, setVehicles] = useState<Vehicle[]>([]);
     const logs = useSelector((state:LogRootState) => state.log.logs);
     const field = useSelector((state:FieldRootState) => state.field.fields);
+    const vehicle = useSelector((state:VehicleRootState) => state.vehicle.vehicles);
 
     const logOptions: SelectProps['options'] = logs.map((log) => ({
         label: log.name,
@@ -42,6 +46,11 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
     const fieldOptions: SelectProps['options'] = field.map((field) => ({
         label: field.name,
         value: field.code
+    }));
+
+    const vehicleOptions: SelectProps['options'] = vehicle.map((vehicle) => ({
+        label: vehicle.vehicleName,
+        value: vehicle.code
     }));
 
     useEffect(() => {
@@ -62,10 +71,11 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
         setRole(staff.role);
         setLogs(staff.assignLog);
         setFields(staff.assignFields);
+        setVehicles(staff.assignVehicles);
     }, [staff]);
 
     function handleSubmit() {
-        const updateMember = new Staff(memberCode,firstName,lastName,joinedDate,designation,gender,dob,addressLine01,addressLine02,addressLine03,addressLine04,addressLine05,mobile,email,role,selectedLogs,selectedFields);
+        const updateMember = new Staff(memberCode,firstName,lastName,joinedDate,designation,gender,dob,addressLine01,addressLine02,addressLine03,addressLine04,addressLine05,mobile,email,role,selectedLogs,selectedFields,selectedVehicles);
         dispatch(updateStaff(updateMember));
         onClose();
     }
@@ -310,6 +320,35 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
                                 });
                                 const validFields = selectedFields.filter((f: Field) => f !== null);
                                 setFields(validFields as Field[]);
+                            }}
+                        />
+                    </div>
+                    <div className="mb-4 custom-input">
+                        <Label labelName={"Assign Vehicles"}/>
+                        <Select
+                            mode="multiple"
+                            tagRender={tagRender}
+                            style={{
+                                width: '100%',
+                                color: 'black',
+                            }}
+                            options={vehicleOptions}
+                            dropdownStyle={{
+                                backgroundColor: 'white',
+                            }}
+                            dropdownClassName="custom-dropdown"
+                            onChange={(selectedValues) => {
+                                const selectedVehicles = selectedValues.map((value: string) => {
+                                    const matchedVehicle = vehicle.find((v) => v.code === value);
+                                    return matchedVehicle
+                                        ? {
+                                            ...matchedVehicle,
+                                            vehicleName: matchedVehicle.vehicleName,
+                                        }
+                                        : null;
+                                });
+                                const validVehicles = selectedVehicles.filter((v: Vehicle) => v !== null);
+                                setVehicles(validVehicles as Vehicle[]);
                             }}
                         />
                     </div>

@@ -1,6 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {Log} from "../model/Log.ts";
 import {Field} from "../model/Field.ts";
+import {Vehicle} from "../model/Vehicle.ts";
 
 const initialState = {
     staffs:[]
@@ -26,6 +27,7 @@ export type StaffRootState = {
             role:string;
             assignLog: Log[];
             assignFields: Field[];
+            assignVehicles: Vehicle[];
         }>;
     };
 };

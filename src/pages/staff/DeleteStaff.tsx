@@ -5,6 +5,7 @@ import {useDispatch} from "react-redux";
 import {deleteStaff} from "../../reducer/StaffSlice.ts";
 import {Log} from "../../model/Log.ts";
 import {Field} from "../../model/Field.ts";
+import {Vehicle} from "../../model/Vehicle.ts";
 const DeleteStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; isType:string; buttonType:string}> = ({ isOpen, onClose, staff, isType, buttonType }) => {
 
     const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const DeleteStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
     const [role, setRole] = useState("");
     const [selectedLogs, setLogs] = useState<Log[]>([]);
     const [selectedFields, setFields] = useState<Field[]>([]);
+    const [selectedVehicles, setVehicles] = useState<Vehicle[]>([]);
 
     useEffect(() => {
         setMemberCode(staff.code);
@@ -44,10 +46,11 @@ const DeleteStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
         setRole(staff.role);
         setLogs(staff.assignLog);
         setFields(staff.assignFields);
+        setVehicles(staff.assignVehicles);
     }, [staff]);
 
     function handleSubmit() {
-        const delStaff = new Staff(memberCode,firstName,lastName,joinedDate,designation,gender,dob,addressLine01,addressLine02,addressLine03,addressLine04,addressLine05,mobile,email,role,selectedLogs,selectedFields);
+        const delStaff = new Staff(memberCode, firstName, lastName, joinedDate, designation, gender, dob, addressLine01, addressLine02, addressLine03, addressLine04, addressLine05, mobile, email, role, selectedLogs, selectedFields, selectedVehicles);
         dispatch(deleteStaff(delStaff));
         onClose();
     }

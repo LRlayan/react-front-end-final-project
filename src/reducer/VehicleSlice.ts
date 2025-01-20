@@ -4,7 +4,7 @@ const initialState = {
     vehicles:[]
 }
 
-export type RootState = {
+export type VehicleRootState = {
     vehicle: {
         vehicles: Array<{
            code: string;
