@@ -25,7 +25,7 @@ const Card: React.FC<CardProps> = ({
                     {data.image && (
                         <img
                             src={URL.createObjectURL(data.image)}
-                            alt={data.cropName}
+                            alt={data.name}
                             className="w-full h-32 object-cover rounded-md mb-2"
                         />
                     )}
@@ -48,6 +48,7 @@ const Card: React.FC<CardProps> = ({
                                 <p className="text-sm">Extent Size: {data.extentSize}</p>
                                 <p className="text-sm">Crops: {data.assignCrops.map((c: Crop) => c.name).join(", ")}</p>
                                 <p className="text-sm">Logs: {data.assignLogs.map((l: Log) => l.name).join(", ")}</p>
+                                <p className="text-sm">Members: {data.assignStaffMembers.map((s: Staff) => s.code).join(", ")}</p>
                             </>
                         )}
                         {cardType === "LOG" && (

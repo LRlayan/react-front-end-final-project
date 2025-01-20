@@ -5,6 +5,7 @@ import {Field} from "../../model/Field.ts";
 import {deleteField} from "../../reducer/FieldSlice.ts";
 import {Crop} from "../../model/Crop.ts";
 import {Log} from "../../model/Log.ts";
+import {Staff} from "../../model/Staff.ts";
 
 const DeleteField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; isType:string; buttonType:string}> = ({isOpen, onClose, field, isType, buttonType}) => {
 
@@ -16,6 +17,7 @@ const DeleteField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; 
     const [image, setImage] = useState<File | null>(null);
     const [selectedCrops, setCrops] = useState<Crop[]>([]);
     const [selectedLogs, setLogs] = useState<Log[]>([]);
+    const [selectedStaff, setStaff] = useState<Staff[]>([]);
 
     useEffect(() => {
         if (field) {
@@ -26,11 +28,12 @@ const DeleteField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; 
             setImage(field.image);
             setCrops(field.assignCrops);
             setLogs(field.assignLogs);
+            setStaff(field.assignStaffMembers);
         }
     }, [field]);
 
     const handleSubmit = () => {
-        const delField = new Field(fieldCode,fieldName,location,extentSize,image,selectedCrops,selectedLogs);
+        const delField = new Field(fieldCode, fieldName, location, extentSize, image, selectedCrops, selectedLogs, selectedStaff);
         dispatch(deleteField(delField));
     }
 
