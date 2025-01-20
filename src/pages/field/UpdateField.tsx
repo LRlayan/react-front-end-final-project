@@ -12,6 +12,8 @@ import {Log} from "../../model/Log.ts";
 import {LogRootState} from "../../reducer/LogSlice.ts";
 import {Staff} from "../../model/Staff.ts";
 import {StaffRootState} from "../../reducer/StaffSlice.ts";
+import {Equipment} from "../../model/Equipment.ts";
+import {EquipmentRootState} from "../../reducer/EquipmentSlice.ts";
 
 const UpdateField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; isType:string; buttonType:string}> = ({ isOpen, onClose, field, isType, buttonType }) =>{
 
@@ -24,9 +26,11 @@ const UpdateField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; 
     const [selectedCrops, setCrops] = useState<Crop[]>([]);
     const [selectedLogs, setLogs] = useState<Log[]>([]);
     const [selectedStaff, setStaff] = useState<Staff[]>([]);
+    const [selectedEquipments, setEquipments] = useState<Equipment[]>([]);
     const crops = useSelector((state:CropRootState) => state.crop.crops);
     const logs = useSelector((state:LogRootState) => state.log.logs);
     const staff = useSelector((state:StaffRootState) => state.staff.staffs);
+    const equipment = useSelector((state:EquipmentRootState) => state.equipment.equipments);
 
     useEffect(() => {
         if (field) {
@@ -38,6 +42,7 @@ const UpdateField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; 
             setCrops(field.assignCrops);
             setLogs(field.assignLogs);
             setStaff(field.assignStaffMembers);
+            setEquipments(field.assignEquipments);
         }
     }, [field]);
 
@@ -56,8 +61,13 @@ const UpdateField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; 
         value: staff.code
     }));
 
+    const equipmentOptions: SelectProps['options'] = equipment.map((equipment) => ({
+        label: equipment.name,
+        value: equipment.code
+    }));
+
     const handleSubmit = () => {
-        const updateFieldDetails = new Field(fieldCode, fieldName, location, extentSize, image, selectedCrops, selectedLogs, selectedStaff);
+        const updateFieldDetails = new Field(fieldCode, fieldName, location, extentSize, image, selectedCrops, selectedLogs, selectedStaff, selectedEquipments);
         dispatch(updateField(updateFieldDetails));
     }
 
@@ -173,6 +183,35 @@ const UpdateField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; 
                                 });
                                 const validStaff = selectedStaff.filter((s: Staff) => s !== null);
                                 setStaff(validStaff as Staff[]);
+                            }}
+                        />
+                    </div>
+                    <div className="mb-4 custom-input">
+                        <Label labelName={"Assign Equipments"}/>
+                        <Select
+                            mode="multiple"
+                            tagRender={tagRender}
+                            style={{
+                                width: '100%',
+                                color: 'black',
+                            }}
+                            options={equipmentOptions}
+                            dropdownStyle={{
+                                backgroundColor: 'white',
+                            }}
+                            dropdownClassName="custom-dropdown"
+                            onChange={(selectedValues) => {
+                                const selectedEquipments = selectedValues.map((value: string) => {
+                                    const matchedEquipments = equipment.find((e) => e.code === value);
+                                    return matchedEquipments
+                                        ? {
+                                            ...matchedEquipments,
+                                            equipmentName: matchedEquipments.name,
+                                        }
+                                        : null;
+                                });
+                                const validEquipments = selectedEquipments.filter((e: Equipment) => e !== null);
+                                setEquipments(validEquipments as Equipment[]);
                             }}
                         />
                     </div>

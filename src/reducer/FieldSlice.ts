@@ -2,6 +2,7 @@ import {createSlice} from "@reduxjs/toolkit";
 import {Crop} from "../model/Crop.ts";
 import {Log} from "../model/Log.ts";
 import {Staff} from "../model/Staff.ts";
+import {Equipment} from "../model/Equipment.ts";
 
 const initialState = {
     fields:[]
@@ -18,6 +19,7 @@ export type FieldRootState = {
             assignCrops: Crop[];
             assignLogs: Log[];
             assignStaffMembers: Staff[];
+            assignEquipments: Equipment[];
         }>;
     };
 };

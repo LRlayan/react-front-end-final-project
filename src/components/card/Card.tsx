@@ -4,6 +4,7 @@ import {Field} from "../../model/Field.ts";
 import {Crop} from "../../model/Crop.ts";
 import {Log} from "../../model/Log.ts";
 import {Staff} from "../../model/Staff.ts";
+import {Equipment} from "../../model/Equipment.ts";
 
 interface CardProps {
     cardType: string;
@@ -36,8 +37,8 @@ const Card: React.FC<CardProps> = ({
                                 <p className="text-sm">Scientific Name: {data.name}</p>
                                 <p className="text-sm">Category: {data.category}</p>
                                 <p className="text-sm">Season: {data.season}</p>
-                                <p className="text-sm">Fields: {data.assignFields.map((f: Field) => f.name).join(", ")}</p>
-                                <p className="text-sm">Logs: {data.assignLogs.map((l: Log) => l.name).join(", ")}</p>
+                                <p className="text-sm">Fields: {data ? data.assignFields.map((f: Field) => f.name).join(", ") : "No Fields"}</p>
+                                <p className="text-sm">Logs: {data ? data.assignLogs.map((l: Log) => l.name).join(", ") : "No Logs"}</p>
                             </>
                         )}
                         {cardType === "FIELD" && (
@@ -46,9 +47,10 @@ const Card: React.FC<CardProps> = ({
                                 <p className="text-sm">Name: {data.name}</p>
                                 <p className="text-sm">Location: {data.location}</p>
                                 <p className="text-sm">Extent Size: {data.extentSize}</p>
-                                <p className="text-sm">Crops: {data.assignCrops.map((c: Crop) => c.name).join(", ")}</p>
-                                <p className="text-sm">Logs: {data.assignLogs.map((l: Log) => l.name).join(", ")}</p>
-                                <p className="text-sm">Members: {data.assignStaffMembers.map((s: Staff) => s.code).join(", ")}</p>
+                                <p className="text-sm">Crops: {data ? data.assignCrops.map((c: Crop) => c.name).join(", ") : "No Crops"}</p>
+                                <p className="text-sm">Logs: {data ? data.assignLogs.map((l: Log) => l.name).join(", ") : "No Logs"}</p>
+                                <p className="text-sm">Members: {data ? data.assignStaffMembers.map((s: Staff) => s.code).join(", ") : "No Members"}</p>
+                                <p className="text-sm">Equipments: {data ? data.assignEquipments.map((e: Equipment) => e.name).join(", ") : "No Equipments"}</p>
                             </>
                         )}
                         {cardType === "LOG" && (
@@ -57,9 +59,9 @@ const Card: React.FC<CardProps> = ({
                                 <p className="text-sm">Log Title: {data.name}</p>
                                 <p className="text-sm">Log Date: {data.logDate}</p>
                                 <p className="text-sm">Log Details: {data.logDetails}</p>
-                                <p className="text-sm">Crops: {data.assignCrops.map((c: Crop) => c.name).join(", ")}</p>
-                                <p className="text-sm">Fields: {data.assignFields.map((f: Field) => f.name).join(", ")}</p>
-                                <p className="text-sm">Members: {data.assignStaff.map((s: Staff) => s.firstName).join(", ")}</p>
+                                <p className="text-sm">Crops: {data ? data.assignCrops.map((c: Crop) => c.name).join(", ") : "No Crops"}</p>
+                                <p className="text-sm">Fields: {data ? data.assignFields.map((f: Field) => f.name).join(", ") : "No Fields"}</p>
+                                <p className="text-sm">Members: {data ? data.assignStaff.map((s: Staff) => s.code).join(", ") : "No Members"}</p>
                             </>
                         )}
                     </div>
