@@ -15,7 +15,7 @@ import {Log} from "../../model/Log.ts";
 const UpdateCrop: React.FC<{ isOpen: boolean; onClose: () => void; crop:Crop; isType:string; buttonType:string}> = ({isOpen, onClose, crop, isType, buttonType}) => {
 
     const dispatch = useDispatch();
-    const [cropCode, setCropCode] = useState<string | number>("");
+    const [cropCode, setCropCode] = useState<string>("");
     const [cropName, setCropName] = useState("");
     const [scientificName, setScientificName] = useState("");
     const [category, setCategory] = useState("");
