@@ -70,6 +70,7 @@ const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isTyp
                             type="text"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setLogName(e.target.value)}
+                            value={logName}
                         />
                     </div>
                     <div className="mb-4 custom-input">
@@ -78,6 +79,7 @@ const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isTyp
                             type="date"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setLogDate(e.target.value)}
+                            value={logDate}
                         />
                     </div>
                     <div className="mb-4 custom-input">
@@ -86,6 +88,7 @@ const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isTyp
                             type="text"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setLogDetails(e.target.value)}
+                            value={logDetails}
                         />
                     </div>
                     <div className="mb-4 custom-input">
@@ -97,23 +100,20 @@ const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isTyp
                                 width: '100%',
                                 color: 'black',
                             }}
+                            value={selectedCrops.map((c) => c.code)}
                             options={cropOptions}
                             dropdownStyle={{
                                 backgroundColor: 'white',
                             }}
                             dropdownClassName="custom-dropdown"
                             onChange={(selectedValues) => {
-                                const selectedCrops = selectedValues.map((value: string) => {
-                                    const matchedCrop = crops.find((c) => c.code === value);
-                                    return matchedCrop
-                                        ? {
-                                            ...matchedCrop,
-                                            cropName: matchedCrop.name,
-                                        }
-                                        : null;
-                                });
-                                const validCrops = selectedCrops.filter((c: Crop) => c !== null);
-                                setCrops(validCrops as Crop[]);
+                                const updatedCrops = selectedValues
+                                    .map((value: string) => {
+                                        const matchedCrop = crops.find((c) => c.code === value);
+                                        return matchedCrop ? {...matchedCrop} : null;
+                                    })
+                                    .filter((c): c is Crop => c !== null);
+                                setCrops(updatedCrops);
                             }}
                         />
                     </div>
@@ -126,23 +126,20 @@ const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isTyp
                                 width: '100%',
                                 color: 'black',
                             }}
+                            value={selectedFields.map((f: Field) => f.code)}
                             options={fieldOptions}
                             dropdownStyle={{
                                 backgroundColor: 'white',
                             }}
                             dropdownClassName="custom-dropdown"
                             onChange={(selectedValues) => {
-                                const selectedFields = selectedValues.map((value: string) => {
-                                    const matchedField = field.find((f) => f.code === value);
-                                    return matchedField
-                                        ? {
-                                            ...matchedField,
-                                            fieldName: matchedField.name,
-                                        }
-                                        : null;
-                                });
-                                const validFields = selectedFields.filter((f: Field) => f !== null);
-                                setFields(validFields as Field[]);
+                                const updatedFields = selectedValues
+                                    .map((value: string) => {
+                                        const matchedField = field.find((f) => f.code === value);
+                                        return matchedField ? {...matchedField} : null;
+                                    })
+                                    .filter((f): f is Field => f !== null);
+                                setFields(updatedFields);
                             }}
                         />
                     </div>
@@ -155,23 +152,20 @@ const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isTyp
                                 width: '100%',
                                 color: 'black',
                             }}
+                            value={selectedStaff.map((s) => s.code)}
                             options={staffOptions}
                             dropdownStyle={{
                                 backgroundColor: 'white',
                             }}
                             dropdownClassName="custom-dropdown"
                             onChange={(selectedValues) => {
-                                const selectedStaff = selectedValues.map((value: string) => {
-                                    const matchedStaff = staff.find((s) => s.code === value);
-                                    return matchedStaff
-                                        ? {
-                                            ...matchedStaff,
-                                            staffName: matchedStaff.firstName,
-                                        }
-                                        : null;
-                                });
-                                const validStaff = selectedStaff.filter((s: Staff) => s !== null);
-                                setStaff(validStaff as Staff[]);
+                                const updatedStaff = selectedValues
+                                    .map((value: string) => {
+                                        const matchedStaff = staff.find((s) => s.code === value);
+                                        return matchedStaff ? {...matchedStaff} : null;
+                                    })
+                                    .filter((s): s is Staff => s !== null);
+                                setStaff(updatedStaff);
                             }}
                         />
                     </div>
