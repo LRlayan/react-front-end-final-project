@@ -5,12 +5,12 @@ import Search from "antd/es/input/Search";
 import {PlusCircleOutlined} from "@ant-design/icons";
 import Table from "../../components/table/Table.tsx";
 import {useSelector} from "react-redux";
-import {RootState} from "../../reducer/VehicleSlice.ts";
+import {VehicleRootState} from "../../reducer/VehicleSlice.ts";
 import AddVehicle from "./AddVehicle.tsx";
 import UpdateVehicle from "./UpdateVehicle.tsx";
 import DeleteVehicle from "./DeleteVehicle.tsx";
-import {Equipment} from "../../model/Equipment.ts";
 import SearchingTableData from "../../util/SearchingTableData.ts";
+import {Staff} from "../../model/Staff.ts";
 
 interface VehicleDataType {
     key: React.Key;
@@ -21,6 +21,7 @@ interface VehicleDataType {
     fuelType: string;
     status: string;
     remark: string;
+    assignStaffMember: Staff;
 }
 
 const VehiclePage = () => {
@@ -28,7 +29,7 @@ const VehiclePage = () => {
     const [open, setOpen] = useState(false);
     const [modalType, setModalType] = useState("");
     const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
-    const vehicles = useSelector((state:RootState) => state.vehicle.vehicles) || [];
+    const vehicles = useSelector((state:VehicleRootState) => state.vehicle.vehicles) || [];
     const [filteredVehicle, setFilteredVehicle] = useState<Vehicle[]>(vehicles);
     const searchingTableData = new SearchingTableData();
 
@@ -99,6 +100,13 @@ const VehiclePage = () => {
             key: 'remark',
         },
         {
+            title: 'Assign Staff Member',
+            dataIndex: 'staff',
+            key: 'staff',
+            render: (staff: Staff) => staff ? staff.code : 'No Member',
+
+        },
+        {
             title: 'Action 1',
             key: 'update',
             fixed: 'right',
@@ -132,7 +140,6 @@ const VehiclePage = () => {
         },
     ];
 
-    // Sync `filteredEquipment` with `equipment` whenever `equipment` updates
     useEffect(() => {
         setFilteredVehicle(vehicles);
     }, [vehicles]);
@@ -180,6 +187,7 @@ const VehiclePage = () => {
                     dataSource={filteredVehicle.map((vehicle) => ({
                         ...vehicle,
                         key: vehicle.code,
+                        staff: vehicle.assignStaffMember || "No Staff Member",
                     }))}
                 />
                 {open && modalType === "add" && (
