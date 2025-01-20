@@ -4,6 +4,7 @@ import MainModal from "../../components/modal/MainModal.tsx";
 import {useDispatch} from "react-redux";
 import {deleteEquipment} from "../../reducer/EquipmentSlice.ts";
 import {Staff} from "../../model/Staff.ts";
+import {Field} from "../../model/Field.ts";
 
 const DeleteEquipment: React.FC<{ isOpen:boolean; isType:string; onClose: () => void; buttonType:string; equipments: Equipment}> = ({ isOpen, isType, buttonType, onClose, equipments }) => {
 
@@ -14,6 +15,7 @@ const DeleteEquipment: React.FC<{ isOpen:boolean; isType:string; onClose: () => 
     const [status, setStatus] = useState("");
     const [count, setCount] = useState<number>(0);
     const [selectedStaff, setStaff] = useState<Staff[]>([]);
+    const [selectedFields, setFields] = useState<Field[]>([]);
 
     useEffect(() => {
         setCode(equipments.code);
@@ -22,10 +24,11 @@ const DeleteEquipment: React.FC<{ isOpen:boolean; isType:string; onClose: () => 
         setStatus(equipments.status);
         setCount(equipments.count);
         setStaff(equipments.assignStaffMembers);
+        setFields(equipments.assignFields);
     }, [equipments]);
 
     function handleSubmit() {
-        const delEquipment = new Equipment(code, name, type, status, count, selectedStaff);
+        const delEquipment = new Equipment(code, name, type, status, count, selectedStaff, selectedFields);
         dispatch(deleteEquipment(delEquipment));
         onClose();
     }

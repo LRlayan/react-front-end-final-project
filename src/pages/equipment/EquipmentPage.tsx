@@ -11,6 +11,7 @@ import UpdateEquipment from "./UpdateEquipment.tsx";
 import DeleteEquipment from "./DeleteEquipment.tsx";
 import SearchingTableData from "../../util/SearchingTableData.ts";
 import {Staff} from "../../model/Staff.ts";
+import {Field} from "../../model/Field.ts";
 
 interface EquipmentDataType {
     key: React.Key;
@@ -20,6 +21,7 @@ interface EquipmentDataType {
     status: string;
     count: number;
     assignStaffMembers: Staff[];
+    assignFields: Field[];
 }
 
 const EquipmentPage = () => {
@@ -121,6 +123,15 @@ const EquipmentPage = () => {
                     : 'No Members',
         },
         {
+            title: 'Assign Fields',
+            dataIndex: 'field',
+            key: 'field',
+            render: (field: Field[]) =>
+                field && Array.isArray(field)
+                    ? field.map((field: Field) => field.name).join(', ')
+                    : 'No Fields',
+        },
+        {
             title: 'Action 1',
             key: 'update',
             fixed: 'right',
@@ -176,6 +187,7 @@ const EquipmentPage = () => {
                         ...equipment,
                         key: equipment.code,
                         equipment: equipment.assignStaffMembers || "No Members",
+                        field: equipment.assignFields || "No Fields",
                     }))}
                 />
                 {open && modalType === "add" && (

@@ -8,6 +8,8 @@ import {Input, Select, SelectProps} from "antd";
 import {Staff} from "../../model/Staff.ts";
 import {StaffRootState} from "../../reducer/StaffSlice.ts";
 import tagRender from "../../util/TagRender.tsx";
+import {Field} from "../../model/Field.ts";
+import {FieldRootState} from "../../reducer/FieldSlice.ts";
 
 const UpdateEquipment: React.FC<{ isOpen:boolean; onClose: () => void; isType:string; buttonType: string; equipments: Equipment}> = ({ isOpen, onClose, isType, buttonType, equipments }) => {
 
@@ -18,7 +20,9 @@ const UpdateEquipment: React.FC<{ isOpen:boolean; onClose: () => void; isType:st
     const [status, setStatus] = useState("");
     const [count, setCount] = useState<number>(0);
     const [selectedStaff, setStaff] = useState<Staff[]>([]);
+    const [selectedFields, setFields] = useState<Field[]>([]);
     const staff = useSelector((state:StaffRootState) => state.staff.staffs);
+    const field = useSelector((state:FieldRootState) => state.field.fields);
 
     useEffect(() => {
         setCode(equipments.code);
@@ -27,6 +31,7 @@ const UpdateEquipment: React.FC<{ isOpen:boolean; onClose: () => void; isType:st
         setStatus(equipments.status);
         setCount(equipments.count);
         setStaff(equipments.assignStaffMembers);
+        setFields(equipments.assignFields);
     }, [equipments]);
 
     const staffOptions: SelectProps['options'] = staff.map((staff) => ({
@@ -34,8 +39,13 @@ const UpdateEquipment: React.FC<{ isOpen:boolean; onClose: () => void; isType:st
         value: staff.code
     }));
 
+    const fieldOptions: SelectProps['options'] = field.map((field) => ({
+        label: field.name,
+        value: field.code
+    }));
+
     function handleSubmit(){
-        const updateEquipmentDetails = new Equipment(code, name, type, status, count, selectedStaff);
+        const updateEquipmentDetails = new Equipment(code, name, type, status, count, selectedStaff, selectedFields);
         dispatch(updateEquipment(updateEquipmentDetails));
         onClose();
     }
@@ -151,6 +161,35 @@ const UpdateEquipment: React.FC<{ isOpen:boolean; onClose: () => void; isType:st
                                 });
                                 const validStaff = selectedStaff.filter((s: Staff) => s !== null);
                                 setStaff(validStaff as Staff[]);
+                            }}
+                        />
+                    </div>
+                    <div className="mb-4 custom-input">
+                        <Label labelName={"Assign Field"}/>
+                        <Select
+                            mode="multiple"
+                            tagRender={tagRender}
+                            style={{
+                                width: '100%',
+                                color: 'black',
+                            }}
+                            options={fieldOptions}
+                            dropdownStyle={{
+                                backgroundColor: 'white',
+                            }}
+                            dropdownClassName="custom-dropdown"
+                            onChange={(selectedValues) => {
+                                const selectedFields = selectedValues.map((value: string) => {
+                                    const matchedField = field.find((f) => f.code === value);
+                                    return matchedField
+                                        ? {
+                                            ...matchedField,
+                                            fieldName: matchedField.name,
+                                        }
+                                        : null;
+                                });
+                                const validFields = selectedFields.filter((f: Field) => f !== null);
+                                setFields(validFields as Field[]);
                             }}
                         />
                     </div>
