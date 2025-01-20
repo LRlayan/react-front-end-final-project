@@ -11,7 +11,7 @@ export class Crop{
     assignFields: Field[];
     assignLogs: Log[];
 
-    constructor(code: string | number, cropName: string, scientificName: string, category: string, season: string, image: File | null, assignFields:Field[], assignLogs:Log[]) {
+    constructor(code: string | number, cropName: string, scientificName: string, category: string, season: string, image: File | null, assignFields: Field[], assignLogs: Log[]) {
         this.code = code;
         this.name = cropName;
         this.scientificName = scientificName;
