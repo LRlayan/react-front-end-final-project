@@ -142,6 +142,7 @@ const UpdateVehicle: React.FC<{ isOpen:boolean; onClose: () => void; vehicles:Ve
                             type="text"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setLicensePlateNumber(e.target.value)}
+                            value={licensePlateNumber}
                         />
                     </div>
                     <div className="mb-4 custom-input">
@@ -237,6 +238,7 @@ const UpdateVehicle: React.FC<{ isOpen:boolean; onClose: () => void; vehicles:Ve
                             type="text"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setRemark(e.target.value)}
+                            value={remark}
                         />
                     </div>
                     <div className="mb-4 custom-input">
@@ -246,35 +248,16 @@ const UpdateVehicle: React.FC<{ isOpen:boolean; onClose: () => void; vehicles:Ve
                                 width: '100%',
                                 color: 'black',
                             }}
+                            value={selectedStaffs?.code}
                             options={staffOptions}
                             dropdownStyle={{
                                 backgroundColor: 'white',
                             }}
                             dropdownClassName="custom-dropdown"
-                            onChange={(selectedValues) => {
-                                const matchedStaffs = staff.find((s) => s.code === selectedValues);
-                                if (matchedStaffs) {
-                                    setStaffs(matchedStaffs);
-                                }
-                            }}
-                        />
-                    </div>
-                    <div className="mb-4 custom-input">
-                        <Label labelName={"Assign Staff Member"}/>
-                        <Select
-                            style={{
-                                width: '100%',
-                                color: 'black',
-                            }}
-                            options={staffOptions}
-                            dropdownStyle={{
-                                backgroundColor: 'white',
-                            }}
-                            dropdownClassName="custom-dropdown"
-                            onChange={(selectedValues) => {
-                                const matchedStaffs = staff.find((s) => s.code === selectedValues);
-                                if (matchedStaffs) {
-                                    setStaffs(matchedStaffs);
+                            onChange={(selectedValue) => {
+                                const matchedStaff = staff.find((s) => s.code === selectedValue);
+                                if (matchedStaff) {
+                                    setStaffs(matchedStaff);
                                 }
                             }}
                         />
