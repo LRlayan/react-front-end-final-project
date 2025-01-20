@@ -12,6 +12,8 @@ import {Field} from "../../model/Field.ts";
 import {FieldRootState} from "../../reducer/FieldSlice.ts";
 import {Vehicle} from "../../model/Vehicle.ts";
 import {VehicleRootState} from "../../reducer/VehicleSlice.ts";
+import {Equipment} from "../../model/Equipment.ts";
+import {EquipmentRootState} from "../../reducer/EquipmentSlice.ts";
 
 const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; isType:string; buttonType:string}> = ({ isOpen, onClose, staff, isType, buttonType }) => {
 
@@ -34,9 +36,11 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
     const [selectedLogs, setLogs] = useState<Log[]>([]);
     const [selectedFields, setFields] = useState<Field[]>([]);
     const [selectedVehicles, setVehicles] = useState<Vehicle[]>([]);
+    const [selectedEquipments, setEquipments] = useState<Equipment[]>([]);
     const logs = useSelector((state:LogRootState) => state.log.logs);
     const field = useSelector((state:FieldRootState) => state.field.fields);
     const vehicle = useSelector((state:VehicleRootState) => state.vehicle.vehicles);
+    const equipment = useSelector((state:EquipmentRootState) => state.equipment.equipments);
 
     const logOptions: SelectProps['options'] = logs.map((log) => ({
         label: log.name,
@@ -51,6 +55,11 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
     const vehicleOptions: SelectProps['options'] = vehicle.map((vehicle) => ({
         label: vehicle.vehicleName,
         value: vehicle.code
+    }));
+
+    const equipmentOptions: SelectProps['options'] = equipment.map((equipment) => ({
+        label: equipment.name,
+        value: equipment.code
     }));
 
     useEffect(() => {
@@ -72,10 +81,11 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
         setLogs(staff.assignLog);
         setFields(staff.assignFields);
         setVehicles(staff.assignVehicles);
+        setEquipments(staff.assignEquipments);
     }, [staff]);
 
     function handleSubmit() {
-        const updateMember = new Staff(memberCode,firstName,lastName,joinedDate,designation,gender,dob,addressLine01,addressLine02,addressLine03,addressLine04,addressLine05,mobile,email,role,selectedLogs,selectedFields,selectedVehicles);
+        const updateMember = new Staff(memberCode,firstName,lastName,joinedDate,designation,gender,dob,addressLine01,addressLine02,addressLine03,addressLine04,addressLine05,mobile,email,role,selectedLogs,selectedFields,selectedVehicles,selectedEquipments);
         dispatch(updateStaff(updateMember));
         onClose();
     }
@@ -349,6 +359,35 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
                                 });
                                 const validVehicles = selectedVehicles.filter((v: Vehicle) => v !== null);
                                 setVehicles(validVehicles as Vehicle[]);
+                            }}
+                        />
+                    </div>
+                    <div className="mb-4 custom-input">
+                        <Label labelName={"Assign Equipments"}/>
+                        <Select
+                            mode="multiple"
+                            tagRender={tagRender}
+                            style={{
+                                width: '100%',
+                                color: 'black',
+                            }}
+                            options={equipmentOptions}
+                            dropdownStyle={{
+                                backgroundColor: 'white',
+                            }}
+                            dropdownClassName="custom-dropdown"
+                            onChange={(selectedValues) => {
+                                const selectedEquipments = selectedValues.map((value: string) => {
+                                    const matchedEquipments = equipment.find((e) => e.code === value);
+                                    return matchedEquipments
+                                        ? {
+                                            ...matchedEquipments,
+                                            equipmentName: matchedEquipments.name,
+                                        }
+                                        : null;
+                                });
+                                const validEquipments = selectedEquipments.filter((e: Equipment) => e !== null);
+                                setEquipments(validEquipments as Equipment[]);
                             }}
                         />
                     </div>
