@@ -1,11 +1,14 @@
 import React, {useState} from 'react';
 import MainModal from "../../components/modal/MainModal.tsx";
 import Label from "../../components/label/Label.tsx";
-import {Input, Select} from "antd";
+import {Input, Select, SelectProps} from "antd";
 import {useDispatch, useSelector} from "react-redux";
 import {IdGenerator} from "../../util/IdGenerator.ts";
-import {addEquipment, RootState} from "../../reducer/EquipmentSlice.ts";
+import {addEquipment, EquipmentRootState} from "../../reducer/EquipmentSlice.ts";
 import {Equipment} from "../../model/Equipment.ts";
+import {Staff} from "../../model/Staff.ts";
+import {StaffRootState} from "../../reducer/StaffSlice.ts";
+import tagRender from "../../util/TagRender.tsx";
 
 const AddEquipment: React.FC<{ isOpen:boolean; onClose: () => void; isType:string; buttonType:string}> = ({ isOpen, onClose ,isType, buttonType}) => {
 
@@ -14,7 +17,9 @@ const AddEquipment: React.FC<{ isOpen:boolean; onClose: () => void; isType:strin
     const [type, setType] = useState("");
     const [status, setStatus] = useState("");
     const [count, setCount] = useState<number>(0);
-    const equipments = useSelector((state:RootState) => state.equipment.equipments);
+    const [selectedStaff, setStaff] = useState<Staff[]>([]);
+    const equipments = useSelector((state:EquipmentRootState) => state.equipment.equipments);
+    const staff = useSelector((state:StaffRootState) => state.staff.staffs);
     const idGenerator = new IdGenerator();
 
     const equipmentTypeOptions = [
@@ -32,15 +37,21 @@ const AddEquipment: React.FC<{ isOpen:boolean; onClose: () => void; isType:strin
         { label:"Wheel wrench", value: 'Wheel wrench'},
         { label:"Screw drivers", value: 'Screw drivers'},
     ];
+
     const statusOptions = [
         {label:"Available", value:"Available"},
         {label:"Unavailable", value:"Unavailable"},
     ];
 
+    const staffOptions: SelectProps['options'] = staff.map((staff) => ({
+        label: staff.code,
+        value: staff.code
+    }));
+
     function handleSubmit(){
         const getLastIndex = equipments.length > 0 ? equipments[equipments.length -1].code : "EQUIPMENT-";
         const newCode = idGenerator.codeGenerator("EQUIPMENT",getLastIndex);
-        const newEquipment = new Equipment(newCode,name,type,status,count);
+        const newEquipment = new Equipment(newCode, name, type, status, count, selectedStaff);
         dispatch(addEquipment(newEquipment));
         onClose();
     }
@@ -107,6 +118,35 @@ const AddEquipment: React.FC<{ isOpen:boolean; onClose: () => void; isType:strin
                             type="text"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setCount(parseInt(e.target.value))}
+                        />
+                    </div>
+                    <div className="mb-4 custom-input">
+                        <Label labelName={"Assign Staff Members"}/>
+                        <Select
+                            mode="multiple"
+                            tagRender={tagRender}
+                            style={{
+                                width: '100%',
+                                color: 'black',
+                            }}
+                            options={staffOptions}
+                            dropdownStyle={{
+                                backgroundColor: 'white',
+                            }}
+                            dropdownClassName="custom-dropdown"
+                            onChange={(selectedValues) => {
+                                const selectedStaff = selectedValues.map((value: string) => {
+                                    const matchedStaff = staff.find((s) => s.code === value);
+                                    return matchedStaff
+                                        ? {
+                                            ...matchedStaff,
+                                            staffName: matchedStaff.firstName,
+                                        }
+                                        : null;
+                                });
+                                const validStaff = selectedStaff.filter((s: Staff) => s !== null);
+                                setStaff(validStaff as Staff[]);
+                            }}
                         />
                     </div>
                 </form>

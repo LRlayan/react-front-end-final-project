@@ -1,4 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {Staff} from "../model/Staff.ts";
 
 const initialState = {
     equipments:[]
@@ -12,6 +13,7 @@ export type EquipmentRootState = {
             type:string;
             status:string;
             count:number;
+            assignStaffMembers: Staff[];
         }>
     }
 }

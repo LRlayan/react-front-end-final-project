@@ -3,13 +3,14 @@ import {Button} from "antd";
 import {PlusCircleOutlined} from "@ant-design/icons";
 import React, {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
-import {RootState} from "../../reducer/EquipmentSlice.ts";
+import {EquipmentRootState} from "../../reducer/EquipmentSlice.ts";
 import {Equipment} from "../../model/Equipment.ts";
 import Table from "../../components/table/Table.tsx";
 import AddEquipment from "./AddEquipment.tsx";
 import UpdateEquipment from "./UpdateEquipment.tsx";
 import DeleteEquipment from "./DeleteEquipment.tsx";
 import SearchingTableData from "../../util/SearchingTableData.ts";
+import {Staff} from "../../model/Staff.ts";
 
 interface EquipmentDataType {
     key: React.Key;
@@ -18,6 +19,7 @@ interface EquipmentDataType {
     type: string;
     status: string;
     count: number;
+    assignStaffMembers: Staff[];
 }
 
 const EquipmentPage = () => {
@@ -25,11 +27,10 @@ const EquipmentPage = () => {
     const [open, setOpen] = useState(false);
     const [modalType, setModalType] = useState("");
     const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null);
-    const equipment = useSelector((state:RootState) => state.equipment.equipments) || [];
-    const [filteredEquipment, setFilteredEquipment] = useState<Equipment[] | undefined>(equipment);
+    const equipment = useSelector((state:EquipmentRootState) => state.equipment.equipments) || [];
+    const [filteredEquipment, setFilteredEquipment] = useState<Equipment[]>(equipment);
     const searchingTableData = new SearchingTableData();
 
-    // Sync `filteredEquipment` with `equipment` whenever `equipment` updates
     useEffect(() => {
         setFilteredEquipment(equipment);
     }, [equipment]);
@@ -111,6 +112,15 @@ const EquipmentPage = () => {
             key:"count"
         },
         {
+            title: 'Assign Members',
+            dataIndex: 'staff',
+            key: 'staff',
+            render: (staff: Staff[]) =>
+                staff && Array.isArray(staff)
+                    ? staff.map((staff: Staff) => staff.code).join(', ')
+                    : 'No Members',
+        },
+        {
             title: 'Action 1',
             key: 'update',
             fixed: 'right',
@@ -165,6 +175,7 @@ const EquipmentPage = () => {
                     dataSource={filteredEquipment.map((equipment) => ({
                         ...equipment,
                         key: equipment.code,
+                        equipment: equipment.assignStaffMembers || "No Members",
                     }))}
                 />
                 {open && modalType === "add" && (

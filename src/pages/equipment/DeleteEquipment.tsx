@@ -3,6 +3,7 @@ import {Equipment} from "../../model/Equipment.ts";
 import MainModal from "../../components/modal/MainModal.tsx";
 import {useDispatch} from "react-redux";
 import {deleteEquipment} from "../../reducer/EquipmentSlice.ts";
+import {Staff} from "../../model/Staff.ts";
 
 const DeleteEquipment: React.FC<{ isOpen:boolean; isType:string; onClose: () => void; buttonType:string; equipments: Equipment}> = ({ isOpen, isType, buttonType, onClose, equipments }) => {
 
@@ -12,6 +13,7 @@ const DeleteEquipment: React.FC<{ isOpen:boolean; isType:string; onClose: () => 
     const [type, setType] = useState("");
     const [status, setStatus] = useState("");
     const [count, setCount] = useState<number>(0);
+    const [selectedStaff, setStaff] = useState<Staff[]>([]);
 
     useEffect(() => {
         setCode(equipments.code);
@@ -19,10 +21,11 @@ const DeleteEquipment: React.FC<{ isOpen:boolean; isType:string; onClose: () => 
         setType(equipments.type);
         setStatus(equipments.status);
         setCount(equipments.count);
+        setStaff(equipments.assignStaffMembers);
     }, [equipments]);
 
     function handleSubmit() {
-        const delEquipment = new Equipment(code,name,type,status,count);
+        const delEquipment = new Equipment(code, name, type, status, count, selectedStaff);
         dispatch(deleteEquipment(delEquipment));
         onClose();
     }
