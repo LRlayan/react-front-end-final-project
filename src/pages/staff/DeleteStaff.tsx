@@ -6,6 +6,7 @@ import {deleteStaff} from "../../reducer/StaffSlice.ts";
 import {Log} from "../../model/Log.ts";
 import {Field} from "../../model/Field.ts";
 import {Vehicle} from "../../model/Vehicle.ts";
+import {Equipment} from "../../model/Equipment.ts";
 const DeleteStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; isType:string; buttonType:string}> = ({ isOpen, onClose, staff, isType, buttonType }) => {
 
     const dispatch = useDispatch();
@@ -27,6 +28,7 @@ const DeleteStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
     const [selectedLogs, setLogs] = useState<Log[]>([]);
     const [selectedFields, setFields] = useState<Field[]>([]);
     const [selectedVehicles, setVehicles] = useState<Vehicle[]>([]);
+    const [selectedEquipments, setEquipments] = useState<Equipment[]>([]);
 
     useEffect(() => {
         setMemberCode(staff.code);
@@ -47,10 +49,11 @@ const DeleteStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
         setLogs(staff.assignLog);
         setFields(staff.assignFields);
         setVehicles(staff.assignVehicles);
+        setEquipments(staff.assignEquipments);
     }, [staff]);
 
     function handleSubmit() {
-        const delStaff = new Staff(memberCode, firstName, lastName, joinedDate, designation, gender, dob, addressLine01, addressLine02, addressLine03, addressLine04, addressLine05, mobile, email, role, selectedLogs, selectedFields, selectedVehicles);
+        const delStaff = new Staff(memberCode, firstName, lastName, joinedDate, designation, gender, dob, addressLine01, addressLine02, addressLine03, addressLine04, addressLine05, mobile, email, role, selectedLogs, selectedFields, selectedVehicles, selectedEquipments);
         dispatch(deleteStaff(delStaff));
         onClose();
     }
