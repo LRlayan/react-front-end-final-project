@@ -64,6 +64,7 @@ const UpdateCrop: React.FC<{ isOpen: boolean; onClose: () => void; crop:Crop; is
                             type="text"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setCropName(e.target.value)}
+                            value={cropName}
                         />
                     </div>
                     <div className="mb-4 custom-input">
@@ -72,6 +73,7 @@ const UpdateCrop: React.FC<{ isOpen: boolean; onClose: () => void; crop:Crop; is
                             type="text"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setScientificName(e.target.value)}
+                            value={scientificName}
                         />
                     </div>
                     <div className="mb-4 custom-input">
@@ -80,6 +82,7 @@ const UpdateCrop: React.FC<{ isOpen: boolean; onClose: () => void; crop:Crop; is
                             type="text"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setCategory(e.target.value)}
+                            value={category}
                         />
                     </div>
                     <div className="mb-4 custom-input">
@@ -88,6 +91,7 @@ const UpdateCrop: React.FC<{ isOpen: boolean; onClose: () => void; crop:Crop; is
                             type="text"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
                             onChange={(e) => setSeason(e.target.value)}
+                            value={season}
                         />
                     </div>
                     <div className="mb-4 custom-input">
@@ -99,23 +103,20 @@ const UpdateCrop: React.FC<{ isOpen: boolean; onClose: () => void; crop:Crop; is
                                 width: '100%',
                                 color: 'black',
                             }}
+                            value={fields.map((f: Field) => f.code)}
                             options={fieldOptions}
                             dropdownStyle={{
                                 backgroundColor: 'white',
                             }}
                             dropdownClassName="custom-dropdown"
                             onChange={(selectedValues) => {
-                                const selectedFields = selectedValues.map((value: string) => {
-                                    const matchedField = field.find((f) => f.code === value);
-                                    return matchedField
-                                        ? {
-                                            ...matchedField,
-                                            fieldName: matchedField.name,
-                                        }
-                                        : null;
-                                });
-                                const validFields = selectedFields.filter((f: Field) => f !== null);
-                                setFields(validFields as Field[]);
+                                const updatedFields = selectedValues
+                                    .map((value: string) => {
+                                        const matchedField = field.find((f) => f.code === value);
+                                        return matchedField ? {...matchedField} : null;
+                                    })
+                                    .filter((f): f is Field => f !== null);
+                                setFields(updatedFields);
                             }}
                         />
                     </div>
@@ -128,23 +129,20 @@ const UpdateCrop: React.FC<{ isOpen: boolean; onClose: () => void; crop:Crop; is
                                 width: '100%',
                                 color: 'black',
                             }}
+                            value={selectedLogs.map((log) => log.code)}
                             options={logOptions}
                             dropdownStyle={{
                                 backgroundColor: 'white',
                             }}
                             dropdownClassName="custom-dropdown"
                             onChange={(selectedValues) => {
-                                const selectedLogs = selectedValues.map((value: string) => {
-                                    const matchedLogs = logs.find((l) => l.code === value);
-                                    return matchedLogs
-                                        ? {
-                                            ...matchedLogs,
-                                            fieldName: matchedLogs.name,
-                                        }
-                                        : null;
-                                });
-                                const validLogs = selectedLogs.filter((l: Log) => l !== null);
-                                setLogs(validLogs as Log[]);
+                                const updatedLogs = selectedValues
+                                    .map((value: string) => {
+                                        const matchedLog = logs.find((log) => log.code === value);
+                                        return matchedLog ? {...matchedLog} : null;
+                                    })
+                                    .filter((log): log is Log => log !== null);
+                                setLogs(updatedLogs);
                             }}
                         />
                     </div>
