@@ -2,7 +2,7 @@ import {Field} from "./Field.ts";
 import {Log} from "./Log.ts";
 
 export class Crop{
-    code:string | number;
+    code:string;
     name:string;
     scientificName:string;
     category:string;
@@ -11,7 +11,7 @@ export class Crop{
     assignFields: Field[];
     assignLogs: Log[];
 
-    constructor(code: string | number, cropName: string, scientificName: string, category: string, season: string, image: File | null, assignFields: Field[], assignLogs: Log[]) {
+    constructor(code: string, cropName: string, scientificName: string, category: string, season: string, image: File | null, assignFields: Field[], assignLogs: Log[]) {
         this.code = code;
         this.name = cropName;
         this.scientificName = scientificName;
