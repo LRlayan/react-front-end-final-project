@@ -8,9 +8,9 @@ export class Vehicle{
     fuelType:string;
     status:string;
     remark:string;
-    assignStaffMember: Staff | undefined;
+    assignStaffMember: Staff;
 
-    constructor(code: string, licensePlateNumber: string, vehicleName: string, category: string, fuelType: string, status: string, remark: string, assignStaffMember: Staff | undefined) {
+    constructor(code: string, licensePlateNumber: string, vehicleName: string, category: string, fuelType: string, status: string, remark: string, assignStaffMember: Staff) {
         this.code = code;
         this.licensePlateNumber = licensePlateNumber;
         this.vehicleName = vehicleName;
