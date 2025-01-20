@@ -4,7 +4,7 @@ const initialState = {
     equipments:[]
 }
 
-export type RootState = {
+export type EquipmentRootState = {
     equipment: {
         equipments: Array<{
             code:string;
