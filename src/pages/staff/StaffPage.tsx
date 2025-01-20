@@ -11,6 +11,7 @@ import {Staff} from "../../model/Staff.ts";
 import {StaffRootState} from "../../reducer/StaffSlice.ts";
 import SearchingTableData from "../../util/SearchingTableData.ts";
 import {Log} from "../../model/Log.ts";
+import {Field} from "../../model/Field.ts";
 
 interface StaffDataType {
     key: React.Key;
@@ -30,6 +31,7 @@ interface StaffDataType {
     addressLine05:string;
     mobile:string;
     assignLog: Log[];
+    assignFields: Field[];
 }
 
 const StaffPage = () => {
@@ -145,7 +147,17 @@ const StaffPage = () => {
             render: (logs: Log[]) =>
                 logs && Array.isArray(logs)
                     ? logs.map((log: Log) => log.name).join(', ')
-                    : 'N/A',
+                    : 'No Logs',
+
+        },
+        {
+            title: 'Assign Fields',
+            dataIndex: 'fields',
+            key: 'fields',
+            render: (fields: Field[]) =>
+                fields && Array.isArray(fields)
+                    ? fields.map((field: Field) => field.name).join(', ')
+                    : 'No Fields',
 
         },
         {
@@ -239,6 +251,7 @@ const StaffPage = () => {
                         ...staff,
                         key: staff.code,
                         logs: staff.assignLog || [],
+                        fields: staff.assignFields || []
                     }))}
                 />
                 {open && modalType === "add" && (
