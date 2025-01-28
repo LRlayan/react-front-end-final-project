@@ -23,19 +23,15 @@ const AddEquipment: React.FC<{ isOpen:boolean; onClose: () => void; isType:strin
     const idGenerator = new IdGenerator();
 
     const equipmentTypeOptions = [
-        { label:"Plough", value: 'Plough'},
-        { label:"Mamotee'", value: 'Mamotee'},
-        { label:"Shovel'", value: 'Shovel'},
-        { label:"Irrigation pumps", value: 'Irrigation pumps'},
-        { label:"Wheelbarrow'", value: 'Wheelbarrow'},
-        { label:"Sprayer'", value: 'Sprayer'},
-        { label:"Axe'", value: 'Axe'},
-        { label:"Chain saw", value: 'Chain saw'},
-        { label:"Combine harvester", value: 'Combine harvester'},
-        { label:"Seeder'", value: 'Seeder'},
-        { label:"Weeder'", value: 'Weeder'},
-        { label:"Wheel wrench", value: 'Wheel wrench'},
-        { label:"Screw drivers", value: 'Screw drivers'},
+        { label:"Hand Tools", value: 'Hand Tools'},
+        { label:"Irrigation Equipment", value: 'Irrigation Equipment'},
+        { label:"Power Tools and Machinery", value: 'Power Tools and Machinery'},
+        { label:"Ploughing Equipment", value: 'Ploughing Equipment'},
+        { label:"Weeding and Pest Control Equipment", value: 'Weeding and Pest Control Equipment'},
+        { label:"Harvesting Equipment", value: 'Harvesting Equipment'},
+        { label:"Post-Harvest Equipment", value: 'Post-Harvest Equipment'},
+        { label:"Monitoring and Measuring Tools", value: 'Monitoring and Measuring Tools'},
+        { label:"Protective Equipment", value: 'Protective Equipment'}
     ];
 
     const statusOptions = [
