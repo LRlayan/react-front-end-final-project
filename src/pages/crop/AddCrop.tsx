@@ -1,30 +1,28 @@
 import React, { useState } from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {addCrop, CropRootState} from "../../reducer/CropSlice.ts";
 import {FieldRootState} from "../../reducer/FieldSlice.ts";
 import MainModal from "../../components/modal/MainModal.tsx";
-import {Crop} from "../../model/Crop.ts";
-import {IdGenerator} from "../../util/IdGenerator.ts";
 import {Input, Select, SelectProps} from "antd";
 import Label from "../../components/label/Label.tsx";
 import {Field} from "../../model/Field.ts";
 import tagRender from "../../util/TagRender.tsx";
 import {Log} from "../../model/Log.ts";
 import {LogRootState} from "../../reducer/LogSlice.ts";
+import {saveCrop} from "../../reducer/CropSlice.ts";
+import {AppDispatch} from "../../store/store.ts";
 
 const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; buttonType:string}> = ({ isOpen, onClose, isType, buttonType }) => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const [cropName, setCropName] = useState("");
     const [scientificName, setScientificName] = useState("");
     const [category, setCategory] = useState("");
     const [season, setSeason] = useState("");
-    const [image, setImage] = useState<File | null>(null);
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [selectedFields, setFields] = useState<Field[]>([]);
     const [selectedLogs, setLogs] = useState<Log[]>([]);
-    const crops = useSelector((state:CropRootState) => state.crop.crops);
+    // const crops = useSelector((state:CropRootState) => state.crop.crops);
     const field = useSelector((state:FieldRootState) => state.field.fields);
     const logs = useSelector((state:LogRootState) => state.log.logs);
-    const idGenerator = new IdGenerator();
 
     const fieldOptions: SelectProps['options'] = field.map((field) => ({
         label: field.name,
@@ -36,11 +34,25 @@ const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; b
         value: log.code
     }));
 
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files.length > 0) {
+            setSelectedFile(event.target.files[0]);
+        }
+    }
+
     const handleSubmit = () => {
-        const getLastCropCode = crops.length > 0 ? crops[crops.length - 1].code : "CROP-";
-        const newCode = idGenerator.codeGenerator("CROP",getLastCropCode);
-        const newCrop = new Crop(newCode, cropName, scientificName, category, season, image, selectedFields, selectedLogs);
-        dispatch(addCrop(newCrop));
+        const newCrops = new FormData();
+        newCrops.append("code", "");
+        newCrops.append("name", cropName);
+        newCrops.append("scientificName", scientificName);
+        newCrops.append("category", category);
+        newCrops.append("season", season);
+        if (selectedFile) {
+            newCrops.append("image", selectedFile);
+        }
+        newCrops.append("assignFields", JSON.stringify(selectedFields));
+        newCrops.append("assignLogs", JSON.stringify(selectedLogs));
+        dispatch(saveCrop(newCrops));
         onClose();
     };
 
@@ -143,7 +155,7 @@ const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; b
                         type="file"
                         accept="image/*"
                         className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
-                        onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
+                        onChange={handleFileChange}
                     />
                 </div>
             </form>
