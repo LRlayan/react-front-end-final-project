@@ -15,4 +15,6 @@ export const store = configureStore({
         vehicle:VehicleSlice,
         equipment:EquipmentSlice,
     }
-})
+});
+
+export type AppDispatch = typeof store.dispatch;
