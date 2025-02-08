@@ -10,17 +10,18 @@ import {FieldRootState} from "../../reducer/FieldSlice.ts";
 import tagRender from "../../util/TagRender.tsx";
 import {LogRootState} from "../../reducer/LogSlice.ts";
 import {Log} from "../../model/Log.ts";
+import {AppDispatch} from "../../store/store.ts";
 
 
 const UpdateCrop: React.FC<{ isOpen: boolean; onClose: () => void; crop:Crop; isType:string; buttonType:string}> = ({isOpen, onClose, crop, isType, buttonType}) => {
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const [cropCode, setCropCode] = useState<string>("");
     const [cropName, setCropName] = useState("");
     const [scientificName, setScientificName] = useState("");
     const [category, setCategory] = useState("");
     const [season, setSeason] = useState("");
-    const [image, setImage] = useState<File | null>(null);
+    const [image, setImage] = useState<File | null | undefined>(null);
     const [fields, setFields] = useState<Field[]>([]);
     const [selectedLogs, setLogs] = useState<Log[]>([]);
     const field = useSelector((state:FieldRootState) => state.field.fields);
