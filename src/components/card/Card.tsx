@@ -25,20 +25,28 @@ const Card: React.FC<CardProps> = ({
                 <div key={index} className="border rounded-lg bg-gray-700 text-white p-4 shadow-md">
                     {data.image && (
                         <img
-                            src={URL.createObjectURL(data.image)}
+                            src={`http://localhost:3000/uploads/${cardType}/${data.image}`}
                             alt={data.name}
                             className="w-full h-32 object-cover rounded-md mb-2"
                         />
                     )}
                     <div className="flex flex-col space-y-2">
-                        {cardType === "CROP" && (
+                        {cardType === "crop" && (
                             <>
                                 <h4 className="text-lg font-semibold">{data.code}</h4>
                                 <p className="text-sm">Scientific Name: {data.name}</p>
                                 <p className="text-sm">Category: {data.category}</p>
                                 <p className="text-sm">Season: {data.season}</p>
-                                <p className="text-sm">Fields: {data ? data.assignFields.map((f: Field) => f.name).join(", ") : "No Fields"}</p>
-                                <p className="text-sm">Logs: {data ? data.assignLogs.map((l: Log) => l.name).join(", ") : "No Logs"}</p>
+                                <p className="text-sm">
+                                    Fields: {data && data.assignFields && data.assignFields.length
+                                    ? data.assignFields.map((f: Field) => f.name).join(", ")
+                                    : "No Fields"}
+                                </p>
+                                <p className="text-sm">
+                                    Logs: {data && data.assignLogs && data.assignLogs.length
+                                    ? data.assignLogs.map((l: Log) => l.name).join(", ")
+                                    : "No Logs"}
+                                </p>
                             </>
                         )}
                         {cardType === "FIELD" && (
