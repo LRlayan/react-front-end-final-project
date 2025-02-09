@@ -20,7 +20,6 @@ const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; b
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [selectedFields, setFields] = useState<Field[]>([]);
     const [selectedLogs, setLogs] = useState<Log[]>([]);
-    // const crops = useSelector((state:CropRootState) => state.crop.crops);
     const field = useSelector((state:FieldRootState) => state.field.fields);
     const logs = useSelector((state:LogRootState) => state.log.logs);
 
