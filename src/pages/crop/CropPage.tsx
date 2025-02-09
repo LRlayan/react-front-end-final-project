@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import { useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import AddCrop from "./AddCrop";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Button } from "antd";
@@ -8,8 +8,9 @@ import UpdateCrop from "./UpdateCrop.tsx";
 import DeleteCrop from "./DeleteCrop.tsx";
 import {Crop} from "../../model/Crop.ts";
 import SearchingTableData from "../../util/SearchingTableData.ts";
-import {CropRootState} from "../../reducer/CropSlice.ts";
+import {CropRootState, getAllCrops} from "../../reducer/CropSlice.ts";
 import Card from "../../components/card/Card.tsx";
+import {AppDispatch} from "../../store/store.ts";
 
 const CropPage = () => {
     const [open, setOpen] = useState(false);
@@ -17,11 +18,16 @@ const CropPage = () => {
     const [selectedCrop, setSelectedCrop] = useState<Crop | null>();
     const [modalType, setModalType] = useState("");
     const [filteredCrop, setFilteredCrop] = useState<Crop[]>(crops);
+    const dispatch = useDispatch<AppDispatch>();
     const searchingTableData = new SearchingTableData();
 
     useEffect(() => {
         setFilteredCrop(crops);
     }, [crops]);
+
+    useEffect(() => {
+        dispatch(getAllCrops());
+    },[dispatch]);
 
     function openUpdateModal(crop: Crop) {
         setSelectedCrop(crop);
@@ -60,7 +66,7 @@ const CropPage = () => {
                     </Button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <Card cardType={"CROP"} filteredData={filteredCrop} openUpdateModal={openUpdateModal} openDeleteModal={openDeleteModal} />
+                    <Card cardType={"crop"} filteredData={filteredCrop} openUpdateModal={openUpdateModal} openDeleteModal={openDeleteModal} />
                 </div>
             </div>
             {open && modalType === "add" && (
