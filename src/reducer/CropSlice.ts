@@ -44,7 +44,7 @@ export const updateCrop = createAsyncThunk(
     'crop/updateCrop',
     async (crop: Crop)=> {
         try {
-            const response = await api.put(`updateCrop/${crop.code}`, crop);
+            const response = await api.put(`crop/updateCrop/${crop.code}`, crop);
             return response.data;
         } catch (e) {
             console.error("Failed to update crops!", e);
@@ -57,13 +57,26 @@ export const deleteCrop = createAsyncThunk(
     'crop/deleteCrop',
     async ( code: String ) => {
         try {
-            return await api.delete(`deleteCrop/${code}`);
+            return await api.delete(`crop/deleteCrop/${code}`);
         } catch (e) {
             console.log("Failed to delete crop!",e);
             throw e;
         }
     }
 );
+
+export const getAllCrops= createAsyncThunk(
+    'crop/getALlCrops',
+    async () => {
+        try {
+            const response = await api.get("crop/getAllCrop");
+            return response.data;
+        } catch (e) {
+            console.log("Failed to get all crop!",e);
+            throw e;
+        }
+    }
+)
 
 const CropSlice = createSlice({
     name: "crop",
@@ -72,7 +85,9 @@ const CropSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(saveCrop.fulfilled, (state, action) => {
-                state.crops.push(action.payload);
+                if (action.payload) {
+                    state.crops = [...state.crops, action.payload];
+                }
             })
             .addCase(saveCrop.pending, () => {
                 console.log("Pending saving crops");
@@ -100,6 +115,15 @@ const CropSlice = createSlice({
             })
             .addCase(deleteCrop.rejected, () => {
                 console.log("Rejected to delete customer");
+            })
+            .addCase(getAllCrops.fulfilled, (state, action) => {
+                state.crops = action.payload || [];
+            })
+            .addCase(getAllCrops.pending, () => {
+                console.log("pending get all crops");
+            })
+            .addCase(getAllCrops.rejected, () => {
+                console.log("rejected get all crops");
             })
     },
 });
