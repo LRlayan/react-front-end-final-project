@@ -34,7 +34,7 @@ const DeleteCrop: React.FC<{isOpen: boolean; onClose: () => void; crop:Crop; isT
 
     const handleSubmit = () => {
         new Crop(cropCode, cropName, scientificName, category, season, image, selectedFields,selectedLogs);
-        dispatch(deleteCrop(cropCode))
+        dispatch(deleteCrop(cropCode));
     }
 
     return(
@@ -42,7 +42,7 @@ const DeleteCrop: React.FC<{isOpen: boolean; onClose: () => void; crop:Crop; isT
             <MainModal isType={isType} buttonType={buttonType} isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
                 <div>
                     <img
-                        src={crop.image ? URL.createObjectURL(crop.image) : ""}
+                        src={`http://localhost:3000/uploads/crop/${crop.image}`}
                         alt={crop.name || "Crop Image"}
                         className="w-full h-32 object-cover rounded-md mb-2"
                     />
