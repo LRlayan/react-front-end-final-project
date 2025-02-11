@@ -60,6 +60,18 @@ export const updateField = createAsyncThunk(
     }
 );
 
+export const deleteField = createAsyncThunk(
+    'field/deleteField',
+    async (code: String) => {
+        try {
+            return await api.delete(`field/deleteField/${code}`);
+        } catch (e) {
+            console.log("Failed to delete field!",e);
+            throw e;
+        }
+    }
+);
+
 export const getAllFields = createAsyncThunk(
     'field/getAllFields',
     async () => {
@@ -107,6 +119,15 @@ const FieldSlice = createSlice({
            })
            .addCase(updateField.rejected, () => {
                console.error("Rejected update field");
+           })
+           .addCase(deleteField.fulfilled, (state, action) => {
+               state.fields = state.fields.filter(f => f.code !== action.meta.arg);
+           })
+           .addCase(deleteField.pending, () => {
+               console.error("Pending delete error");
+           })
+           .addCase(deleteField.rejected, () => {
+               console.error("Rejected delete error");
            })
            .addCase(getAllFields.fulfilled, (state, action) => {
                state.fields = action.payload || [];
