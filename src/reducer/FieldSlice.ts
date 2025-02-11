@@ -41,7 +41,20 @@ export const saveField = createAsyncThunk(
             throw e;
         }
     }
-)
+);
+
+export const getAllFields = createAsyncThunk(
+    'field/getAllFields',
+    async () => {
+        try {
+            const response = await api.get('field/getALlField');
+            return response.data;
+        } catch (e) {
+            console.log("Failed to get all field!",e);
+            throw e;
+        }
+    }
+);
 
 const FieldSlice = createSlice({
    name:"field",
@@ -59,6 +72,15 @@ const FieldSlice = createSlice({
            })
            .addCase(saveField.rejected, () => {
                console.log("Rejected save fields");
+           })
+           .addCase(getAllFields.fulfilled, (state, action) => {
+               state.fields = action.payload || [];
+           })
+           .addCase(getAllFields.pending, () => {
+               console.error("pending get all crops");
+           })
+           .addCase(getAllFields.rejected, () => {
+               console.error("rejected get all crops");
            })
    }
 });
