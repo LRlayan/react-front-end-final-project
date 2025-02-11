@@ -12,7 +12,6 @@ import {LogRootState} from "../../reducer/LogSlice.ts";
 import {Log} from "../../model/Log.ts";
 import {AppDispatch} from "../../store/store.ts";
 
-
 const UpdateCrop: React.FC<{ isOpen: boolean; onClose: () => void; crop:Crop; isType:string; buttonType:string}> = ({isOpen, onClose, crop, isType, buttonType}) => {
 
     const dispatch = useDispatch<AppDispatch>();
@@ -21,7 +20,7 @@ const UpdateCrop: React.FC<{ isOpen: boolean; onClose: () => void; crop:Crop; is
     const [scientificName, setScientificName] = useState("");
     const [category, setCategory] = useState("");
     const [season, setSeason] = useState("");
-    const [image, setImage] = useState<File | null | undefined>(null);
+    const [selectedFile, setSelectedFile] = useState<File | null | undefined>(null);
     const [fields, setFields] = useState<Field[]>([]);
     const [selectedLogs, setLogs] = useState<Log[]>([]);
     const field = useSelector((state:FieldRootState) => state.field.fields);
@@ -34,7 +33,7 @@ const UpdateCrop: React.FC<{ isOpen: boolean; onClose: () => void; crop:Crop; is
             setScientificName(crop.scientificName);
             setCategory(crop.category);
             setSeason(crop.season);
-            setImage(crop.image);
+            setSelectedFile(crop.image);
             setFields(crop.assignFields);
             setLogs(crop.assignLogs);
         }
@@ -50,9 +49,25 @@ const UpdateCrop: React.FC<{ isOpen: boolean; onClose: () => void; crop:Crop; is
         value: log.code
     }));
 
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files.length > 0) {
+            setSelectedFile(event.target.files[0]);
+        }
+    }
+
     const handleSubmit = () => {
-        const updateCropDetails = new Crop(cropCode, cropName, scientificName, category, season, image, fields, selectedLogs);
-        dispatch(updateCrop(updateCropDetails))
+        const updateCropDetails = new FormData();
+        updateCropDetails.append("code",cropCode);
+        updateCropDetails.append("name",cropName);
+        updateCropDetails.append("scientificName",scientificName);
+        updateCropDetails.append("category",category);
+        updateCropDetails.append("season",season);
+        if (selectedFile) {
+            updateCropDetails.append("image", selectedFile);
+        }
+        updateCropDetails.append("assignFields", JSON.stringify(fields));
+        updateCropDetails.append("assignLogs", JSON.stringify(selectedLogs));
+        dispatch(updateCrop(updateCropDetails));
     }
 
     return (
@@ -153,7 +168,7 @@ const UpdateCrop: React.FC<{ isOpen: boolean; onClose: () => void; crop:Crop; is
                             type="file"
                             accept="image/*"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
-                            onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
+                            onChange={handleFileChange}
                         />
                     </div>
                 </form>
