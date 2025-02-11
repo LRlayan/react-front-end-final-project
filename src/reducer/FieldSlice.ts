@@ -1,10 +1,12 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {Crop} from "../model/Crop.ts";
 import {Log} from "../model/Log.ts";
 import {Staff} from "../model/Staff.ts";
 import {Equipment} from "../model/Equipment.ts";
+import {api} from "../api/api.ts";
+import {Field} from "../model/Field.ts";
 
-const initialState = {
+const initialState: { fields: Field[] } = {
     fields:[]
 }
 
@@ -24,26 +26,41 @@ export type FieldRootState = {
     };
 };
 
+export const saveField = createAsyncThunk(
+    'field/saveField',
+    async (field : FormData) => {
+        try {
+            const response = await api.post("field/saveField", field, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            });
+            return response.data;
+        } catch (e) {
+            console.error("Failed to save fields!", e);
+            throw e;
+        }
+    }
+)
+
 const FieldSlice = createSlice({
    name:"field",
-   initialState:initialState,
-   reducers:{
-       addField:(state,action) =>{
-           state.fields.push(action.payload);
-       },
-       updateField:(state,action) => {
-           // @ts-ignore
-           const index = state.fields.findIndex(f => f.code === action.payload.code);
-           if (index !== -1) {
-               state.fields[index] = action.payload;
-           }
-       },
-       deleteField:(state,action) => {
-           //@ts-ignore
-           state.fields = state.fields.filter(f => f.code !== action.payload.code);
-       }
+   initialState,
+   reducers:{},
+   extraReducers: (builder) => {
+       builder
+           .addCase(saveField.fulfilled,(state, action) => {
+                if (action.payload) {
+                    state.fields = [...state.fields, action.payload];
+                }
+           })
+           .addCase(saveField.pending, () => {
+               console.error("Pending save fields");
+           })
+           .addCase(saveField.rejected, () => {
+               console.log("Rejected save fields");
+           })
    }
 });
 
-export const {addField,updateField,deleteField} = FieldSlice.actions;
 export default FieldSlice.reducer;
