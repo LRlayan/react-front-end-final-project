@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import MainModal from "../../components/modal/MainModal.tsx";
 import {Field} from "../../model/Field.ts";
-import {updateField} from "../../reducer/FieldSlice.ts";
 import Label from "../../components/label/Label.tsx";
 import {Input, Select, SelectProps} from "antd";
 import {Crop} from "../../model/Crop.ts";
@@ -14,15 +13,17 @@ import {Staff} from "../../model/Staff.ts";
 import {StaffRootState} from "../../reducer/StaffSlice.ts";
 import {Equipment} from "../../model/Equipment.ts";
 import {EquipmentRootState} from "../../reducer/EquipmentSlice.ts";
+import {updateField} from "../../reducer/FieldSlice.ts";
+import {AppDispatch} from "../../store/store.ts";
 
 const UpdateField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; isType:string; buttonType:string}> = ({ isOpen, onClose, field, isType, buttonType }) =>{
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const [fieldCode, setFieldCode] = useState("");
     const [fieldName, setFieldName] = useState("");
     const [location, setLocation] = useState("");
     const [extentSize, setExtentSize] = useState("");
-    const [image, setImage] = useState<File | null>(null);
+    const [selectedFile, setSelectedFile] = useState<File | null | undefined>(null);
     const [selectedCrops, setCrops] = useState<Crop[]>([]);
     const [selectedLogs, setLogs] = useState<Log[]>([]);
     const [selectedStaff, setStaff] = useState<Staff[]>([]);
@@ -38,7 +39,7 @@ const UpdateField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; 
             setFieldName(field.name);
             setLocation(field.location);
             setExtentSize(field.extentSize);
-            setImage(field.image);
+            setSelectedFile(field.image);
             setCrops(field.assignCrops);
             setLogs(field.assignLogs);
             setStaff(field.assignStaffMembers);
@@ -66,9 +67,27 @@ const UpdateField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; 
         value: equipment.code
     }));
 
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files.length > 0) {
+            setSelectedFile(event.target.files[0]);
+        }
+    }
+
     const handleSubmit = () => {
-        const updateFieldDetails = new Field(fieldCode, fieldName, location, extentSize, image, selectedCrops, selectedLogs, selectedStaff, selectedEquipments);
-        dispatch(updateField(updateFieldDetails));
+        const updateFields = new FormData();
+        updateFields.append("code", fieldCode);
+        updateFields.append("name", fieldName);
+        updateFields.append("location", location);
+        updateFields.append("extentSize", extentSize);
+        if (selectedFile) {
+            updateFields.append("image", selectedFile);
+        }
+        updateFields.append("assignCrops", JSON.stringify(selectedCrops));
+        updateFields.append("assignLogs", JSON.stringify(selectedLogs));
+        updateFields.append("assignStaffMembers", JSON.stringify(selectedStaff));
+        updateFields.append("assignEquipments", JSON.stringify(selectedEquipments));
+        dispatch(updateField(updateFields));
+        onClose();
     }
 
     return(
@@ -212,7 +231,7 @@ const UpdateField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; 
                             type="file"
                             accept="image/*"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
-                            onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
+                            onChange={handleFileChange}
                         />
                     </div>
                 </form>
