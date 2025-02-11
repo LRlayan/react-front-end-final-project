@@ -1,4 +1,4 @@
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import Search from "antd/es/input/Search";
 import {Button} from "antd";
@@ -7,9 +7,10 @@ import AddField from "./AddField.tsx";
 import UpdateField from "./UpdateField.tsx";
 import DeleteField from "./DeleteField.tsx";
 import {Field} from "../../model/Field.ts";
-import {FieldRootState} from "../../reducer/FieldSlice.ts";
+import {FieldRootState, getAllFields} from "../../reducer/FieldSlice.ts";
 import SearchingTableData from "../../util/SearchingTableData.ts";
 import Card from "../../components/card/Card.tsx";
+import {AppDispatch} from "../../store/store.ts";
 
 export function FieldPage() {
 
@@ -18,11 +19,16 @@ export function FieldPage() {
     const [modalType , setModalType] = useState("");
     const [selectedField, setSelectedField] = useState<Field | null>();
     const [filteredField, setFilteredField] = useState<Field[]>(fields);
+    const dispatch = useDispatch<AppDispatch>();
     const searchingTableData = new SearchingTableData();
 
     useEffect(() => {
         setFilteredField(fields);
     }, [fields]);
+
+    useEffect(() => {
+        dispatch(getAllFields());
+    },[dispatch]);
 
     function openAddModal() {
         setOpen(true);
