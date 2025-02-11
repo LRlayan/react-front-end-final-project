@@ -43,6 +43,23 @@ export const saveField = createAsyncThunk(
     }
 );
 
+export const updateField = createAsyncThunk(
+    'field/updateField',
+    async (field: FormData) => {
+        try {
+            const response = await api.put(`field/updateField/${field.get('code')}`, field, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            });
+            return response.data;
+        } catch (e) {
+            console.error("Failed to update fields!", e);
+            throw e;
+        }
+    }
+);
+
 export const getAllFields = createAsyncThunk(
     'field/getAllFields',
     async () => {
@@ -72,6 +89,24 @@ const FieldSlice = createSlice({
            })
            .addCase(saveField.rejected, () => {
                console.log("Rejected save fields");
+           })
+           .addCase(updateField.fulfilled, (state, action) => {
+               const formData = action.meta.arg;
+               const code = formData.get("code");
+
+               if (!code) {
+                   console.error("Error: No code in FormData!");
+               }
+               const index = state.fields.findIndex(f => f.code === code);
+               if (index !== -1) {
+                   state.fields[index] = action.payload;
+               }
+           })
+           .addCase(updateField.pending, () => {
+               console.error("Pending update field");
+           })
+           .addCase(updateField.rejected, () => {
+               console.error("Rejected update field");
            })
            .addCase(getAllFields.fulfilled, (state, action) => {
                state.fields = action.payload || [];
