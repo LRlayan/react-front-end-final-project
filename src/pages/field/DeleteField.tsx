@@ -7,15 +7,16 @@ import {Crop} from "../../model/Crop.ts";
 import {Log} from "../../model/Log.ts";
 import {Staff} from "../../model/Staff.ts";
 import {Equipment} from "../../model/Equipment.ts";
+import {AppDispatch} from "../../store/store.ts";
 
 const DeleteField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; isType:string; buttonType:string}> = ({isOpen, onClose, field, isType, buttonType}) => {
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const [fieldCode, setFieldCode] = useState("");
     const [fieldName, setFieldName] = useState("");
     const [location, setLocation] = useState("");
     const [extentSize, setExtentSize] = useState("");
-    const [image, setImage] = useState<File | null>(null);
+    const [image, setImage] = useState<File | null | undefined>(null);
     const [selectedCrops, setCrops] = useState<Crop[]>([]);
     const [selectedLogs, setLogs] = useState<Log[]>([]);
     const [selectedStaff, setStaff] = useState<Staff[]>([]);
@@ -36,8 +37,8 @@ const DeleteField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; 
     }, [field]);
 
     const handleSubmit = () => {
-        const delField = new Field(fieldCode, fieldName, location, extentSize, image, selectedCrops, selectedLogs, selectedStaff, selectedEquipments);
-        dispatch(deleteField(delField));
+        new Field(fieldCode, fieldName, location, extentSize, image, selectedCrops, selectedLogs, selectedStaff, selectedEquipments);
+        dispatch(deleteField(fieldCode));
     }
 
     return(
@@ -45,7 +46,7 @@ const DeleteField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; 
             <MainModal isType={isType} buttonType={buttonType} isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
                 <div>
                     <img
-                        src={field.image ? URL.createObjectURL(field.image) : ""}
+                        src={`http://localhost:3000/uploads/field/${field.image}`}
                         alt={field.name}
                         className="w-full h-32 object-cover rounded-md mb-2"
                     />
