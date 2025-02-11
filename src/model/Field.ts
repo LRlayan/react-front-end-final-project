@@ -14,7 +14,7 @@ export class Field{
     assignStaffMembers: Staff[];
     assignEquipments: Equipment[];
 
-    constructor(code: string, fieldName: string, location: string, extentSize: string, image: File | null, assignCrops: Crop[], assignLogs: Log[], assignStaffMembers: Staff[], assignEquipments: Equipment[]) {
+    constructor(code: string, fieldName: string, location: string, extentSize: string, image: File | null | undefined, assignCrops: Crop[], assignLogs: Log[], assignStaffMembers: Staff[], assignEquipments: Equipment[]) {
         this.code = code;
         this.name = fieldName;
         this.location = location;
