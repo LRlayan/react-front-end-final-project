@@ -42,9 +42,13 @@ export const saveCrop = createAsyncThunk(
 
 export const updateCrop = createAsyncThunk(
     'crop/updateCrop',
-    async (crop: Crop)=> {
+    async (crop: FormData)=> {
         try {
-            const response = await api.put(`crop/updateCrop/${crop.code}`, crop);
+            const response = await api.put(`crop/updateCrop/${crop.get("code")}`, crop, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            });
             return response.data;
         } catch (e) {
             console.error("Failed to update crops!", e);
@@ -96,9 +100,16 @@ const CropSlice = createSlice({
                 console.log("Rejected saving crops");
             })
             .addCase(updateCrop.fulfilled, (state, action) => {
-                const index = state.crops.findIndex(c => c.code === action.payload.code);
+                const formData = action.meta.arg;
+                const code = formData.get("code");
+
+                if (!code) {
+                    console.error("Error: No code in FormData!");
+                    return;
+                }
+                const index = state.crops.findIndex(c => c.code === code);
                 if (index !== -1) {
-                    state.crops[index] = { ...state.crops[index], ...action.payload };
+                    state.crops[index] = action.payload;
                 }
             })
             .addCase(updateCrop.pending, () => {
