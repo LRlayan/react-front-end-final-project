@@ -8,7 +8,7 @@ export class Field{
     name:string;
     location:string;
     extentSize:string;
-    image:File | null;
+    image:File | null | undefined;
     assignCrops: Crop[];
     assignLogs: Log[];
     assignStaffMembers: Staff[];
