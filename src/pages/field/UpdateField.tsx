@@ -142,7 +142,7 @@ const UpdateField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; 
                                         const matchedCrop = crops.find((c) => c.code === value);
                                         return matchedCrop ? {...matchedCrop} : null;
                                     })
-                                    .filter((c): c is Crop => c !== null);
+                                    .filter((c): c is any => c !== null && c !== undefined);
                                 setCrops(updatedCrops);
                             }}
                         />
