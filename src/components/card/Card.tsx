@@ -49,7 +49,7 @@ const Card: React.FC<CardProps> = ({
                                 </p>
                             </>
                         )}
-                        {cardType === "FIELD" && (
+                        {cardType === "field" && (
                             <>
                                 <h4 className="text-lg font-semibold">{data.code}</h4>
                                 <p className="text-sm">Name: {data.name}</p>
@@ -57,8 +57,8 @@ const Card: React.FC<CardProps> = ({
                                 <p className="text-sm">Extent Size: {data.extentSize}</p>
                                 <p className="text-sm">Crops: {data ? data.assignCrops.map((c: Crop) => c.name).join(", ") : "No Crops"}</p>
                                 <p className="text-sm">Logs: {data ? data.assignLogs.map((l: Log) => l.name).join(", ") : "No Logs"}</p>
-                                <p className="text-sm">Members: {data ? data.assignStaffMembers.map((s: Staff) => s.code).join(", ") : "No Members"}</p>
-                                <p className="text-sm">Equipments: {data ? data.assignEquipments.map((e: Equipment) => e.name).join(", ") : "No Equipments"}</p>
+                                <p className="text-sm">Members: {data && data.assignStaffMembers && data.assignStaffMembers.length ? data.assignStaffMembers.map((s: Staff) => s.code).join(", ") : "No Members"}</p>
+                                <p className="text-sm">Equipments: {data && data.assignEquipments && data.assignEquipments.length ? data.assignEquipments.map((e: Equipment) => e.name).join(", ") : "No Equipments"}</p>
                             </>
                         )}
                         {cardType === "LOG" && (
