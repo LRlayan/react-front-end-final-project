@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {Field} from "../../model/Field.ts";
-import {addField, FieldRootState} from "../../reducer/FieldSlice.ts";
+import {saveField} from "../../reducer/FieldSlice.ts";
 import MainModal from "../../components/modal/MainModal.tsx";
-import {IdGenerator} from "../../util/IdGenerator.ts";
 import {Input, Select, SelectProps} from "antd";
 import Label from "../../components/label/Label.tsx";
 import {CropRootState} from "../../reducer/CropSlice.ts";
@@ -15,24 +13,23 @@ import {Staff} from "../../model/Staff.ts";
 import {StaffRootState} from "../../reducer/StaffSlice.ts";
 import {Equipment} from "../../model/Equipment.ts";
 import {EquipmentRootState} from "../../reducer/EquipmentSlice.ts";
+import {AppDispatch} from "../../store/store.ts";
 
 const AddField: React.FC<{isOpen: boolean; onClose: () => void; isType:string; buttonType:string}> = ({isOpen, onClose, isType, buttonType }) => {
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const [fieldName, setFieldName] = useState("");
     const [location, setLocation] = useState("");
     const [extentSize, setExtentSize] = useState("");
-    const [image, setImage] = useState<File | null>(null);
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [selectedCrops, setCrops] = useState<Crop[]>([]);
     const [selectedLogs, setLogs] = useState<Log[]>([]);
     const [selectedStaff, setStaff] = useState<Staff[]>([]);
     const [selectedEquipments, setEquipments] = useState<Equipment[]>([]);
     const crops = useSelector((state:CropRootState) => state.crop.crops);
-    const fields = useSelector((state:FieldRootState) => state.field.fields);
     const logs = useSelector((state:LogRootState) => state.log.logs);
     const staff = useSelector((state:StaffRootState) => state.staff.staffs);
     const equipment = useSelector((state:EquipmentRootState) => state.equipment.equipments);
-    const idGenerator = new IdGenerator();
 
     const cropOptions: SelectProps['options'] = crops.map((crop) => ({
         label: crop.name,
@@ -54,11 +51,26 @@ const AddField: React.FC<{isOpen: boolean; onClose: () => void; isType:string; b
         value: equipment.code
     }));
 
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files.length > 0) {
+            setSelectedFile(event.target.files[0]);
+        }
+    }
+
     const handleSubmit = () => {
-        const getLastFieldCode = fields.length > 0 ? fields[fields.length - 1].code : "FIELD-";
-        const newCode = idGenerator.codeGenerator("FIELD",getLastFieldCode);
-        const newField = new Field(newCode, fieldName, location, extentSize, image, selectedCrops, selectedLogs, selectedStaff, selectedEquipments);
-        dispatch(addField(newField));
+        const newFields = new FormData();
+        newFields.append("code", "");
+        newFields.append("name", fieldName);
+        newFields.append("location", location);
+        newFields.append("extentSize", extentSize);
+        if (selectedFile) {
+            newFields.append("image", selectedFile);
+        }
+        newFields.append("assignCrops", JSON.stringify(selectedCrops));
+        newFields.append("assignLogs", JSON.stringify(selectedLogs));
+        newFields.append("assignStaffMembers", JSON.stringify(selectedStaff));
+        newFields.append("assignEquipments", JSON.stringify(selectedEquipments));
+        dispatch(saveField(newFields));
         onClose();
     }
 
@@ -212,7 +224,7 @@ const AddField: React.FC<{isOpen: boolean; onClose: () => void; isType:string; b
                             type="file"
                             accept="image/*"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
-                            onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
+                            onChange={handleFileChange}
                         />
                     </div>
                 </form>
