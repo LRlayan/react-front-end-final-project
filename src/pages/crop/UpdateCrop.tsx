@@ -157,7 +157,7 @@ const UpdateCrop: React.FC<{ isOpen: boolean; onClose: () => void; crop:Crop; is
                                         const matchedLog = logs.find((log) => log.code === value);
                                         return matchedLog ? {...matchedLog} : null;
                                     })
-                                    .filter((log): log is Log => log !== null);
+                                    .filter((log): log is any => log !== null);
                                 setLogs(updatedLogs);
                             }}
                         />
