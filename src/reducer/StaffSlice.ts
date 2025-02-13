@@ -64,6 +64,19 @@ export const updateStaff = createAsyncThunk(
     }
 );
 
+export const deleteStaff = createAsyncThunk(
+    'staff/deleteStaff',
+    async (code: string) => {
+        try {
+            const response = await api.delete(`staff/deleteStaff/${code}`);
+            return response.data;
+        } catch (e) {
+            console.error("Failed to delete staff!", e);
+            throw e;
+        }
+    }
+);
+
 export const getAllStaff = createAsyncThunk(
     'staff/getAllStaff',
     async () => {
@@ -107,6 +120,15 @@ const StaffSlice = createSlice({
             })
             .addCase(updateStaff.rejected, () => {
                 console.error("Rejected update staff");
+            })
+            .addCase(deleteStaff.fulfilled, (state, action) => {
+                state.staffs = state.staffs.filter(s => s.code !== action.meta.arg);
+            })
+            .addCase(deleteStaff.pending, () => {
+                console.error("Pending get all staff");
+            })
+            .addCase(deleteStaff.rejected, () => {
+                console.error("Rejected get all staff");
             })
             .addCase(getAllStaff.fulfilled, (state, action) => {
                 state.staffs = action.payload || [];
