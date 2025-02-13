@@ -73,10 +73,10 @@ export const deleteLog = createAsyncThunk(
 );
 
 export const getAllLogs = createAsyncThunk(
-    'logs/getAllLogs',
+    'log/getAllLogs',
     async () => {
         try {
-            const response = await api.get('log/getAllLogs');
+            const response = await api.get("log/getAllLog");
             return response.data;
         } catch (e) {
             console.log("Failed to get all logs!",e);
@@ -87,7 +87,7 @@ export const getAllLogs = createAsyncThunk(
 
 const LogSlice = createSlice({
     name:"log",
-    initialState:initialState,
+    initialState,
     reducers:{},
     extraReducers: (builder) => {
         builder
