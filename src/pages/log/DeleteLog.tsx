@@ -6,18 +6,19 @@ import {deleteLog} from "../../reducer/LogSlice.ts";
 import {Crop} from "../../model/Crop.ts";
 import {Staff} from "../../model/Staff.ts";
 import {Field} from "../../model/Field.ts";
+import {AppDispatch} from "../../store/store.ts";
 
 const DeleteLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isType:string; buttonType:string}> = ({ isOpen, onClose, logs, isType, buttonType }) => {
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const [logCode, setLogCode] = useState("");
     const [logName, setLogName] = useState("");
     const [logDate, setLogDate] = useState("");
     const [logDetails, setLogDetails] = useState("");
-    const [logImage, setImage] = useState<File | null>(null);
     const [selectedCrops, setCrops] = useState<Crop[]>([]);
     const [selectedField, setFields] = useState<Field[]>([]);
     const [selectedStaff, setStaff] = useState<Staff[]>([]);
+    const [logImage, setImage] = useState<File | null | undefined>(null);
 
     useEffect(() => {
         setLogCode(logs.code);
@@ -31,8 +32,8 @@ const DeleteLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isTyp
     }, [logs]);
 
     function handleSubmit() {
-        const delLog = new Log(logCode,logName,logDate,logDetails,logImage,selectedCrops,selectedField,selectedStaff);
-        dispatch(deleteLog(delLog));
+        new Log(logCode,logName,logDate,logDetails,logImage,selectedCrops,selectedField,selectedStaff);
+        dispatch(deleteLog(logCode));
         onClose();
     }
 
@@ -41,7 +42,7 @@ const DeleteLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isTyp
             <MainModal isOpen={isOpen} isType={isType} buttonType={buttonType} onClose={onClose} onSubmit={handleSubmit}>
                 <div>
                     <img
-                        src={logs.image ? URL.createObjectURL(logs.image) : ""}
+                        src={`http://localhost:3000/uploads/log/${logs.image}`}
                         alt="log image"
                         className="w-full h-32 object-cover rounded-md mb-2"
                     />
