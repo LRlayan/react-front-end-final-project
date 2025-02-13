@@ -1,8 +1,6 @@
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {Log} from "../../model/Log.ts";
-import {addLog, LogRootState} from "../../reducer/LogSlice.ts";
-import {IdGenerator} from "../../util/IdGenerator.ts";
+import {saveLog} from "../../reducer/LogSlice.ts";
 import MainModal from "../../components/modal/MainModal.tsx";
 import {Input, Select, SelectProps} from "antd";
 import Label from "../../components/label/Label.tsx";
@@ -13,22 +11,20 @@ import {FieldRootState} from "../../reducer/FieldSlice.ts";
 import {Field} from "../../model/Field.ts";
 import {Staff} from "../../model/Staff.ts";
 import {StaffRootState} from "../../reducer/StaffSlice.ts";
+import {AppDispatch} from "../../store/store.ts";
 
 const AddLog: React.FC<{isOpen: boolean; onClose: () => void; isType:string; buttonType:string}> = ({ isOpen, onClose, isType, buttonType }) => {
-
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const [logName, setLogName] = useState("");
-    const [lodDate, setLogDate] = useState("");
+    const [logDate, setLogDate] = useState("");
     const [logDetails, setLogDetails] = useState("");
-    const [image, setImage] = useState<File | null>(null);
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [selectedCrops, setCrops] = useState<Crop[]>([]);
     const [selectedFields, setFields] = useState<Field[]>([]);
     const [selectedStaff, setStaff] = useState<Staff[]>([]);
-    const logs = useSelector((state:LogRootState) => state.log.logs);
     const crops = useSelector((state:CropRootState) => state.crop.crops);
     const field = useSelector((state:FieldRootState) => state.field.fields);
     const staff = useSelector((state:StaffRootState) => state.staff.staffs);
-    const idGenerator = new IdGenerator();
 
     const cropOptions: SelectProps['options'] = crops.map((crop) => ({
         label: crop.name,
@@ -45,11 +41,25 @@ const AddLog: React.FC<{isOpen: boolean; onClose: () => void; isType:string; but
         value: staff.code
     }));
 
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files.length > 0) {
+            setSelectedFile(event.target.files[0]);
+        }
+    }
+
     function handleSubmit() {
-        const getLastLogCode = logs.length > 0 ? logs[logs.length -1].code : "LOG-";
-        const newCode = idGenerator.codeGenerator("LOG",getLastLogCode);
-        const newLogs = new Log(newCode,logName,lodDate,logDetails,image,selectedCrops,selectedFields,selectedStaff);
-        dispatch(addLog(newLogs));
+        const newLogs = new FormData();
+        newLogs.append("code","");
+        newLogs.append("name", logName);
+        newLogs.append("logDate", logDate);
+        newLogs.append("logDetails",logDetails);
+        if (selectedFile) {
+            newLogs.append("image", selectedFile);
+        }
+        newLogs.append("assignCrops", JSON.stringify(selectedCrops));
+        newLogs.append("assignFields", JSON.stringify(selectedFields));
+        newLogs.append("assignStaff", JSON.stringify(selectedStaff));
+        dispatch(saveLog(newLogs));
         onClose();
     }
 
@@ -174,7 +184,7 @@ const AddLog: React.FC<{isOpen: boolean; onClose: () => void; isType:string; but
                             type="file"
                             accept="image/*"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
-                            onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
+                            onChange={handleFileChange}
                         />
                     </div>
                 </form>
