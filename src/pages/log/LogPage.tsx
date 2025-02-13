@@ -2,14 +2,15 @@ import Search from "antd/es/input/Search";
 import {Button} from "antd";
 import {PlusCircleOutlined} from "@ant-design/icons";
 import {useEffect, useState} from "react";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import AddLog from "./AddLog.tsx";
 import UpdateLog from "./UpdateLog.tsx";
 import DeleteLog from "./DeleteLog.tsx";
 import {Log} from "../../model/Log.ts";
-import {LogRootState} from "../../reducer/LogSlice.ts";
+import {getAllLogs, LogRootState} from "../../reducer/LogSlice.ts";
 import SearchingTableData from "../../util/SearchingTableData.ts";
 import Card from "../../components/card/Card.tsx";
+import {AppDispatch} from "../../store/store.ts";
 
 const LogPage = () => {
     const [open, setOpen] = useState(false);
@@ -17,11 +18,16 @@ const LogPage = () => {
     const [modalType, setModalType] = useState("");
     const logs = useSelector((state: LogRootState) => state.log.logs) || [];
     const [filteredLog, setFilteredLog] = useState<Log[]>(logs);
+    const dispatch = useDispatch<AppDispatch>();
     const searchingTableData = new SearchingTableData();
 
     useEffect(() => {
         setFilteredLog(logs);
     }, [logs]);
+
+    useEffect(() => {
+        dispatch(getAllLogs());
+    },[dispatch]);
 
     function openAddModal() {
         setOpen(true);
@@ -61,7 +67,7 @@ const LogPage = () => {
                         </Button>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <Card cardType={"LOG"} filteredData={filteredLog} openUpdateModal={openUpdateModal} openDeleteModal={openDeleteModal}/>
+                        <Card cardType={"log"} filteredData={filteredLog} openUpdateModal={openUpdateModal} openDeleteModal={openDeleteModal}/>
                     </div>
                 </div>
                 {open && modalType === "add" && (
