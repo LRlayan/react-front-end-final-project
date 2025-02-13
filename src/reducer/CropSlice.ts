@@ -25,13 +25,14 @@ export type CropRootState = {
 
 export const saveCrop = createAsyncThunk(
     "crop/saveCrop",
-    async (crop: FormData) => {
+    async (crop: FormData, { dispatch }) => {
         try {
             const response = await api.post("crop/saveCrop", crop,{
                 headers: {
                     "Content-Type": "multipart/form-data"
                 }
             });
+            dispatch(getAllCrops());
             return response.data;
         } catch (e) {
             console.error("Failed to save crops!", e);
@@ -42,13 +43,14 @@ export const saveCrop = createAsyncThunk(
 
 export const updateCrop = createAsyncThunk(
     'crop/updateCrop',
-    async (crop: FormData)=> {
+    async (crop: FormData, { dispatch })=> {
         try {
             const response = await api.put(`crop/updateCrop/${crop.get("code")}`, crop, {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 }
             });
+            dispatch(getAllCrops());
             return response.data;
         } catch (e) {
             console.error("Failed to update crops!", e);
