@@ -7,12 +7,12 @@ export class Log{
     name: string;
     logDate:string;
     logDetails:string;
-    image:File | null;
+    image:File | null | undefined;
     assignCrops: Crop[];
     assignFields: Field[];
     assignStaff: Staff[];
 
-    constructor(code: string, logName:string, logDate: string, logDetails: string, image:File | null, assignCrops: Crop[], assignFields: Field[], assignStaff: Staff[]) {
+    constructor(code: string, logName:string, logDate: string, logDetails: string, image:File | null | undefined, assignCrops: Crop[], assignFields: Field[], assignStaff: Staff[]) {
         this.code = code;
         this.name = logName;
         this.logDate = logDate;
