@@ -28,13 +28,14 @@ export type FieldRootState = {
 
 export const saveField = createAsyncThunk(
     'field/saveField',
-    async (field : FormData) => {
+    async (field : FormData, { dispatch }) => {
         try {
             const response = await api.post("field/saveField", field, {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 }
             });
+            dispatch(getAllFields);
             return response.data;
         } catch (e) {
             console.error("Failed to save fields!", e);
@@ -45,13 +46,14 @@ export const saveField = createAsyncThunk(
 
 export const updateField = createAsyncThunk(
     'field/updateField',
-    async (field: FormData) => {
+    async (field: FormData, { dispatch }) => {
         try {
             const response = await api.put(`field/updateField/${field.get('code')}`, field, {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 }
             });
+            dispatch(getAllFields());
             return response.data;
         } catch (e) {
             console.error("Failed to update fields!", e);
