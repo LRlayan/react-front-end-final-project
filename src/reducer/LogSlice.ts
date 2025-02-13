@@ -60,6 +60,18 @@ export  const updateLog = createAsyncThunk(
     }
 );
 
+export const deleteLog = createAsyncThunk(
+    'log/deleteLog',
+    async (code: string) => {
+        try {
+             return await api.delete(`log/deleteLog/${code}`);
+        } catch (e) {
+            console.log("Failed to delete log!",e);
+            throw e;
+        }
+    }
+);
+
 export const getAllLogs = createAsyncThunk(
     'logs/getAllLogs',
     async () => {
@@ -109,6 +121,15 @@ const LogSlice = createSlice({
             })
             .addCase(updateLog.rejected, () => {
                 console.error("Rejected update logs");
+            })
+            .addCase(deleteLog.fulfilled, (state,action) => {
+                state.logs = state.logs.filter(l => l.code !== action.meta.arg);
+            })
+            .addCase(deleteLog.pending, () => {
+                console.error("Pending delete logs");
+            })
+            .addCase(deleteLog.rejected, () => {
+                console.error("Rejected delete logs");
             })
             .addCase(getAllLogs.fulfilled, (state, action) => {
                 state.logs = action.payload || [];
