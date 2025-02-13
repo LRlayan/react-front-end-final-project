@@ -4,7 +4,6 @@ import {Field} from "../../model/Field.ts";
 import {Crop} from "../../model/Crop.ts";
 import {Log} from "../../model/Log.ts";
 import {Staff} from "../../model/Staff.ts";
-import {Equipment} from "../../model/Equipment.ts";
 
 interface CardProps {
     cardType: string;
@@ -55,10 +54,26 @@ const Card: React.FC<CardProps> = ({
                                 <p className="text-sm">Name: {data.name}</p>
                                 <p className="text-sm">Location: {data.location}</p>
                                 <p className="text-sm">Extent Size: {data.extentSize}</p>
-                                <p className="text-sm">Crops: {data ? data.assignCrops.map((c: Crop) => c.name).join(", ") : "No Crops"}</p>
-                                <p className="text-sm">Logs: {data ? data.assignLogs.map((l: Log) => l.name).join(", ") : "No Logs"}</p>
-                                <p className="text-sm">Members: {data && data.assignStaffMembers && data.assignStaffMembers.length ? data.assignStaffMembers.map((s: Staff) => s.code).join(", ") : "No Members"}</p>
-                                <p className="text-sm">Equipments: {data && data.assignEquipments && data.assignEquipments.length ? data.assignEquipments.map((e: Equipment) => e.name).join(", ") : "No Equipments"}</p>
+                                <p className="text-sm">
+                                    Crops: {data && data.assignCrops && data.assignCrops.length
+                                    ? data.assignCrops.map((c: Crop) => c.name).join(", ")
+                                    : "No Crops"}
+                                </p>
+                                <p className="text-sm">
+                                    Logs: {data && data.assignLogs && data.assignLogs.length
+                                    ? data.assignLogs.map((c: Crop) => c.name).join(", ")
+                                    : "No Logs"}
+                                </p>
+                                <p className="text-sm">
+                                    Staff Member: {data && data.assignStaffMembers && data.assignStaffMembers.length
+                                    ? data.assignStaffMembers.map((c: Crop) => c.code).join(", ")
+                                    : "No Member"}
+                                </p>
+                                <p className="text-sm">
+                                    Equipments: {data && data.assignEquipments && data.assignEquipments.length
+                                    ? data.assignEquipments.map((c: Crop) => c.name).join(", ")
+                                    : "No Equipments"}
+                                </p>
                             </>
                         )}
                         {cardType === "LOG" && (
