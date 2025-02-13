@@ -55,6 +55,11 @@ const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; b
         onClose();
     };
 
+    const seasonOption = [
+        {value: "Yala Season", label: "Yala Season"},
+        {value: "Maha Season", label: "Maha Season"},
+    ]
+
     return (
         <MainModal isType={isType} buttonType={buttonType} isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
             <form>
@@ -84,10 +89,24 @@ const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; b
                 </div>
                 <div className="mb-4 custom-input">
                     <Label labelName={"Season"}/>
-                    <Input
-                        type="text"
-                        className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
-                        onChange={(e) => setSeason(e.target.value)}
+                    <Select
+                        showSearch
+                        placeholder="Select crop season"
+                        optionFilterProp="label"
+                        options={seasonOption}
+                        value={season || undefined}
+                        onChange={(value) => setSeason(value)}
+                        style={{
+                            color: season ? "black" : "gray",
+                        }}
+                        dropdownStyle={{
+                            backgroundColor: "white",
+                            color: "black",
+                        }}
+                        className={`w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-300 ${
+                            season ? "text-black" : "text-gray-500"
+                        }`}
+                        dropdownClassName="custom-dropdown"
                     />
                 </div>
                 <div className="mb-4 custom-input">
