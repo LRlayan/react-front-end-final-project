@@ -33,9 +33,23 @@ export const saveLog = createAsyncThunk(
                     "Content-Type": "multipart/form-data"
                 }
             });
+            dispatch(getAllLogs());
             return response.data;
         } catch (e) {
             console.error("Failed to save logs!", e);
+            throw e;
+        }
+    }
+);
+
+export const getAllLogs = createAsyncThunk(
+    'logs/getAllLogs',
+    async () => {
+        try {
+            const response = await api.get('log/getAllLogs');
+            return response.data;
+        } catch (e) {
+            console.log("Failed to get all logs!",e);
             throw e;
         }
     }
@@ -57,6 +71,15 @@ const LogSlice = createSlice({
             })
             .addCase(saveLog.rejected, () => {
                 console.error("Rejected save logs")
+            })
+            .addCase(getAllLogs.fulfilled, (state, action) => {
+                state.logs = action.payload || [];
+            })
+            .addCase(getAllLogs.pending, () => {
+                console.error("Pending get all logs");
+            })
+            .addCase(getAllLogs.rejected, () => {
+                console.error("Rejected get all logs")
             })
     }
 });
