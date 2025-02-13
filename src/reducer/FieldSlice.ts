@@ -35,7 +35,7 @@ export const saveField = createAsyncThunk(
                     "Content-Type": "multipart/form-data"
                 }
             });
-            dispatch(getAllFields);
+            dispatch(getAllFields());
             return response.data;
         } catch (e) {
             console.error("Failed to save fields!", e);
