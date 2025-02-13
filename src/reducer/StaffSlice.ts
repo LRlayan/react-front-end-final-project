@@ -1,10 +1,12 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {Log} from "../model/Log.ts";
 import {Field} from "../model/Field.ts";
 import {Vehicle} from "../model/Vehicle.ts";
 import {Equipment} from "../model/Equipment.ts";
+import {Staff} from "../model/Staff.ts";
+import {api} from "../api/api.ts";
 
-const initialState = {
+const initialState: { staffs: Staff[] } = {
     staffs:[]
 }
 
@@ -34,26 +36,37 @@ export type StaffRootState = {
     };
 };
 
+export const saveStaff = createAsyncThunk(
+    'staff/saveStaff',
+    async (staff : Staff, { dispatch }) => {
+        try {
+            const response = await api.post("staff/saveStaff", staff);
+            return response.data;
+        } catch (e) {
+            console.error("Failed to save staffs!", e);
+            throw e;
+        }
+    }
+);
+
 const StaffSlice = createSlice({
     name:"staff",
     initialState:initialState,
-    reducers:{
-        addStaff:(state,action)=>{
-            state.staffs.push(action.payload);
-        },
-        updateStaff:(state,action)=>{
-            //@ts-ignore
-            const index = state.staffs.findIndex(s => s.code === action.payload.code);
-            if (index !== -1) {
-                state.staffs[index] = action.payload;
-            }
-        },
-        deleteStaff:(state,action)=>{
-            //@ts-ignore
-            state.staffs = state.staffs.filter(s => s.code !== action.payload.code);
-        }
+    reducers:{},
+    extraReducers: (builder) => {
+        builder
+            .addCase(saveStaff.fulfilled, (state,action) => {
+                if (action.payload) {
+                    state.staffs = [...state.staffs ,action.payload]
+                }
+            })
+            .addCase(saveStaff.pending, () => {
+                console.error("Pending save staffs");
+            })
+            .addCase(saveStaff.rejected, () => {
+                console.error("Rejected save staffs")
+            })
     }
 })
 
-export const {addStaff,updateStaff,deleteStaff} = StaffSlice.actions;
 export default StaffSlice.reducer;
