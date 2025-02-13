@@ -3,7 +3,6 @@ import {Button} from "antd";
 import {Field} from "../../model/Field.ts";
 import {Crop} from "../../model/Crop.ts";
 import {Log} from "../../model/Log.ts";
-import {Staff} from "../../model/Staff.ts";
 
 interface CardProps {
     cardType: string;
@@ -76,15 +75,27 @@ const Card: React.FC<CardProps> = ({
                                 </p>
                             </>
                         )}
-                        {cardType === "LOG" && (
+                        {cardType === "log" && (
                             <>
                                 <h4 className="text-lg font-semibold">{data.code}</h4>
                                 <p className="text-sm">Log Title: {data.name}</p>
                                 <p className="text-sm">Log Date: {data.logDate}</p>
                                 <p className="text-sm">Log Details: {data.logDetails}</p>
-                                <p className="text-sm">Crops: {data ? data.assignCrops.map((c: Crop) => c.name).join(", ") : "No Crops"}</p>
-                                <p className="text-sm">Fields: {data ? data.assignFields.map((f: Field) => f.name).join(", ") : "No Fields"}</p>
-                                <p className="text-sm">Members: {data ? data.assignStaff.map((s: Staff) => s.code).join(", ") : "No Members"}</p>
+                                <p className="text-sm">
+                                    Crops: {data && data.assignCrops && data.assignCrops.length
+                                    ? data.assignCrops.map((c: Crop) => c.name).join(", ")
+                                    : "No Crops"}
+                                </p>
+                                <p className="text-sm">
+                                    Fields: {data && data.assignFields && data.assignFields.length
+                                    ? data.assignFields.map((f: Field) => f.name).join(", ")
+                                    : "No Fields"}
+                                </p>
+                                <p className="text-sm">
+                                    Staff Member: {data && data.assignStaffMembers && data.assignStaffMembers.length
+                                    ? data.assignStaffMembers.map((c: Crop) => c.code).join(", ")
+                                    : "No Member"}
+                                </p>
                             </>
                         )}
                     </div>
