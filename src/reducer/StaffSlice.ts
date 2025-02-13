@@ -41,9 +41,23 @@ export const saveStaff = createAsyncThunk(
     async (staff : Staff, { dispatch }) => {
         try {
             const response = await api.post("staff/saveStaff", staff);
+            dispatch(getAllStaff());
             return response.data;
         } catch (e) {
             console.error("Failed to save staffs!", e);
+            throw e;
+        }
+    }
+);
+
+export const getAllStaff = createAsyncThunk(
+    'staff/getAllStaff',
+    async () => {
+        try {
+            const response = await api.get("staff/getAllStaff");
+            return response.data;
+        } catch (e) {
+            console.log("Failed to get all staff!",e);
             throw e;
         }
     }
@@ -65,6 +79,15 @@ const StaffSlice = createSlice({
             })
             .addCase(saveStaff.rejected, () => {
                 console.error("Rejected save staffs")
+            })
+            .addCase(getAllStaff.fulfilled, (state, action) => {
+                state.staffs = action.payload || [];
+            })
+            .addCase(getAllStaff.pending, () => {
+                console.error("Pending get all staff");
+            })
+            .addCase(getAllStaff.rejected, () => {
+                console.error("Rejected get all staff");
             })
     }
 })
