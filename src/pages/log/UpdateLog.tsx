@@ -12,15 +12,16 @@ import {Field} from "../../model/Field.ts";
 import {FieldRootState} from "../../reducer/FieldSlice.ts";
 import {StaffRootState} from "../../reducer/StaffSlice.ts";
 import {Staff} from "../../model/Staff.ts";
+import {AppDispatch} from "../../store/store.ts";
 
 const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isType:string; buttonType:string}> = ({ isOpen, onClose, logs, isType, buttonType }) => {
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const [logCode, setLogCode] = useState("");
     const [logName, setLogName] = useState("");
     const [logDate, setLogDate] = useState("");
     const [logDetails, setLogDetails] = useState("");
-    const [logImage, setImage] = useState<File | null>(null);
+    const [selectedFile, setSelectedFile] = useState<File | null | undefined>(null);
     const [selectedCrops, setCrops] = useState<Crop[]>([]);
     const [selectedFields, setFields] = useState<Field[]>([]);
     const [selectedStaff, setStaff] = useState<Staff[]>([]);
@@ -33,7 +34,7 @@ const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isTyp
         setLogName(logs.name);
         setLogDate(logs.logDate);
         setLogDetails(logs.logDetails);
-        setImage(logs.image);
+        setSelectedFile(logs.image);
         setCrops(logs.assignCrops);
         setFields(logs.assignFields);
         setStaff(logs.assignStaff);
@@ -54,9 +55,25 @@ const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isTyp
         value: staff.code
     }));
 
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files.length > 0) {
+            setSelectedFile(event.target.files[0]);
+        }
+    }
+
     function handleSubmit() {
-        const updateLogDetails = new Log(logCode,logName,logDate,logDetails,logImage,selectedCrops,selectedFields,selectedStaff);
-        dispatch(updateLog(updateLogDetails));
+        const updateLogs = new FormData();
+        updateLogs.append("code",logCode);
+        updateLogs.append("name",logName);
+        updateLogs.append("logDate", logDate);
+        updateLogs.append("logDetails",logDetails);
+        if (selectedFile) {
+            updateLogs.append("image", selectedFile);
+        }
+        updateLogs.append("assignCrops", JSON.stringify(selectedCrops));
+        updateLogs.append("assignFields", JSON.stringify(selectedFields));
+        updateLogs.append("assignStaff", JSON.stringify(selectedStaff));
+        dispatch(updateLog(updateLogs));
         onClose();
     }
 
@@ -112,7 +129,7 @@ const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isTyp
                                         const matchedCrop = crops.find((c) => c.code === value);
                                         return matchedCrop ? {...matchedCrop} : null;
                                     })
-                                    .filter((c): c is Crop => c !== null);
+                                    .filter((c): c is any => c !== null);
                                 setCrops(updatedCrops);
                             }}
                         />
@@ -138,7 +155,7 @@ const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isTyp
                                         const matchedField = field.find((f) => f.code === value);
                                         return matchedField ? {...matchedField} : null;
                                     })
-                                    .filter((f): f is Field => f !== null);
+                                    .filter((f): f is any => f !== null);
                                 setFields(updatedFields);
                             }}
                         />
@@ -164,7 +181,7 @@ const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isTyp
                                         const matchedStaff = staff.find((s) => s.code === value);
                                         return matchedStaff ? {...matchedStaff} : null;
                                     })
-                                    .filter((s): s is Staff => s !== null);
+                                    .filter((s): s is any => s !== null);
                                 setStaff(updatedStaff);
                             }}
                         />
@@ -175,7 +192,7 @@ const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isTyp
                             type="file"
                             accept="image/*"
                             className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
-                            onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
+                            onChange={handleFileChange}
                         />
                     </div>
                 </form>
