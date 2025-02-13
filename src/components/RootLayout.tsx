@@ -42,19 +42,19 @@ const items = [
     {
         key: '/staff-manage',
         icon: <TeamOutlined />,
-        label: 'StaffPage Manage',
+        label: 'Staff Manage',
         path: '/staff-manage',
     },
     {
         key: '/log-manage',
         icon: <DiffOutlined />,
-        label: 'LogPage Manage',
+        label: 'Log Manage',
         path: '/log-manage',
     },
     {
         key: '/equipment-manage',
         icon: <ToolOutlined />,
-        label: 'EquipmentPage Manage',
+        label: 'Equipment Manage',
         path: '/equipment-manage'
     },
     {
