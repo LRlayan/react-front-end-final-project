@@ -50,6 +50,19 @@ export const updateEquipment = createAsyncThunk(
     }
 );
 
+export const deleteEquipment = createAsyncThunk(
+    'equipment/deleteEquipment',
+    async (code: string) => {
+        try {
+            const response = await api.delete(`equipment/deleteEquipment/${code}`);
+            return response.data;
+        } catch (e) {
+            console.error("Failed to delete equipment!", e);
+            throw e;
+        }
+    }
+);
+
 export const getAllEquipment = createAsyncThunk(
     'equipment/getAllEquipment',
     async () => {
@@ -92,9 +105,19 @@ const EquipmentSlice = createSlice({
             })
             .addCase(updateEquipment.rejected, () => {
                 console.error("Rejected update equipment");
-            }).addCase(getAllEquipment.fulfilled, (state, action) => {
-            state.equipments = action.payload || [];
-        })
+            })
+            .addCase(deleteEquipment.fulfilled, (state, action) => {
+                state.equipments = state.equipments.filter((equ) => equ.code !== action.meta.arg);
+            })
+            .addCase(deleteEquipment.pending, () => {
+                console.error("Pending delete equipment");
+            })
+            .addCase(deleteEquipment.rejected, () => {
+                console.error("Rejected delete equipment");
+            })
+            .addCase(getAllEquipment.fulfilled, (state, action) => {
+                state.equipments = action.payload || [];
+            })
             .addCase(getAllEquipment.pending, () => {
                 console.error("Pending get all equipment");
             })
