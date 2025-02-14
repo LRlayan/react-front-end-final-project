@@ -14,10 +14,11 @@ import {Vehicle} from "../../model/Vehicle.ts";
 import {VehicleRootState} from "../../reducer/VehicleSlice.ts";
 import {Equipment} from "../../model/Equipment.ts";
 import {EquipmentRootState} from "../../reducer/EquipmentSlice.ts";
+import {AppDispatch} from "../../store/store.ts";
 
 const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; isType:string; buttonType:string}> = ({ isOpen, onClose, staff, isType, buttonType }) => {
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const [memberCode, setMemberCode] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -295,7 +296,7 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
                                 width: '100%',
                                 color: 'black',
                             }}
-                            value={selectedLogs.map((log) => log.code)}
+                            value={(selectedLogs || []).map((log: Log) => log.name)}
                             options={logOptions}
                             dropdownStyle={{
                                 backgroundColor: 'white',
@@ -307,7 +308,7 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
                                         const matchedLog = logs.find((log) => log.code === value);
                                         return matchedLog ? {...matchedLog} : null;
                                     })
-                                    .filter((log): log is Log => log !== null);
+                                    .filter((log): log is any => log !== null);
                                 setLogs(updatedLogs);
                             }}
                         />
@@ -321,7 +322,7 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
                                 width: '100%',
                                 color: 'black',
                             }}
-                            value={selectedFields.map((f: Field) => f.code)}
+                            value={selectedFields.map((f: Field) => f.name)}
                             options={fieldOptions}
                             dropdownStyle={{
                                 backgroundColor: 'white',
@@ -333,7 +334,7 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
                                         const matchedField = field.find((f) => f.code === value);
                                         return matchedField ? {...matchedField} : null;
                                     })
-                                    .filter((f): f is Field => f !== null);
+                                    .filter((f): f is any => f !== null);
                                 setFields(updatedFields);
                             }}
                         />
@@ -347,7 +348,7 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
                                 width: '100%',
                                 color: 'black',
                             }}
-                            value={selectedVehicles.map((v) => v.code)}
+                            value={selectedVehicles.map((v) => v.vehicleName)}
                             options={vehicleOptions}
                             dropdownStyle={{
                                 backgroundColor: 'white',
@@ -373,7 +374,7 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
                                 width: '100%',
                                 color: 'black',
                             }}
-                            value={selectedEquipments.map((e) => e.code)}
+                            value={selectedEquipments.map((e) => e.name)}
                             options={equipmentOptions}
                             dropdownStyle={{
                                 backgroundColor: 'white',
