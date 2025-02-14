@@ -7,9 +7,10 @@ import {Log} from "../../model/Log.ts";
 import {Field} from "../../model/Field.ts";
 import {Vehicle} from "../../model/Vehicle.ts";
 import {Equipment} from "../../model/Equipment.ts";
+import {AppDispatch} from "../../store/store.ts";
 const DeleteStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; isType:string; buttonType:string}> = ({ isOpen, onClose, staff, isType, buttonType }) => {
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const [memberCode, setMemberCode] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -53,8 +54,8 @@ const DeleteStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
     }, [staff]);
 
     function handleSubmit() {
-        const delStaff = new Staff(memberCode, firstName, lastName, joinedDate, designation, gender, dob, addressLine01, addressLine02, addressLine03, addressLine04, addressLine05, mobile, email, role, selectedLogs, selectedFields, selectedVehicles, selectedEquipments);
-        dispatch(deleteStaff(delStaff));
+        new Staff(memberCode, firstName, lastName, joinedDate, designation, gender, dob, addressLine01, addressLine02, addressLine03, addressLine04, addressLine05, mobile, email, role, selectedLogs, selectedFields, selectedVehicles, selectedEquipments);
+        dispatch(deleteStaff(memberCode));
         onClose();
     }
 
