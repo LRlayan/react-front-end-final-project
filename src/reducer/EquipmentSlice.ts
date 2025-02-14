@@ -24,12 +24,26 @@ export type EquipmentRootState = {
 
 export const saveEquipment = createAsyncThunk(
     'equipment/saveEquipment',
-    async (equipment: Equipment) => {
+    async (equipment: Equipment, { dispatch }) => {
         try {
             const response = await api.post("equipment/saveEquipment", equipment);
+            dispatch(getAllEquipment());
             return response.data;
         } catch (e) {
             console.error("Failed to save equipment!", e);
+            throw e;
+        }
+    }
+);
+
+export const getAllEquipment = createAsyncThunk(
+    'equipment/getAllEquipment',
+    async () => {
+        try {
+            const response = await api.get("equipment/getAllEquipment");
+            return response.data;
+        } catch (e) {
+            console.log("Failed to get all equipment!",e);
             throw e;
         }
     }
@@ -51,6 +65,15 @@ const EquipmentSlice = createSlice({
             })
             .addCase(saveEquipment.rejected, () => {
                 console.error("Rejected save equipment");
+            })
+            .addCase(getAllEquipment.fulfilled, (state, action) => {
+                state.equipments = action.payload || [];
+            })
+            .addCase(getAllEquipment.pending, () => {
+                console.error("Pending get all equipment");
+            })
+            .addCase(getAllEquipment.rejected, () => {
+                console.error("Rejected get all equipment");
             })
     }
 });
