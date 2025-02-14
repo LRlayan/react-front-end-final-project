@@ -4,7 +4,7 @@ import {Field} from "./Field.ts";
 export class Equipment{
     code:string;
     name:string;
-    type:string;
+    equType:string;
     status:string;
     count:number;
     assignStaffMembers: Staff[];
@@ -13,7 +13,7 @@ export class Equipment{
     constructor(code:string,name:string,type:string,status:string,count:number, assignStaffMembers: Staff[], assignFields: Field[]) {
         this.code = code;
         this.name = name;
-        this.type = type;
+        this.equType = type;
         this.status = status;
         this.count = count;
         this.assignStaffMembers = assignStaffMembers;
