@@ -10,10 +10,11 @@ import {StaffRootState} from "../../reducer/StaffSlice.ts";
 import tagRender from "../../util/TagRender.tsx";
 import {Field} from "../../model/Field.ts";
 import {FieldRootState} from "../../reducer/FieldSlice.ts";
+import {AppDispatch} from "../../store/store.ts";
 
 const UpdateEquipment: React.FC<{ isOpen:boolean; onClose: () => void; isType:string; buttonType: string; equipments: Equipment}> = ({ isOpen, onClose, isType, buttonType, equipments }) => {
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const [code, setCode] = useState("");
     const [name, setName] = useState("");
     const [type, setType] = useState("");
@@ -27,7 +28,7 @@ const UpdateEquipment: React.FC<{ isOpen:boolean; onClose: () => void; isType:st
     useEffect(() => {
         setCode(equipments.code);
         setName(equipments.name);
-        setType(equipments.type);
+        setType(equipments.equType);
         setStatus(equipments.status);
         setCount(equipments.count);
         setStaff(equipments.assignStaffMembers);
@@ -184,7 +185,7 @@ const UpdateEquipment: React.FC<{ isOpen:boolean; onClose: () => void; isType:st
                                         const matchedField = field.find((f) => f.code === value);
                                         return matchedField ? {...matchedField} : null;
                                     })
-                                    .filter((f): f is Field => f !== null);
+                                    .filter((f): f is any => f !== null);
                                 setFields(updatedFields);
                             }}
                         />
