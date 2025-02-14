@@ -1,8 +1,10 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {Staff} from "../model/Staff.ts";
 import {Field} from "../model/Field.ts";
+import {Equipment} from "../model/Equipment.ts";
+import {api} from "../api/api.ts";
 
-const initialState = {
+const initialState: { equipments: Equipment[] } = {
     equipments:[]
 }
 
@@ -20,26 +22,37 @@ export type EquipmentRootState = {
     }
 }
 
+export const saveEquipment = createAsyncThunk(
+    'equipment/saveEquipment',
+    async (equipment: Equipment) => {
+        try {
+            const response = await api.post("equipment/saveEquipment", equipment);
+            return response.data;
+        } catch (e) {
+            console.error("Failed to save equipment!", e);
+            throw e;
+        }
+    }
+);
+
 const EquipmentSlice = createSlice({
     name:"equipment",
-    initialState:initialState,
-    reducers:{
-        addEquipment:(state,action) => {
-            state.equipments.push(action.payload);
-        },
-        updateEquipment:(state,action) => {
-            //@ts-ignore
-            const index = state.equipments.findIndex(e => e.code === action.payload.code);
-            if (index !== -1) {
-                state.equipments[index] = action.payload;
-            }
-        },
-        deleteEquipment:(state,action) => {
-            //@ts-ignore
-            state.equipments = state.equipments.filter(e => e.code !== action.payload.code);
-        }
+    initialState,
+    reducers:{},
+    extraReducers: (builder) => {
+        builder
+            .addCase(saveEquipment.fulfilled, (state, action) => {
+                if (action.payload) {
+                    state.equipments = [...state.equipments, action.payload];
+                }
+            })
+            .addCase(saveEquipment.pending, () => {
+                console.error("Pending save equipment");
+            })
+            .addCase(saveEquipment.rejected, () => {
+                console.error("Rejected save equipment");
+            })
     }
 });
 
-export const {addEquipment,updateEquipment,deleteEquipment} = EquipmentSlice.actions
 export default EquipmentSlice.reducer
