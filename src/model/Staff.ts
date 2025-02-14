@@ -19,7 +19,7 @@ export class Staff{
     mobile:string;
     email:string;
     role:string;
-    assignLog: Log[];
+    assignLogs: Log[];
     assignFields: Field[];
     assignVehicles: Vehicle[];
     assignEquipments: Equipment[];
@@ -40,7 +40,7 @@ export class Staff{
         this.mobile = mobile;
         this.email = email;
         this.role = role;
-        this.assignLog = assignLog;
+        this.assignLogs = assignLog;
         this.assignFields = assignFields;
         this.assignVehicles = assignVehicles;
         this.assignEquipments = assignEquipments;

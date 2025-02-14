@@ -33,7 +33,7 @@ interface StaffDataType {
     addressLine04:string;
     addressLine05:string;
     mobile:string;
-    assignLog: Log[];
+    assignLogs: Log[];
     assignFields: Field[];
     assignVehicles: Vehicle[];
     assignEquipments: Equipment[];
@@ -166,7 +166,7 @@ const StaffPage = () => {
             render: (logs: Log[]) =>
                 logs && Array.isArray(logs)
                     ? logs.map((log: Log) => log.name).join(', ')
-                    : 'No Logs',
+                    : 'No Log',
 
         },
         {
@@ -285,7 +285,7 @@ const StaffPage = () => {
                     dataSource={filteredStaff.map((staff) => ({
                         ...staff,
                         key: staff.code,
-                        logs: staff.assignLog || "No Logs",
+                        logs: staff.assignLogs || "No Logs",
                         fields: staff.assignFields || "No Fields",
                         vehicle: staff.assignVehicles || "No Vehicles",
                         equipment: staff.assignEquipments || "No Equipments",

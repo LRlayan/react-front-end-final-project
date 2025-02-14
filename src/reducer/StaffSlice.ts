@@ -28,7 +28,7 @@ export type StaffRootState = {
             mobile:string;
             email:string;
             role:string;
-            assignLog: Log[];
+            assignLogs: Log[];
             assignFields: Field[];
             assignVehicles: Vehicle[];
             assignEquipments: Equipment[];
