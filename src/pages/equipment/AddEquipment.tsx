@@ -3,35 +3,33 @@ import MainModal from "../../components/modal/MainModal.tsx";
 import Label from "../../components/label/Label.tsx";
 import {Input, Select, SelectProps} from "antd";
 import {useDispatch, useSelector} from "react-redux";
-import {IdGenerator} from "../../util/IdGenerator.ts";
-import {addEquipment, EquipmentRootState} from "../../reducer/EquipmentSlice.ts";
+import {saveEquipment} from "../../reducer/EquipmentSlice.ts";
 import {Equipment} from "../../model/Equipment.ts";
 import {Staff} from "../../model/Staff.ts";
 import {StaffRootState} from "../../reducer/StaffSlice.ts";
 import tagRender from "../../util/TagRender.tsx";
+import {AppDispatch} from "../../store/store.ts";
 
 const AddEquipment: React.FC<{ isOpen:boolean; onClose: () => void; isType:string; buttonType:string}> = ({ isOpen, onClose ,isType, buttonType}) => {
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const [name, setName] = useState("");
     const [type, setType] = useState("");
     const [status, setStatus] = useState("");
     const [count, setCount] = useState<number>(0);
     const [selectedStaff, setStaff] = useState<Staff[]>([]);
-    const equipments = useSelector((state:EquipmentRootState) => state.equipment.equipments);
     const staff = useSelector((state:StaffRootState) => state.staff.staffs);
-    const idGenerator = new IdGenerator();
 
     const equipmentTypeOptions = [
-        { label:"Hand Tools", value: 'Hand Tools'},
-        { label:"Irrigation Equipment", value: 'Irrigation Equipment'},
-        { label:"Power Tools and Machinery", value: 'Power Tools and Machinery'},
-        { label:"Ploughing Equipment", value: 'Ploughing Equipment'},
-        { label:"Weeding and Pest Control Equipment", value: 'Weeding and Pest Control Equipment'},
-        { label:"Harvesting Equipment", value: 'Harvesting Equipment'},
-        { label:"Post-Harvest Equipment", value: 'Post-Harvest Equipment'},
-        { label:"Monitoring and Measuring Tools", value: 'Monitoring and Measuring Tools'},
-        { label:"Protective Equipment", value: 'Protective Equipment'}
+        { label:"Hand Tools", value: "Hand Tools"},
+        { label:"Irrigation Equipment", value: "Irrigation Equipment"},
+        { label:"Power Tools and Machinery", value: "Power Tools and Machinery"},
+        { label:"Ploughing Equipment", value: "Ploughing Equipment"},
+        { label:"Weeding and Pest Control Equipment", value: "Weeding and Pest Control Equipment"},
+        { label:"Harvesting Equipment", value: "Harvesting Equipment"},
+        { label:"Post-Harvest Equipment", value: "Post-Harvest Equipment"},
+        { label:"Monitoring and Measuring Tools", value: "Monitoring and Measuring Tools"},
+        { label:"Protective Equipment", value: "Protective Equipment"}
     ];
 
     const statusOptions = [
@@ -45,10 +43,8 @@ const AddEquipment: React.FC<{ isOpen:boolean; onClose: () => void; isType:strin
     }));
 
     function handleSubmit(){
-        const getLastIndex = equipments.length > 0 ? equipments[equipments.length -1].code : "EQUIPMENT-";
-        const newCode = idGenerator.codeGenerator("EQUIPMENT",getLastIndex);
-        const newEquipment = new Equipment(newCode, name, type, status, count, selectedStaff);
-        dispatch(addEquipment(newEquipment));
+        const newEquipment = new Equipment("", name, type, status, count, selectedStaff, []);
+        dispatch(saveEquipment(newEquipment));
         onClose();
     }
 
