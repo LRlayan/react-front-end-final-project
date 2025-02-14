@@ -1,9 +1,8 @@
 import React, {useState} from "react";
 import MainModal from "../../components/modal/MainModal.tsx";
 import {useDispatch, useSelector} from "react-redux";
-import {IdGenerator} from "../../util/IdGenerator.ts";
 import {Staff} from "../../model/Staff.ts";
-import {addStaff, StaffRootState} from "../../reducer/StaffSlice.ts";
+import {saveStaff} from "../../reducer/StaffSlice.ts";
 import {Input, Select, SelectProps} from "antd";
 import Label from "../../components/label/Label.tsx";
 import {FieldRootState} from "../../reducer/FieldSlice.ts";
@@ -11,10 +10,11 @@ import tagRender from "../../util/TagRender.tsx";
 import {Field} from "../../model/Field.ts";
 import {Vehicle} from "../../model/Vehicle.ts";
 import {VehicleRootState} from "../../reducer/VehicleSlice.ts";
+import {AppDispatch} from "../../store/store.ts";
 
 const AddStaff: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; buttonType:string}> = ({isOpen, onClose, isType, buttonType}) => {
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [joinedDate, setJoinedDate] = useState("");
@@ -31,10 +31,8 @@ const AddStaff: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; 
     const [role, setRole] = useState("");
     const [selectedFields, setFields] = useState<Field[]>([]);
     const [selectedVehicles, setVehicles] = useState<Vehicle[]>([]);
-    const staff = useSelector((state:StaffRootState) => state.staff.staffs);
     const field = useSelector((state:FieldRootState) => state.field.fields);
     const vehicle = useSelector((state:VehicleRootState) => state.vehicle.vehicles);
-    const idGenerator = new IdGenerator();
 
     const fieldOptions: SelectProps['options'] = field.map((field) => ({
         label: field.name,
@@ -47,10 +45,8 @@ const AddStaff: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; 
     }));
 
     function handleSubmit() {
-        const getLastIndex = staff.length > 0 ? staff[staff.length - 1].code : "STAFF-";
-        const newCode = idGenerator.codeGenerator("STAFF", getLastIndex);
-        const newStaff = new Staff(newCode, firstName, lastName, joinedDate, designation, gender, dob, addressLine01, addressLine02, addressLine03, addressLine04, addressLine05, contactNo, email, role, [], selectedFields, selectedVehicles);
-        dispatch(addStaff(newStaff));
+        const newStaff = new Staff("", firstName, lastName, joinedDate, designation, gender, dob, addressLine01, addressLine02, addressLine03, addressLine04, addressLine05, contactNo, email, role, [], selectedFields, selectedVehicles);
+        dispatch(saveStaff(newStaff));
         onClose();
     }
 
