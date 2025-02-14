@@ -38,7 +38,7 @@ class SearchingTableData {
             case "CROP":
                 return selectType.filter(
                     (item:Crop) =>
-                        item.cropName.toLowerCase().includes(lowercasedValue) ||
+                        item.name.toLowerCase().includes(lowercasedValue) ||
                         item.category.toLowerCase().includes(lowercasedValue) ||
                         item.scientificName.toLowerCase().includes(lowercasedValue)
                 );
@@ -50,7 +50,7 @@ class SearchingTableData {
             case "FIELD":
                 return selectType.filter(
                     (item:Field) =>
-                        item.fieldName.toLowerCase().includes(lowercasedValue)
+                        item.name.toLowerCase().includes(lowercasedValue)
                 );
             default:
                 return ""
