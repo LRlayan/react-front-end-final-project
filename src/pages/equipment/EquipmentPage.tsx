@@ -130,8 +130,8 @@ const EquipmentPage = () => {
         },
         {
             title: 'Assign Fields',
-            dataIndex: 'assignFields',
-            key: 'assignFields',
+            dataIndex: 'field',
+            key: 'field',
             render: (field: Field[]) =>
                 field && Array.isArray(field)
                     ? field.map((field: Field) => field.name).join(', ')
