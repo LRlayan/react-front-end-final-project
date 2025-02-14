@@ -322,7 +322,7 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
                                 width: '100%',
                                 color: 'black',
                             }}
-                            value={selectedFields.map((f: Field) => f.name)}
+                            value={selectedFields.map((f: Field) => f.code)}
                             options={fieldOptions}
                             dropdownStyle={{
                                 backgroundColor: 'white',
@@ -334,7 +334,7 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
                                         const matchedField = field.find((f) => f.code === value);
                                         return matchedField ? {...matchedField} : null;
                                     })
-                                    .filter((f): f is any => f !== null);
+                                    .filter((f): f is any => f !== null && f !== undefined);
                                 setFields(updatedFields);
                             }}
                         />
