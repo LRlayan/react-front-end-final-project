@@ -18,7 +18,6 @@ import {AppDispatch} from "../../store/store.ts";
 
 const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; isType:string; buttonType:string}> = ({ isOpen, onClose, staff, isType, buttonType }) => {
 
-    const dispatch = useDispatch<AppDispatch>();
     const [memberCode, setMemberCode] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -38,6 +37,7 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
     const [selectedFields, setFields] = useState<Field[]>([]);
     const [selectedVehicles, setVehicles] = useState<Vehicle[]>([]);
     const [selectedEquipments, setEquipments] = useState<Equipment[]>([]);
+    const dispatch = useDispatch<AppDispatch>();
     const logs = useSelector((state:LogRootState) => state.log.logs);
     const field = useSelector((state:FieldRootState) => state.field.fields);
     const vehicle = useSelector((state:VehicleRootState) => state.vehicle.vehicles);
@@ -79,7 +79,7 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
         setMobile(staff.mobile);
         setEmail(staff.email);
         setRole(staff.role);
-        setLogs(staff.assignLog);
+        setLogs(staff.assignLogs || []);
         setFields(staff.assignFields);
         setVehicles(staff.assignVehicles);
         setEquipments(staff.assignEquipments);
@@ -296,7 +296,7 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
                                 width: '100%',
                                 color: 'black',
                             }}
-                            value={(selectedLogs || []).map((log: Log) => log.name)}
+                            value={(selectedLogs).map((log: Log) => log.code)}
                             options={logOptions}
                             dropdownStyle={{
                                 backgroundColor: 'white',
