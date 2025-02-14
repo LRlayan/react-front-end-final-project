@@ -36,6 +36,20 @@ export const saveEquipment = createAsyncThunk(
     }
 );
 
+export const updateEquipment = createAsyncThunk(
+    'equipment/updateEquipment',
+    async (equipment: Equipment, { dispatch }) => {
+        try {
+            const response = await api.put(`equipment/updateEquipment/${equipment.code}`, equipment);
+            dispatch(getAllEquipment());
+            return response.data;
+        } catch (e) {
+            console.error("Failed to update equipment!", e);
+            throw e;
+        }
+    }
+);
+
 export const getAllEquipment = createAsyncThunk(
     'equipment/getAllEquipment',
     async () => {
@@ -66,9 +80,21 @@ const EquipmentSlice = createSlice({
             .addCase(saveEquipment.rejected, () => {
                 console.error("Rejected save equipment");
             })
-            .addCase(getAllEquipment.fulfilled, (state, action) => {
-                state.equipments = action.payload || [];
+            .addCase(updateEquipment.fulfilled, (state, action) => {
+                const updatedEquipment = action.payload;
+                const index = state.equipments.findIndex((equ) => equ.code === updatedEquipment.code);
+                if (index !== -1) {
+                    state.equipments[index] = updatedEquipment;
+                }
             })
+            .addCase(updateEquipment.pending, () => {
+                console.error("Pending update equipment");
+            })
+            .addCase(updateEquipment.rejected, () => {
+                console.error("Rejected update equipment");
+            }).addCase(getAllEquipment.fulfilled, (state, action) => {
+            state.equipments = action.payload || [];
+        })
             .addCase(getAllEquipment.pending, () => {
                 console.error("Pending get all equipment");
             })
