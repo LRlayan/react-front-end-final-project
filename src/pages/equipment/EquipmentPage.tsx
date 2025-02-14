@@ -2,8 +2,8 @@ import Search from "antd/es/input/Search";
 import {Button} from "antd";
 import {PlusCircleOutlined} from "@ant-design/icons";
 import React, {useEffect, useState} from "react";
-import {useSelector} from "react-redux";
-import {EquipmentRootState} from "../../reducer/EquipmentSlice.ts";
+import {useDispatch, useSelector} from "react-redux";
+import {EquipmentRootState, getAllEquipment} from "../../reducer/EquipmentSlice.ts";
 import {Equipment} from "../../model/Equipment.ts";
 import Table from "../../components/table/Table.tsx";
 import AddEquipment from "./AddEquipment.tsx";
@@ -12,12 +12,13 @@ import DeleteEquipment from "./DeleteEquipment.tsx";
 import SearchingTableData from "../../util/SearchingTableData.ts";
 import {Staff} from "../../model/Staff.ts";
 import {Field} from "../../model/Field.ts";
+import {AppDispatch} from "../../store/store.ts";
 
 interface EquipmentDataType {
     key: React.Key;
     code: string;
     name: string;
-    type: string;
+    equType: string;
     status: string;
     count: number;
     assignStaffMembers: Staff[];
@@ -31,11 +32,16 @@ const EquipmentPage = () => {
     const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null);
     const equipment = useSelector((state:EquipmentRootState) => state.equipment.equipments) || [];
     const [filteredEquipment, setFilteredEquipment] = useState<Equipment[]>(equipment);
+    const dispatch = useDispatch<AppDispatch>();
     const searchingTableData = new SearchingTableData();
 
     useEffect(() => {
         setFilteredEquipment(equipment);
     }, [equipment]);
+
+    useEffect(() => {
+        dispatch(getAllEquipment());
+    },[dispatch])
 
     const openAddModal = () => {
         setOpen(true);
@@ -74,8 +80,8 @@ const EquipmentPage = () => {
         },
         {
             title:"Type",
-            dataIndex:"type",
-            key:"type",
+            dataIndex:"equType",
+            key:"equType",
             filters: [
                 { text:"Plough", value: 'Plough'},
                 { text:"Mamotee'", value: 'Mamotee'},
@@ -93,7 +99,7 @@ const EquipmentPage = () => {
             ],
             filterMode: 'tree',
             filterSearch: true,
-            onFilter: (value:string, record:Equipment) => record.type.includes(value),
+            onFilter: (value:string, record:Equipment) => record.equType.includes(value),
         },
         {
             title:"Status",
@@ -115,8 +121,8 @@ const EquipmentPage = () => {
         },
         {
             title: 'Assign Members',
-            dataIndex: 'staff',
-            key: 'staff',
+            dataIndex: 'assignStaffMembers',
+            key: 'assignStaffMembers',
             render: (staff: Staff[]) =>
                 staff && Array.isArray(staff)
                     ? staff.map((staff: Staff) => staff.code).join(', ')
@@ -124,8 +130,8 @@ const EquipmentPage = () => {
         },
         {
             title: 'Assign Fields',
-            dataIndex: 'field',
-            key: 'field',
+            dataIndex: 'assignFields',
+            key: 'assignFields',
             render: (field: Field[]) =>
                 field && Array.isArray(field)
                     ? field.map((field: Field) => field.name).join(', ')
@@ -216,7 +222,7 @@ const EquipmentPage = () => {
                     <DeleteEquipment
                         isOpen={open}
                         isType={"DELETE EQUIPMENT"}
-                        buttonType={"Delete"}
+                        buttonType={"Yes,I'm Sure"}
                         onClose={() => {
                             setOpen(false);
                             setSelectedEquipment(null);
