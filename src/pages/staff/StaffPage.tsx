@@ -51,6 +51,12 @@ const StaffPage = () => {
 
     const columns = [
         {
+            title: 'Member Code',
+            dataIndex: 'code',
+            fixed:'left',
+            key: 'code',
+        },
+        {
             title: 'First Name',
             dataIndex: 'firstName',
             fixed:'left',
