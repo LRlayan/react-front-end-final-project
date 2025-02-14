@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import AddStaff from "./AddStaff.tsx";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Button } from "antd";
@@ -8,12 +8,13 @@ import Table from "../../components/table/Table";
 import UpdateStaff from "./UpdateStaff.tsx";
 import DeleteStaff from "./DeleteStaff.tsx";
 import {Staff} from "../../model/Staff.ts";
-import {StaffRootState} from "../../reducer/StaffSlice.ts";
+import {getAllStaff, StaffRootState} from "../../reducer/StaffSlice.ts";
 import SearchingTableData from "../../util/SearchingTableData.ts";
 import {Log} from "../../model/Log.ts";
 import {Field} from "../../model/Field.ts";
 import {Vehicle} from "../../model/Vehicle.ts";
 import {Equipment} from "../../model/Equipment.ts";
+import {AppDispatch} from "../../store/store.ts";
 
 interface StaffDataType {
     key: React.Key;
@@ -45,6 +46,7 @@ const StaffPage = () => {
     const [modalType, setModalType] = useState("");
     const staff = useSelector((state: StaffRootState) => state.staff.staffs) || [];
     const [filteredStaff, setFilteredStaff] = useState<Staff[]>(staff);
+    const dispatch = useDispatch<AppDispatch>();
     const searchingTableData = new SearchingTableData();
 
     const columns = [
@@ -229,6 +231,10 @@ const StaffPage = () => {
     useEffect(() => {
         setFilteredStaff(staff);
     }, [staff]);
+
+    useEffect(() => {
+        dispatch(getAllStaff());
+    },[dispatch])
 
     function openAddModal() {
         setOpen(true);
