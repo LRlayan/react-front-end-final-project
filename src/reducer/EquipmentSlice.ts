@@ -13,7 +13,7 @@ export type EquipmentRootState = {
         equipments: Array<{
             code:string;
             name:string;
-            type:string;
+            equType:string;
             status:string;
             count:number;
             assignStaffMembers: Staff[];
