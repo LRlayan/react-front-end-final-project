@@ -3,25 +3,24 @@ import MainModal from "../../components/modal/MainModal.tsx";
 import Label from "../../components/label/Label.tsx";
 import {Input, Select, SelectProps} from "antd";
 import {useDispatch, useSelector} from "react-redux";
-import {IdGenerator} from "../../util/IdGenerator.ts";
-import {addVehicle, VehicleRootState} from "../../reducer/VehicleSlice.ts";
+import {saveVehicle} from "../../reducer/VehicleSlice.ts";
 import {Vehicle} from "../../model/Vehicle.ts";
 import {Staff} from "../../model/Staff.ts";
 import {StaffRootState} from "../../reducer/StaffSlice.ts";
+import tagRender from "../../util/TagRender.tsx";
+import {AppDispatch} from "../../store/store.ts";
 
 const AddVehicle: React.FC<{ isOpen:boolean; onClose: () => void; isType: string; buttonType: string}> = ({ isOpen, onClose, isType, buttonType }) => {
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const [licensePlateNumber, setLicensePlateNumber] = useState("");
     const [vehicleName, setVehicleName] = useState("");
     const [category, setCategory] = useState("");
     const [fuelType, setFuelType] = useState("");
     const [status, setStatus] = useState("");
     const [remark, setRemark] = useState("");
-    const [selectedStaffs, setStaffs] = useState<Staff>();
+    const [selectedStaffs, setStaff] = useState<Staff[]>([]);
     const staff = useSelector((state:StaffRootState) => state.staff.staffs);
-    const vehicles = useSelector((state: VehicleRootState) => state.vehicle.vehicles);
-    const idGenerator = new IdGenerator();
 
     const staffOptions: SelectProps['options'] = staff.map((staff) => ({
         label: staff.code,
@@ -29,10 +28,8 @@ const AddVehicle: React.FC<{ isOpen:boolean; onClose: () => void; isType: string
     }));
 
     function handleSubmit() {
-        const getLastVehicleCode = vehicles.length > 0 ? vehicles[vehicles.length -1].code : "VEHICLE-";
-        const newCode = idGenerator.codeGenerator("VEHICLE",getLastVehicleCode);
-        const newVehicle = new Vehicle(newCode,licensePlateNumber,vehicleName,category,fuelType,status,remark,selectedStaffs);
-        dispatch(addVehicle(newVehicle));
+        const newVehicle = new Vehicle("",licensePlateNumber,vehicleName,category,fuelType,status,remark,selectedStaffs);
+        dispatch(saveVehicle(newVehicle));
         onClose();
     }
 
@@ -234,6 +231,8 @@ const AddVehicle: React.FC<{ isOpen:boolean; onClose: () => void; isType: string
                     <div className="mb-4 custom-input">
                         <Label labelName={"Assign Staff Member"}/>
                         <Select
+                            mode="multiple"
+                            tagRender={tagRender}
                             style={{
                                 width: '100%',
                                 color: 'black',
@@ -244,10 +243,17 @@ const AddVehicle: React.FC<{ isOpen:boolean; onClose: () => void; isType: string
                             }}
                             dropdownClassName="custom-dropdown"
                             onChange={(selectedValues) => {
-                                const matchedStaffs = staff.find((s) => s.code === selectedValues);
-                                if (matchedStaffs) {
-                                    setStaffs(matchedStaffs);
-                                }
+                                const selectedStaff = selectedValues.map((value: string) => {
+                                    const matchedStaff = staff.find((s) => s.code === value);
+                                    return matchedStaff
+                                        ? {
+                                            ...matchedStaff,
+                                            staffName: matchedStaff.firstName,
+                                        }
+                                        : null;
+                                });
+                                const validStaff = selectedStaff.filter((s: Staff) => s !== null);
+                                setStaff(validStaff as Staff[]);
                             }}
                         />
                     </div>
