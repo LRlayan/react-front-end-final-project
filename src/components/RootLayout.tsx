@@ -80,6 +80,9 @@ const RootLayout: React.FC = () => {
         navigate(e.key); // Navigate to the selected path
     };
 
+    const currentDate = new Date().toLocaleDateString(); // Get only the date
+    const currentTime = new Date().toLocaleTimeString(); // Get only the time
+
     return (
         <Layout>
             <Sider
@@ -102,7 +105,21 @@ const RootLayout: React.FC = () => {
                 />
             </Sider>
             <Layout>
-                <Header style={{ padding: 0, background: colorBgContainer }} />
+                <Header
+                    style={{ padding: 0, paddingRight: 17, background: colorBgContainer, textAlign: "right" }}
+                    className="flex justify-between items-center p-4"
+                >
+                    {/* Left Side: Date & Time */}
+                    <div className="flex flex-col text-black text-left" style={{paddingLeft: 19, paddingBottom: 45}}>
+                        <h4 className="h-5">Date : {currentDate}</h4>
+                        <h4 className="h-5">Time : {currentTime}</h4>
+                    </div>
+
+                    {/* Right Side: Company Name */}
+                    <div className="text-white ml-5">
+                        <h3 className="font-bold text-2xl text-teal-500">Green Shadow PVT (Ltd)</h3>
+                    </div>
+                </Header>
                 <Content style={{margin: '24px 16px 0'}}>
                     <div
                         style={{
