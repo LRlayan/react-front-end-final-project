@@ -1,20 +1,40 @@
 import CountCard from "../components/dashboard/count-card/CountCard.tsx";
 import StatusCard from "../components/dashboard/status-card/StatusCard.tsx";
 import List from "../components/unordered-list/List.tsx";
+import {useDispatch, useSelector} from "react-redux";
+import {EquipmentRootState, getAllEquipment} from "../reducer/EquipmentSlice.ts";
+import {useEffect} from "react";
+import {AppDispatch} from "../store/store.ts";
+import {getAllVehicle, VehicleRootState} from "../reducer/VehicleSlice.ts";
+import {getAllStaff, StaffRootState} from "../reducer/StaffSlice.ts";
 
 export function Dashboard() {
+    const dispatch = useDispatch<AppDispatch>();
+    const equipment = useSelector((state:EquipmentRootState) => state.equipment.equipments);
+    const vehicle = useSelector((state:VehicleRootState) => state.vehicle.vehicles);
+    const staff = useSelector((state:StaffRootState) => state.staff.staffs);
+    const equCount = equipment.length;
+    const vehicleCount = vehicle.length;
+    const staffCount = staff.length;
+
+    useEffect(() => {
+        dispatch(getAllEquipment());
+        dispatch(getAllVehicle());
+        dispatch(getAllStaff());
+    },[dispatch]);
+
     return(
         <>
             <section id="dashboard-sec" className="flex flex-col p-4 w-full">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-4">
                     <div className="bg-teal-500 text-gray-900 rounded-lg shadow-md p-6">
-                        <CountCard countCardType={"Available Employees"} count={0}/>
+                        <CountCard countCardType={"Available Employees"} count={staffCount}/>
                     </div>
                     <div className="bg-teal-500 text-gray-900 rounded-lg shadow-md p-6">
-                        <CountCard countCardType={"Available Equipment"} count={0}/>
+                        <CountCard countCardType={"Available Equipment"} count={equCount}/>
                     </div>
                     <div className="bg-teal-500 text-gray-900 rounded-lg shadow-md p-6">
-                        <CountCard countCardType={"Available Vehicles"} count={0}/>
+                        <CountCard countCardType={"Available Vehicles"} count={vehicleCount}/>
                     </div>
                 </div>
 
