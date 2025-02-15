@@ -4,13 +4,14 @@ import {Button} from "antd";
 import Search from "antd/es/input/Search";
 import {PlusCircleOutlined} from "@ant-design/icons";
 import Table from "../../components/table/Table.tsx";
-import {useSelector} from "react-redux";
-import {VehicleRootState} from "../../reducer/VehicleSlice.ts";
+import {useDispatch, useSelector} from "react-redux";
+import {getAllVehicle, VehicleRootState} from "../../reducer/VehicleSlice.ts";
 import AddVehicle from "./AddVehicle.tsx";
 import UpdateVehicle from "./UpdateVehicle.tsx";
 import DeleteVehicle from "./DeleteVehicle.tsx";
 import SearchingTableData from "../../util/SearchingTableData.ts";
 import {Staff} from "../../model/Staff.ts";
+import {AppDispatch} from "../../store/store.ts";
 
 interface VehicleDataType {
     key: React.Key;
@@ -21,7 +22,7 @@ interface VehicleDataType {
     fuelType: string;
     status: string;
     remark: string;
-    assignStaffMember: Staff;
+    assignStaff: Staff[];
 }
 
 const VehiclePage = () => {
@@ -31,14 +32,15 @@ const VehiclePage = () => {
     const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
     const vehicles = useSelector((state:VehicleRootState) => state.vehicle.vehicles) || [];
     const [filteredVehicle, setFilteredVehicle] = useState<Vehicle[]>(vehicles);
+    const dispatch =  useDispatch<AppDispatch>();
     const searchingTableData = new SearchingTableData();
 
     const columns = [
         {
             title: 'Code',
-            dataIndex: 'code',
+            dataIndex: 'vehicleCode',
             fixed: 'left',
-            key: 'code',
+            key: 'vehicleCode',
         },
         {
             title: 'License Plate Number',
@@ -103,7 +105,10 @@ const VehiclePage = () => {
             title: 'Assign Staff Member',
             dataIndex: 'staff',
             key: 'staff',
-            render: (staff: Staff) => staff ? staff.code : 'No Member',
+            render: (staff: Staff[]) =>
+                staff && Array.isArray(staff)
+                    ? staff.map((staff: Staff) => staff.code).join(', ')
+                    : 'No Member',
 
         },
         {
@@ -143,6 +148,10 @@ const VehiclePage = () => {
     useEffect(() => {
         setFilteredVehicle(vehicles);
     }, [vehicles]);
+
+    useEffect(() => {
+        dispatch(getAllVehicle());
+    },[dispatch])
 
     const openAddModal = () => {
         setOpen(true);
@@ -187,7 +196,7 @@ const VehiclePage = () => {
                     dataSource={filteredVehicle.map((vehicle) => ({
                         ...vehicle,
                         key: vehicle.code,
-                        staff: vehicle.assignStaffMember || "No Staff Member",
+                        staff: vehicle.assignStaff || "No Staff Member",
                     }))}
                 />
                 {open && modalType === "add" && (
