@@ -22,7 +22,7 @@ class SearchingTableData {
                 return selectType.filter(
                     (item:Equipment) =>
                         item.name.toLowerCase().includes(lowercasedValue) ||
-                        item.type.toLowerCase().includes(lowercasedValue) ||
+                        item.equType.toLowerCase().includes(lowercasedValue) ||
                         item.status.toLowerCase().includes(lowercasedValue)
                 );
             case "STAFF":
