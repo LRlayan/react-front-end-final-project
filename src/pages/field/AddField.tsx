@@ -42,7 +42,7 @@ const AddField: React.FC<{isOpen: boolean; onClose: () => void; isType:string; b
     }));
 
     const staffOptions: SelectProps['options'] = staff.map((staff) => ({
-        label: staff.firstName,
+        label: staff.code,
         value: staff.code
     }));
 

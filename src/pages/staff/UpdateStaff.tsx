@@ -79,7 +79,7 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
         setMobile(staff.mobile);
         setEmail(staff.email);
         setRole(staff.role);
-        setLogs(staff.assignLogs || []);
+        setLogs(staff.assignLogs);
         setFields(staff.assignFields);
         setVehicles(staff.assignVehicles);
         setEquipments(staff.assignEquipments);

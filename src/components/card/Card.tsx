@@ -92,8 +92,8 @@ const Card: React.FC<CardProps> = ({
                                     : "No Fields"}
                                 </p>
                                 <p className="text-sm">
-                                    Staff Member: {data && data.assignStaffMembers && data.assignStaffMembers.length
-                                    ? data.assignStaffMembers.map((c: Crop) => c.code).join(", ")
+                                    Staff Member: {data && data.assignStaff && data.assignStaff.length
+                                    ? data.assignStaff.map((c: Crop) => c.code).join(", ")
                                     : "No Member"}
                                 </p>
                             </>

@@ -185,7 +185,7 @@ const StaffPage = () => {
             key: 'vehicle',
             render: (vehicles: Vehicle[]) =>
                 vehicles && Array.isArray(vehicles)
-                    ? vehicles.map((vehicles: Vehicle) => vehicles.vehicleName).join(', ')
+                    ? vehicles.map((vehicles: Vehicle) => vehicles.code).join(', ')
                     : 'No vehicles',
 
         },

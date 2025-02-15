@@ -58,7 +58,7 @@ const UpdateField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; 
     }));
 
     const staffOptions: SelectProps['options'] = staff.map((staff) => ({
-        label: staff.firstName,
+        label: staff.code,
         value: staff.code
     }));
 
@@ -168,7 +168,7 @@ const UpdateField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; 
                                         const matchedLog = logs.find((log) => log.code === value);
                                         return matchedLog ? {...matchedLog} : null;
                                     })
-                                    .filter((log): log is Log => log !== null);
+                                    .filter((log): log is any => log !== null);
                                 setLogs(updatedLogs);
                             }}
                         />
