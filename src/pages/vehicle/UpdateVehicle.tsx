@@ -252,23 +252,20 @@ const UpdateVehicle: React.FC<{ isOpen:boolean; onClose: () => void; vehicles:Ve
                                 width: '100%',
                                 color: 'black',
                             }}
+                            value={selectedStaffs.map((s) => s.code)}
                             options={staffOptions}
                             dropdownStyle={{
                                 backgroundColor: 'white',
                             }}
                             dropdownClassName="custom-dropdown"
                             onChange={(selectedValues) => {
-                                const selectedStaff = selectedValues.map((value: string) => {
-                                    const matchedStaff = staff.find((s) => s.code === value);
-                                    return matchedStaff
-                                        ? {
-                                            ...matchedStaff,
-                                            staffName: matchedStaff.firstName,
-                                        }
-                                        : null;
-                                });
-                                const validStaff = selectedStaff.filter((s: Staff) => s !== null);
-                                setStaffs(validStaff as Staff[]);
+                                const updatedStaff = selectedValues
+                                    .map((value: string) => {
+                                        const matchedStaff = staff.find((s) => s.code === value);
+                                        return matchedStaff ? {...matchedStaff} : null;
+                                    })
+                                    .filter((s): s is Staff => s !== null);
+                                setStaffs(updatedStaff);
                             }}
                         />
                     </div>
