@@ -24,12 +24,27 @@ export type VehicleRootState = {
 
 export const saveVehicle = createAsyncThunk(
     'vehicle/saveVehicle',
-    async (vehicle: Vehicle) => {
+    async (vehicle: Vehicle, { dispatch }) => {
         try {
             const response = await api.post("vehicle/saveVehicle", vehicle);
+            dispatch(getAllVehicle());
             return response.data;
         } catch (e) {
             console.error("Failed to save vehicle!", e);
+            throw e;
+        }
+    }
+);
+
+export const updateVehicle = createAsyncThunk(
+    'vehicle/updateVehicle',
+    async (vehicle: Vehicle, { dispatch }) => {
+        try {
+             const response = await api.put(`vehicle/updateVehicle/${vehicle.code}`, vehicle);
+             dispatch(getAllVehicle());
+             return response.data;
+        } catch (e) {
+            console.log("Failed to get all vehicle!",e);
             throw e;
         }
     }
@@ -64,6 +79,19 @@ const VehicleSlice = createSlice({
             })
             .addCase(saveVehicle.rejected, () => {
                 console.error("Rejected save vehicle");
+            })
+            .addCase(updateVehicle.fulfilled, (state, action) => {
+                const updatedVehicle = action.payload;
+                const index = state.vehicles.findIndex((vehicle) => vehicle.code === updatedVehicle.code);
+                if (index !== -1) {
+                    state.vehicles[index] = action.payload;
+                }
+            })
+            .addCase(updateVehicle.pending, () => {
+                console.error("Pending update vehicles");
+            })
+            .addCase(updateVehicle.rejected, () => {
+                console.error("Rejected update vehicles");
             })
             .addCase(getAllVehicle.fulfilled, (state, action) => {
                 state.vehicles = action.payload || [];
