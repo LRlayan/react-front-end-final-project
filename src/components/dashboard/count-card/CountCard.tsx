@@ -12,7 +12,7 @@ const CountCard: React.FC<CountCardProps> = ({
     return(
         <>
              <h5 className="text-lg font-medium">{countCardType}</h5>
-             <h2 id="employees" className="text-4xl font-bold">{count}</h2>
+             <h2 id="counts" className="text-4xl font-bold">{count}</h2>
         </>
     )
 }
