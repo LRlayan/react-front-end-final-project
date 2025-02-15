@@ -25,6 +25,16 @@ export function Dashboard() {
     let landVehicleCount = 0;
     let lorryCount = 0;
 
+    let handToolsCount = 0;
+    let IrrigationCount = 0;
+    let PowerCount = 0;
+    let PloughingCount = 0;
+    let WeedingCount = 0;
+    let HarvestingCount = 0;
+    let PostHarvestCount = 0;
+    let MonitoringCount = 0;
+    let ProtectiveCount = 0;
+
     useEffect(() => {
         dispatch(getAllEquipment());
         dispatch(getAllVehicle());
@@ -51,6 +61,29 @@ export function Dashboard() {
             lorryCount++;
         }
     });
+
+    equipments.map((equipment) => {
+        const type = equipment.equType;
+        if (type === "Hand Tools") {
+            handToolsCount++;
+        } else if (type === "Irrigation Equipment") {
+            IrrigationCount++;
+        }else if (type === "Power Tools and Machinery") {
+            PowerCount++;
+        } else if (type === "Ploughing Equipment") {
+            PloughingCount++;
+        } else if (type === "Weeding and Pest Control Equipment") {
+            WeedingCount++;
+        } else if (type === "Harvesting Equipment") {
+            HarvestingCount++;
+        } else if (type === "Post-Harvest Equipment") {
+            PostHarvestCount++;
+        } else if (type === "Monitoring and Measuring Tools") {
+            MonitoringCount++;
+        } else if (type === "Protective Equipment") {
+            ProtectiveCount++;
+        }
+    })
 
     return(
         <>
