@@ -40,7 +40,7 @@ const DeleteVehicle: React.FC<{ isOpen:boolean; onClose: () => void; vehicles: V
             <MainModal isOpen={isOpen} isType={isType} buttonType={buttonType} onClose={onClose} onSubmit={handleSubmit}>
                 <div>
                     <div>
-                        <p className="text-white">Member Code : {vehicles.code}</p>
+                        <p className="text-white">Vehicle Code : {vehicles.code}</p>
                         <p className="text-white">{`${vehicles.category} : ${vehicles.vehicleName}`}</p>
                         <p className="text-white">License Plate Number : {vehicles.licensePlateNumber}</p>
                     </div>
