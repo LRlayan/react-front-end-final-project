@@ -17,7 +17,7 @@ export type VehicleRootState = {
            fuelType: string;
            status: string;
            remark: string;
-           assignStaffMember: Staff;
+            assignStaff: Staff[];
         }>
     }
 };
