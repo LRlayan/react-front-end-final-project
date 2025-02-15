@@ -63,7 +63,7 @@ const AddStaff: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; 
         {value: "OFFICE ASSISTANT", label: "OFFICE ASSISTANT"},
         {value: "SENIOR AGRONOMIST", label: "SENIOR AGRONOMIST"},
         {value: "AGRONOMIST", label: "AGRONOMIST"},
-        {value: "SOIL SCIENTIST", label: "SOILS SCIENTIST"},
+        {value: "SOIL SCIENTIST", label: "SOIL SCIENTIST"},
         {value: "SENIOR TECHNICIAN", label: "SENIOR TECHNICIAN"},
         {value: "TECHNICIAN", label: "TECHNICIAN"},
         {value: "SUPERVISOR", label: "SUPERVISOR"},
