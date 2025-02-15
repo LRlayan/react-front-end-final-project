@@ -54,7 +54,7 @@ export const deleteVehicle = createAsyncThunk(
     'vehicle/deleteVehicle',
     async (code: string) => {
         try {
-            const response = await api.delete(`vehicle/delete/${code}`);
+            const response = await api.delete(`vehicle/deleteVehicle/${code}`);
             return response.data;
         } catch (e) {
 
