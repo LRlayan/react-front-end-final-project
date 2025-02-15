@@ -12,10 +12,10 @@ export function Dashboard() {
     const dispatch = useDispatch<AppDispatch>();
     const equipments = useSelector((state:EquipmentRootState) => state.equipment.equipments);
     const vehicles = useSelector((state:VehicleRootState) => state.vehicle.vehicles);
-    const staff = useSelector((state:StaffRootState) => state.staff.staffs);
+    const staffs = useSelector((state:StaffRootState) => state.staff.staffs);
     const equCount = equipments.length;
     const vehicleCount = vehicles.length;
-    const staffCount = staff.length;
+    const staffCount = staffs.length;
     let carCount = 0;
     let vanCount = 0;
     let bikeCount = 0;
@@ -34,6 +34,18 @@ export function Dashboard() {
     let PostHarvestCount = 0;
     let MonitoringCount = 0;
     let ProtectiveCount = 0;
+
+    let seniorAssistantCount = 0;
+    let assistantManagersCount = 0;
+    let adminHRCount = 0;
+    let officeAssistantsCount = 0;
+    let seniorAgronomistsCount = 0;
+    let agronomistsCount = 0;
+    let soilScientistsCount = 0;
+    let seniorTechniciansCount = 0;
+    let techniciansCount = 0;
+    let supervisorsCount = 0;
+    let laborsCount = 0;
 
     useEffect(() => {
         dispatch(getAllEquipment());
@@ -83,6 +95,31 @@ export function Dashboard() {
         } else if (type === "Protective Equipment") {
             ProtectiveCount++;
         }
+    });
+
+    staffs.map((staff) => {
+        const designation = staff.designation;
+        if (designation === "ASSISTANT MANAGER") {
+            assistantManagersCount++;
+        } else if (designation === "ADMIN AND HR STAFF") {
+            adminHRCount++;
+        }else if (designation === "OFFICE ASSISTANT") {
+            officeAssistantsCount++;
+        } else if (designation === "SENIOR AGRONOMIST") {
+            seniorAgronomistsCount++;
+        } else if (designation === "AGRONOMIST") {
+            agronomistsCount++;
+        } else if (designation === "SOIL SCIENTIST") {
+            soilScientistsCount++;
+        } else if (designation === "SENIOR TECHNICIAN") {
+            seniorTechniciansCount++;
+        } else if (designation === "TECHNICIAN") {
+            techniciansCount++;
+        } else if (designation === "SUPERVISOR") {
+            supervisorsCount++;
+        } else if (designation === "LABOUR") {
+            laborsCount++;
+        }
     })
 
     return(
@@ -105,18 +142,18 @@ export function Dashboard() {
                     <div className="bg-gray-900 rounded-lg shadow-md p-6 max-h-80 overflow-y-auto">
                         <StatusCard statusCardType={"Employee Status"}>
                             <ul className="mt-4 space-y-2">
-                                <List listName={"Manager"} id={"Manager"} count={0}/>
-                                <List listName={"Senior Assistant Managers"} id={"Senior-Assistant-Managers"} count={0}/>
-                                <List listName={"Assistant Managers"} id={"Assistant-Managers"} count={0}/>
-                                <List listName={"Admin and HR Staff"} id={"Admin-and-HR-Staff"} count={0}/>
-                                <List listName={"Office Assistants"} id={"Office-Assistants"} count={0}/>
-                                <List listName={"Senior Agronomists"} id={"Senior-Agronomists"} count={0}/>
-                                <List listName={"Agronomists"} id={"Agronomists"} count={0}/>
-                                <List listName={"Soil Scientists"} id={"Soil-Scientists"} count={0}/>
-                                <List listName={"Senior Technicians"} id={"Senior-Technicians"} count={0}/>
-                                <List listName={"Technicians"} id={"Technicians"} count={0}/>
-                                <List listName={"Supervisors"} id={"Supervisors"} count={0}/>
-                                <List listName={"Labors"} id={"Labors"} count={0}/>
+                                {/*<List listName={"Manager"} id={"Manager"} count={managerCount}/>*/}
+                                <List listName={"Senior Assistant Managers"} id={"Senior-Assistant-Managers"} count={seniorAssistantCount}/>
+                                <List listName={"Assistant Managers"} id={"Assistant-Managers"} count={assistantManagersCount}/>
+                                <List listName={"Admin and HR Staff"} id={"Admin-and-HR-Staff"} count={adminHRCount}/>
+                                <List listName={"Office Assistants"} id={"Office-Assistants"} count={officeAssistantsCount}/>
+                                <List listName={"Senior Agronomists"} id={"Senior-Agronomists"} count={seniorAgronomistsCount}/>
+                                <List listName={"Agronomists"} id={"Agronomists"} count={agronomistsCount}/>
+                                <List listName={"Soil Scientists"} id={"Soil-Scientists"} count={soilScientistsCount}/>
+                                <List listName={"Senior Technicians"} id={"Senior-Technicians"} count={seniorTechniciansCount}/>
+                                <List listName={"Technicians"} id={"Technicians"} count={techniciansCount}/>
+                                <List listName={"Supervisors"} id={"Supervisors"} count={supervisorsCount}/>
+                                <List listName={"Labors"} id={"Labors"} count={laborsCount}/>
                             </ul>
                         </StatusCard>
                     </div>
