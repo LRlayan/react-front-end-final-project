@@ -10,18 +10,47 @@ import {getAllStaff, StaffRootState} from "../reducer/StaffSlice.ts";
 
 export function Dashboard() {
     const dispatch = useDispatch<AppDispatch>();
-    const equipment = useSelector((state:EquipmentRootState) => state.equipment.equipments);
-    const vehicle = useSelector((state:VehicleRootState) => state.vehicle.vehicles);
+    const equipments = useSelector((state:EquipmentRootState) => state.equipment.equipments);
+    const vehicles = useSelector((state:VehicleRootState) => state.vehicle.vehicles);
     const staff = useSelector((state:StaffRootState) => state.staff.staffs);
-    const equCount = equipment.length;
-    const vehicleCount = vehicle.length;
+    const equCount = equipments.length;
+    const vehicleCount = vehicles.length;
     const staffCount = staff.length;
+    let carCount = 0;
+    let vanCount = 0;
+    let bikeCount = 0;
+    let landMasterCount = 0;
+    let tractor4WDCount = 0;
+    let tankersCount = 0;
+    let landVehicleCount = 0;
+    let lorryCount = 0;
 
     useEffect(() => {
         dispatch(getAllEquipment());
         dispatch(getAllVehicle());
         dispatch(getAllStaff());
     },[dispatch]);
+
+    vehicles.map((vehicle) => {
+        const category = vehicle.category;
+        if (category === "Car") {
+            carCount++;
+        } else if (category === "Van") {
+            vanCount++;
+        } else if (category === "Motorbikes") {
+            bikeCount++;
+        } else if (category === "Tractors–Land masters") {
+            landMasterCount++;
+        } else if (category === "Tractors-4WD") {
+            tractor4WDCount++;
+        } else if (category === "Tankers truck") {
+            tankersCount++;
+        } else if (category === "Land vehicles") {
+            landVehicleCount++;
+        } else if (category === "Lorry") {
+            lorryCount++;
+        }
+    });
 
     return(
         <>
@@ -61,29 +90,29 @@ export function Dashboard() {
                     <div className="bg-gray-900 rounded-lg shadow-md p-6 max-h-80 overflow-y-auto">
                         <StatusCard statusCardType={"Equipment Status"}>
                             <ul className="mt-4 space-y-2">
-                                <List listName={"Hand Tools"} id={"HandTools"} count={0}/>
-                                <List listName={"Irrigation Equipment"} id={"Irrigation-Equipment"} count={0}/>
-                                <List listName={"Power Tools and Machinery"} id={"Power-Tools-and-Machinery"} count={0}/>
-                                <List listName={"Ploughing"} id={"Ploughing"} count={0}/>
-                                <List listName={"Weeding and Pest"} id={"Weeding-and-Pest"} count={0}/>
-                                <List listName={"Harvesting"} id={"Harvesting"} count={0}/>
-                                <List listName={"Post-Harvest"} id={"Post-Harvest"} count={0}/>
-                                <List listName={"Monitoring and Measuring Tools"} id={"Monitoring-and-Measuring-Tools"} count={0}/>
-                                <List listName={"Protective"} id={"Protective"} count={0}/>
+                                <List listName={"Hand Tools"} id={"HandTools"} count={handToolsCount}/>
+                                <List listName={"Irrigation Equipment"} id={"Irrigation-Equipment"} count={IrrigationCount}/>
+                                <List listName={"Power Tools and Machinery"} id={"Power-Tools-and-Machinery"} count={PowerCount}/>
+                                <List listName={"Ploughing"} id={"Ploughing"} count={PloughingCount}/>
+                                <List listName={"Weeding and Pest"} id={"Weeding-and-Pest"} count={WeedingCount}/>
+                                <List listName={"Harvesting"} id={"Harvesting"} count={HarvestingCount}/>
+                                <List listName={"Post-Harvest"} id={"Post-Harvest"} count={PostHarvestCount}/>
+                                <List listName={"Monitoring and Measuring Tools"} id={"Monitoring-and-Measuring-Tools"} count={MonitoringCount}/>
+                                <List listName={"Protective"} id={"Protective"} count={ProtectiveCount}/>
                             </ul>
                         </StatusCard>
                     </div>
                     <div className="bg-gray-900 rounded-lg shadow-md p-6 max-h-80 overflow-y-auto">
                         <StatusCard statusCardType={"Vehicle Status"}>
                             <ul className="mt-4 space-y-2">
-                                <List listName={"Car"} id={"Car"} count={0}/>
-                                <List listName={"Motor Bike"} id={"Motor-Bike"} count={0}/>
-                                <List listName={"Van"} id={"Van"} count={0}/>
-                                <List listName={"Land Masters"} id={"Land-Masters"} count={0}/>
-                                <List listName={"Tractor–4WD"} id={"Tractor–4WD"} count={0}/>
-                                <List listName={"Tankers Truck"} id={"Tankers-Truck"} count={0}/>
-                                <List listName={"Land Vehicles"} id={"Land-Vehicles"} count={0}/>
-                                <List listName={"Lorry"} id={"Lorry"} count={0}/>
+                                <List listName={"Car"} id={"Car"} count={carCount}/>
+                                <List listName={"Motor Bike"} id={"Motor-Bike"} count={bikeCount}/>
+                                <List listName={"Van"} id={"Van"} count={vanCount}/>
+                                <List listName={"Land Masters"} id={"Land-Masters"} count={landMasterCount}/>
+                                <List listName={"Tractor–4WD"} id={"Tractor–4WD"} count={tractor4WDCount}/>
+                                <List listName={"Tankers Truck"} id={"Tankers-Truck"} count={tankersCount}/>
+                                <List listName={"Land Vehicles"} id={"Land-Vehicles"} count={landVehicleCount}/>
+                                <List listName={"Lorry"} id={"Lorry"} count={lorryCount}/>
                             </ul>
                         </StatusCard>
                     </div>
