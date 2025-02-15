@@ -1,3 +1,5 @@
+import CountCard from "../components/dashboard/count-card/CountCard.tsx";
+
 export function Dashboard() {
     return(
         <>
@@ -11,19 +13,15 @@ export function Dashboard() {
                     </div>
                 </div>
 
-                {/*Available Counts Section */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-4">
                     <div className="bg-teal-500 text-gray-900 rounded-lg shadow-md p-6">
-                        <h5 className="text-lg font-medium">Available Employees</h5>
-                        <h2 id="employees" className="text-4xl font-bold">0</h2>
+                        <CountCard countCardType={"Available Employees"} count={0}/>
                     </div>
                     <div className="bg-teal-500 text-gray-900 rounded-lg shadow-md p-6">
-                        <h5 className="text-lg font-medium">Available Equipment</h5>
-                        <h2 id="equipmentCount" className="text-4xl font-bold">0</h2>
+                        <CountCard countCardType={"Available Equipment"} count={0}/>
                     </div>
                     <div className="bg-teal-500 text-gray-900 rounded-lg shadow-md p-6">
-                        <h5 className="text-lg font-medium">Available Vehicles</h5>
-                        <h2 id="vehicleCount" className="text-4xl font-bold">0</h2>
+                        <CountCard countCardType={"Available Vehicles"} count={0}/>
                     </div>
                 </div>
 
