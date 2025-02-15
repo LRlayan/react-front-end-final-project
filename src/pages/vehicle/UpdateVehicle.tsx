@@ -7,10 +7,12 @@ import {updateVehicle} from "../../reducer/VehicleSlice.ts";
 import {Vehicle} from "../../model/Vehicle.ts";
 import {Staff} from "../../model/Staff.ts";
 import {StaffRootState} from "../../reducer/StaffSlice.ts";
+import {AppDispatch} from "../../store/store.ts";
+import tagRender from "../../util/TagRender.tsx";
 
 const UpdateVehicle: React.FC<{ isOpen:boolean; onClose: () => void; vehicles:Vehicle; isType:string; buttonType:string}> = ({ isOpen, onClose,vehicles, isType, buttonType}) => {
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const [code, setCode] = useState("");
     const [licensePlateNumber, setLicensePlateNumber] = useState("");
     const [vehicleName, setVehicleName] = useState("");
@@ -18,7 +20,7 @@ const UpdateVehicle: React.FC<{ isOpen:boolean; onClose: () => void; vehicles:Ve
     const [fuelType, setFuelType] = useState("");
     const [status, setStatus] = useState("");
     const [remark, setRemark] = useState("");
-    const [selectedStaffs, setStaffs] = useState<Staff>();
+    const [selectedStaffs, setStaffs] = useState<Staff[]>([]);
     const staff = useSelector((state:StaffRootState) => state.staff.staffs);
 
     useEffect(() => {
@@ -29,7 +31,7 @@ const UpdateVehicle: React.FC<{ isOpen:boolean; onClose: () => void; vehicles:Ve
         setFuelType(vehicles.fuelType);
         setStatus(vehicles.status);
         setRemark(vehicles.remark);
-        setStaffs(vehicles.assignStaffMember);
+        setStaffs(vehicles.assignStaff);
     }, [vehicles]);
 
     const staffOptions: SelectProps['options'] = staff.map((staff) => ({
@@ -244,21 +246,29 @@ const UpdateVehicle: React.FC<{ isOpen:boolean; onClose: () => void; vehicles:Ve
                     <div className="mb-4 custom-input">
                         <Label labelName={"Assign Staff Member"}/>
                         <Select
+                            mode="multiple"
+                            tagRender={tagRender}
                             style={{
                                 width: '100%',
                                 color: 'black',
                             }}
-                            value={selectedStaffs?.code}
                             options={staffOptions}
                             dropdownStyle={{
                                 backgroundColor: 'white',
                             }}
                             dropdownClassName="custom-dropdown"
-                            onChange={(selectedValue) => {
-                                const matchedStaff = staff.find((s) => s.code === selectedValue);
-                                if (matchedStaff) {
-                                    setStaffs(matchedStaff);
-                                }
+                            onChange={(selectedValues) => {
+                                const selectedStaff = selectedValues.map((value: string) => {
+                                    const matchedStaff = staff.find((s) => s.code === value);
+                                    return matchedStaff
+                                        ? {
+                                            ...matchedStaff,
+                                            staffName: matchedStaff.firstName,
+                                        }
+                                        : null;
+                                });
+                                const validStaff = selectedStaff.filter((s: Staff) => s !== null);
+                                setStaffs(validStaff as Staff[]);
                             }}
                         />
                     </div>
