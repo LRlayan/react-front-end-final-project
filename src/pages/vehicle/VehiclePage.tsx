@@ -38,9 +38,9 @@ const VehiclePage = () => {
     const columns = [
         {
             title: 'Code',
-            dataIndex: 'vehicleCode',
+            dataIndex: 'code',
             fixed: 'left',
-            key: 'vehicleCode',
+            key: 'code',
         },
         {
             title: 'License Plate Number',
