@@ -35,6 +35,19 @@ export const saveVehicle = createAsyncThunk(
     }
 );
 
+export const getAllVehicle = createAsyncThunk(
+    'vehicle/getAllVehicle',
+    async () => {
+        try {
+            const response = await api.get("vehicle/getAllVehicle");
+            return response.data;
+        } catch (e) {
+            console.log("Failed to get all staff!",e);
+            throw e;
+        }
+    }
+);
+
 const VehicleSlice = createSlice({
     name:"vehicle",
     initialState,
@@ -42,13 +55,24 @@ const VehicleSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(saveVehicle.fulfilled, (state, action) => {
-                state.vehicles = [...state.vehicles, action.payload];
+                if (action.payload) {
+                    state.vehicles = [...state.vehicles, action.payload];
+                }
             })
             .addCase(saveVehicle.pending, () => {
                 console.error("Pending save vehicle");
             })
             .addCase(saveVehicle.rejected, () => {
                 console.error("Rejected save vehicle");
+            })
+            .addCase(getAllVehicle.fulfilled, (state, action) => {
+                state.vehicles = action.payload || [];
+            })
+            .addCase(getAllVehicle.pending, () => {
+                console.error("Pending get all vehicle");
+            })
+            .addCase(getAllVehicle.rejected, () => {
+                console.error("Rejected get all vehicle");
             })
     }
 });
