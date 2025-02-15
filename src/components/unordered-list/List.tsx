@@ -14,7 +14,10 @@ const List: React.FC<ListProps> = ({
     return(
         <>
             <li className="flex justify-between border-b border-gray-600 pb-1">
-                {listName} <span id={id} className="font-bold">{count}</span>
+                {listName}
+                <span id={id} className={`font-bold ${count === 0 ? "text-red-500" : "text-white"}`}>
+                    {count}
+                </span>
             </li>
         </>
     )
