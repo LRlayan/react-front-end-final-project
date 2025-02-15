@@ -50,6 +50,18 @@ export const updateVehicle = createAsyncThunk(
     }
 );
 
+export const deleteVehicle = createAsyncThunk(
+    'vehicle/deleteVehicle',
+    async (code: string) => {
+        try {
+            const response = await api.delete(`vehicle/delete/${code}`);
+            return response.data;
+        } catch (e) {
+
+        }
+    }
+);
+
 export const getAllVehicle = createAsyncThunk(
     'vehicle/getAllVehicle',
     async () => {
@@ -92,6 +104,15 @@ const VehicleSlice = createSlice({
             })
             .addCase(updateVehicle.rejected, () => {
                 console.error("Rejected update vehicles");
+            })
+            .addCase(deleteVehicle.fulfilled, (state, action) => {
+                state.vehicles = state.vehicles.filter((vehicle) => vehicle.code !== action.meta.arg);
+            })
+            .addCase(deleteVehicle.pending, () => {
+                console.error("Pending delete vehicle");
+            })
+            .addCase(deleteVehicle.rejected, () => {
+                console.error("Rejected delete vehicle");
             })
             .addCase(getAllVehicle.fulfilled, (state, action) => {
                 state.vehicles = action.payload || [];
