@@ -1,4 +1,4 @@
-import {Layout, Menu, theme} from "antd";
+import {Button, Layout, Menu, theme} from "antd";
 import {
     AppstoreOutlined,
     CarOutlined,
@@ -17,6 +17,8 @@ import LogPage from "../pages/log/LogPage.tsx";
 import StaffPage from "../pages/staff/StaffPage.tsx";
 import VehiclePage from "../pages/vehicle/VehiclePage.tsx";
 import EquipmentPage from "../pages/equipment/EquipmentPage.tsx";
+import NotifyModal from "./notification-modal/NotifyModal.tsx";
+import { Heading4, Heading3 } from "./heading/Heading.tsx";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -72,16 +74,20 @@ const RootLayout: React.FC = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
-
     const [selectedKey, setSelectedKey] = useState(location.pathname);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleMenuClick = (e: { key: string }) => {
         setSelectedKey(e.key); // Update the selected key
         navigate(e.key); // Navigate to the selected path
     };
 
-    const currentDate = new Date().toLocaleDateString(); // Get only the date
-    const currentTime = new Date().toLocaleTimeString(); // Get only the time
+    const handleLogout = () => {
+        setIsModalOpen(true);
+    };
+
+    const currentDate = new Date().toLocaleDateString();
+    const currentTime = new Date().toLocaleTimeString();
 
     return (
         <Layout>
@@ -111,13 +117,18 @@ const RootLayout: React.FC = () => {
                 >
                     {/* Left Side: Date & Time */}
                     <div className="flex flex-col text-black text-left" style={{paddingLeft: 19, paddingBottom: 45}}>
-                        <h4 className="h-5">Date : {currentDate}</h4>
-                        <h4 className="h-5">Time : {currentTime}</h4>
+                        <Heading4 name={`Date : ${currentDate}`} classes={"h-5"} />
+                        <Heading4 name={`Time : ${currentTime}`} classes={"h-5"}/>
                     </div>
 
                     {/* Right Side: Company Name */}
-                    <div className="text-white ml-5">
-                        <h3 className="font-bold text-2xl text-teal-500">Green Shadow PVT (Ltd)</h3>
+                    <div className="flex text-white ml-5">
+                        <Heading3 name={"Green Shadow PVT (Ltd)"} classes={"mr-10 font-bold text-2xl text-teal-500"}/>
+                        <Button type="primary" className="bg-green-600" htmlType="submit" onClick={handleLogout}>
+                            Logout
+                        </Button>
+
+                        <NotifyModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
                     </div>
                 </Header>
                 <Content style={{margin: '24px 16px 0'}}>
