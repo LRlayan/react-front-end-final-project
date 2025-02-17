@@ -8,14 +8,16 @@ import LogPage from "./pages/log/LogPage.tsx";
 import {FieldPage} from "./pages/field/FieldPage.tsx";
 import VehiclePage from "./pages/vehicle/VehiclePage.tsx";
 import CropPage from "./pages/crop/CropPage.tsx";
+import SignIn from "./pages/signIn/SignIn.tsx";
 
 function App() {
   const routes = createBrowserRouter([
-    {
-      path: '',
+      { path: "/", element: <SignIn /> },
+      {
+      path: '/',
         element: <RootLayout/>,
           children:[
-            {path:'',element:<Dashboard/>},
+            {path:'/dashboard',element:<Dashboard/>},
             {path:'/crop-manage',element:<CropPage/>},
             {path:'/field-manage',element:<FieldPage/>},
             {path:'/log-manage',element:<LogPage/>},
