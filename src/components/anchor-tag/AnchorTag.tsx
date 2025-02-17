@@ -1,23 +1,18 @@
-import React from 'react';
+import React from "react";
 
 interface AnchorProps {
-    name:string;
-    href: string;
+    name: string;
+    href?: string;
     classes: string;
+    onClick?: () => void;
 }
 
-const AnchorTag: React.FC<AnchorProps> = ({
-    name,
-    href,
-    classes
-}) => {
-    return(
-        <>
-            <a href={href} className={classes}>
-                {name}
-            </a>
-        </>
-    )
-}
+const AnchorTag: React.FC<AnchorProps> = ({ name, href, classes, onClick }) => {
+    return (
+        <a href={href || "#"} className={classes} onClick={onClick}>
+            {name}
+        </a>
+    );
+};
 
 export default AnchorTag;
