@@ -36,8 +36,7 @@ const SignInSignUp: React.FC = () => {
             {/* Right Side - Form */}
             <div className="flex flex-[2] justify-center items-center p-8 w-full max-w-2xl">
                 <div className="w-full">
-                    <Heading1 name={isSignUp ? "Create Your Account" : "Sign In"} classes={"text-center mb-8"} />
-
+                    <Heading1 name={isSignUp ? "Create Your Account" : "Sign In"} classes={"text-center mb-8 font-bold text-2xl"} />
                     <Form
                         name="basic"
                         labelCol={{ span: 10 }}
