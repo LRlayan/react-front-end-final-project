@@ -22,10 +22,10 @@ const { Header, Content, Footer, Sider } = Layout;
 
 const items = [
     {
-        key: '/',
+        key: '/dashboard',
         icon: <DashboardOutlined />,
         label: 'Dashboard',
-        path: '/'
+        path: '/dashboard'
     },
     {
         key: '/crop-manage',
@@ -131,7 +131,7 @@ const RootLayout: React.FC = () => {
                     >
                         <Routes>
                             {/* Default route */}
-                            <Route path="/" element={<Dashboard/>}/>
+                            <Route path="/dashboard" element={<Dashboard/>}/>
                             {/* Add more routes for other sections */}
                             <Route path="/crop-manage" element={<CropPage/>}/>
                             <Route path="/field-manage" element={<FieldPage/>}/>
