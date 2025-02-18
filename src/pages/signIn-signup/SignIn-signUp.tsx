@@ -6,7 +6,7 @@ import AnchorTag from "../../components/anchor-tag/AnchorTag.tsx";
 import Image from "../../components/img/Image.tsx";
 import { Heading1 } from "../../components/heading/Heading.tsx";
 import {useDispatch, useSelector} from "react-redux";
-import {registerUser, UserRootState} from "../../reducer/UserSlice.ts";
+import {registerUser, loginUser, UserRootState} from "../../reducer/UserSlice.ts";
 import {AppDispatch} from "../../store/store.ts";
 import {User} from "../../model/User.ts";
 
@@ -21,7 +21,7 @@ const SignInSignUp: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
     const [isSignUp,    setIsSignUp] = useState(false);
-    const isAuthenticated = useSelector((state: UserRootState) => state.user.users.isAuthenticated);
+    const isAuthenticated = useSelector((state: UserRootState) => state.user.isAuthenticated);
     const [registerUsername, setRegisterUsername] = useState("");
     const [registerEmail, setRegisterEmail] = useState("");
     const [registerPassword, setRegisterPassword] = useState("");
