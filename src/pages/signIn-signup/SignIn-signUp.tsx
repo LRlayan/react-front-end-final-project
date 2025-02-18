@@ -6,7 +6,7 @@ import AnchorTag from "../../components/anchor-tag/AnchorTag.tsx";
 import Image from "../../components/img/Image.tsx";
 import { Heading1 } from "../../components/heading/Heading.tsx";
 import {useDispatch, useSelector} from "react-redux";
-import {registerUser, UserRootState} from "../../reducer/UserSlice.tsx";
+import {registerUser, UserRootState} from "../../reducer/UserSlice.ts";
 import {AppDispatch} from "../../store/store.ts";
 import {User} from "../../model/User.ts";
 
