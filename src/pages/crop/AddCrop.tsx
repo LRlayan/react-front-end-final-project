@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {FieldRootState} from "../../reducer/FieldSlice.ts";
 import MainModal from "../../components/modal/MainModal.tsx";
@@ -39,20 +39,20 @@ const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; b
         }
     }
 
-    const handleSubmit = () => {
-        const newCrops = new FormData();
-        newCrops.append("code", "");
-        newCrops.append("name", cropName);
-        newCrops.append("scientificName", scientificName);
-        newCrops.append("category", category);
-        newCrops.append("season", season);
-        if (selectedFile) {
+     const handleSubmit = () => {
+         const newCrops = new FormData();
+         newCrops.append("code", "");
+         newCrops.append("name", cropName);
+         newCrops.append("scientificName", scientificName);
+         newCrops.append("category", category);
+         newCrops.append("season", season);
+         if (selectedFile) {
             newCrops.append("image", selectedFile);
-        }
-        newCrops.append("assignFields", JSON.stringify(selectedFields));
-        newCrops.append("assignLogs", JSON.stringify(selectedLogs));
-        dispatch(saveCrop(newCrops));
-        onClose();
+         }
+         newCrops.append("assignFields", JSON.stringify(selectedFields));
+         newCrops.append("assignLogs", JSON.stringify(selectedLogs));
+         dispatch(saveCrop(newCrops));
+         onClose();
     };
 
     const seasonOption = [
@@ -61,123 +61,125 @@ const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; b
     ]
 
     return (
-        <MainModal isType={isType} buttonType={buttonType} isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
-            <form>
-                <div className="mb-4 custom-input">
-                    <Label labelName={"Crop Name"}/>
-                    <Input
-                        type="text"
-                        className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
-                        onChange={(e) => setCropName(e.target.value)}
-                    />
-                </div>
-                <div className="mb-4 custom-input">
-                    <Label labelName={"Scientific Name"}/>
-                    <Input
-                        type="text"
-                        className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
-                        onChange={(e) => setScientificName(e.target.value)}
-                    />
-                </div>
-                <div className="mb-4 custom-input">
-                    <Label labelName={"Category"}/>
-                    <Input
-                        type="text"
-                        className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
-                        onChange={(e) => setCategory(e.target.value)}
-                    />
-                </div>
-                <div className="mb-4 custom-input">
-                    <Label labelName={"Season"}/>
-                    <Select
-                        showSearch
-                        placeholder="Select crop season"
-                        optionFilterProp="label"
-                        options={seasonOption}
-                        value={season || undefined}
-                        onChange={(value) => setSeason(value)}
-                        style={{
-                            color: season ? "black" : "gray",
-                        }}
-                        dropdownStyle={{
-                            backgroundColor: "white",
-                            color: "black",
-                        }}
-                        className={`w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-300 ${
-                            season ? "text-black" : "text-gray-500"
-                        }`}
-                        dropdownClassName="custom-dropdown"
-                    />
-                </div>
-                <div className="mb-4 custom-input">
-                    <Label labelName={"Assign Field"}/>
-                    <Select
-                        mode="multiple"
-                        tagRender={tagRender}
-                        style={{
-                            width: '100%',
-                            color: 'black',
-                        }}
-                        options={fieldOptions}
-                        dropdownStyle={{
-                            backgroundColor: 'white',
-                        }}
-                        dropdownClassName="custom-dropdown"
-                        onChange={(selectedValues) => {
-                            const selectedFields = selectedValues.map((value: string) => {
-                                const matchedField = field.find((f) => f.code === value);
-                                return matchedField
-                                    ? {
-                                        ...matchedField,
-                                        fieldName: matchedField.name,
-                                    }
-                                    : null;
-                            });
-                            const validFields = selectedFields.filter((f: Field) => f !== null);
-                            setFields(validFields as Field[]);
-                        }}
-                    />
-                </div>
-                <div className="mb-4 custom-input">
-                    <Label labelName={"Assign Logs"}/>
-                    <Select
-                        mode="multiple"
-                        tagRender={tagRender}
-                        style={{
-                            width: '100%',
-                            color: 'black',
-                        }}
-                        options={logOptions}
-                        dropdownStyle={{
-                            backgroundColor: 'white',
-                        }}
-                        dropdownClassName="custom-dropdown"
-                        onChange={(selectedValues) => {
-                            const selectedLogs = selectedValues.map((value: string) => {
-                                const matchedLogs = logs.find((l) => l.code === value);
-                                return matchedLogs
-                                    ? {
-                                        ...matchedLogs,
-                                        fieldName: matchedLogs.name,
-                                    }
-                                    : null;
-                            });
-                            const validLogs = selectedLogs.filter((l: Log) => l !== null);
-                            setLogs(validLogs as Log[]);
-                        }}
-                    />
-                </div>
-                <div className="mb-4 custom-input">
-                    <Label labelName={"Crop Image"}/>
-                    <Input
-                        type="file"
-                        accept="image/*"
-                        className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
-                        onChange={handleFileChange}
-                    />
-                </div>
-            </form>
-        </MainModal>
+        <>
+            <MainModal isType={isType} buttonType={buttonType} isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
+                <form>
+                    <div className="mb-4 custom-input">
+                        <Label labelName={"Crop Name"}/>
+                        <Input
+                            type="text"
+                            className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
+                            onChange={(e) => setCropName(e.target.value)}
+                        />
+                    </div>
+                    <div className="mb-4 custom-input">
+                        <Label labelName={"Scientific Name"}/>
+                        <Input
+                            type="text"
+                            className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
+                            onChange={(e) => setScientificName(e.target.value)}
+                        />
+                    </div>
+                    <div className="mb-4 custom-input">
+                        <Label labelName={"Category"}/>
+                        <Input
+                            type="text"
+                            className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
+                            onChange={(e) => setCategory(e.target.value)}
+                        />
+                    </div>
+                    <div className="mb-4 custom-input">
+                        <Label labelName={"Season"}/>
+                        <Select
+                            showSearch
+                            placeholder="Select crop season"
+                            optionFilterProp="label"
+                            options={seasonOption}
+                            value={season || undefined}
+                            onChange={(value) => setSeason(value)}
+                            style={{
+                                color: season ? "black" : "gray",
+                            }}
+                            dropdownStyle={{
+                                backgroundColor: "white",
+                                color: "black",
+                            }}
+                            className={`w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-300 ${
+                                season ? "text-black" : "text-gray-500"
+                            }`}
+                            dropdownClassName="custom-dropdown"
+                        />
+                    </div>
+                    <div className="mb-4 custom-input">
+                        <Label labelName={"Assign Field"}/>
+                        <Select
+                            mode="multiple"
+                            tagRender={tagRender}
+                            style={{
+                                width: '100%',
+                                color: 'black',
+                            }}
+                            options={fieldOptions}
+                            dropdownStyle={{
+                                backgroundColor: 'white',
+                            }}
+                            dropdownClassName="custom-dropdown"
+                            onChange={(selectedValues) => {
+                                const selectedFields = selectedValues.map((value: string) => {
+                                    const matchedField = field.find((f) => f.code === value);
+                                    return matchedField
+                                        ? {
+                                            ...matchedField,
+                                            fieldName: matchedField.name,
+                                        }
+                                        : null;
+                                });
+                                const validFields = selectedFields.filter((f: Field) => f !== null);
+                                setFields(validFields as Field[]);
+                            }}
+                        />
+                    </div>
+                    <div className="mb-4 custom-input">
+                        <Label labelName={"Assign Logs"}/>
+                        <Select
+                            mode="multiple"
+                            tagRender={tagRender}
+                            style={{
+                                width: '100%',
+                                color: 'black',
+                            }}
+                            options={logOptions}
+                            dropdownStyle={{
+                                backgroundColor: 'white',
+                            }}
+                            dropdownClassName="custom-dropdown"
+                            onChange={(selectedValues) => {
+                                const selectedLogs = selectedValues.map((value: string) => {
+                                    const matchedLogs = logs.find((l) => l.code === value);
+                                    return matchedLogs
+                                        ? {
+                                            ...matchedLogs,
+                                            fieldName: matchedLogs.name,
+                                        }
+                                        : null;
+                                });
+                                const validLogs = selectedLogs.filter((l: Log) => l !== null);
+                                setLogs(validLogs as Log[]);
+                            }}
+                        />
+                    </div>
+                    <div className="mb-4 custom-input">
+                        <Label labelName={"Crop Image"}/>
+                        <Input
+                            type="file"
+                            accept="image/*"
+                            className="mt-1 block w-full px-4 py-1 border rounded-md shadow-sm"
+                            onChange={handleFileChange}
+                        />
+                    </div>
+                </form>
+            </MainModal>
+        </>
     );
 };
 
