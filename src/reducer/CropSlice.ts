@@ -4,8 +4,9 @@ import { api } from "../api/api.ts";
 import {Log} from "../model/Log.ts";
 import {Field} from "../model/Field.ts";
 
-const initialState: { crops: Crop[] } = {
-    crops: []
+const initialState: { crops: Crop[]; status: 'idle' | 'pending' | 'succeeded' | 'failed' } = {
+    crops: [],
+    status: 'idle',
 };
 
 export type CropRootState = {
@@ -90,16 +91,17 @@ const CropSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
+            .addCase(saveCrop.pending, (state) => {
+                state.status = "pending"
+            })
             .addCase(saveCrop.fulfilled, (state, action) => {
                 if (action.payload) {
+                    state.status = "succeeded";
                     state.crops = [...state.crops, action.payload];
                 }
             })
-            .addCase(saveCrop.pending, () => {
-                console.log("Pending saving crops");
-            })
-            .addCase(saveCrop.rejected, () => {
-                console.log("Rejected saving crops");
+            .addCase(saveCrop.rejected, (state) => {
+                state.status = "failed";
             })
             .addCase(updateCrop.fulfilled, (state, action) => {
                 const formData = action.meta.arg;
