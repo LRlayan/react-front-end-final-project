@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { Input, Button, Checkbox, Form, FormProps } from "antd";
 import { useNavigate } from "react-router-dom";
 import agricultureImg from "../../assets/img/pexels-pixabay-325944.jpg";
 import AnchorTag from "../../components/anchor-tag/AnchorTag.tsx";
 import Image from "../../components/img/Image.tsx";
 import { Heading1 } from "../../components/heading/Heading.tsx";
+import {useDispatch, useSelector} from "react-redux";
+import {registerUser, UserRootState} from "../../reducer/UserSlice.tsx";
+import {AppDispatch} from "../../store/store.ts";
+import {User} from "../../model/User.ts";
 
 type FieldType = {
     username?: string;
@@ -14,8 +18,35 @@ type FieldType = {
 };
 
 const SignInSignUp: React.FC = () => {
+    const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
-    const [isSignUp,    setIsSignUp] = useState(false); // Toggle between Sign In & Sign Up
+    const [isSignUp,    setIsSignUp] = useState(false);
+    const isAuthenticated = useSelector((state: UserRootState) => state.user.users.isAuthenticated);
+    const [registerUsername, setRegisterUsername] = useState("");
+    const [registerEmail, setRegisterEmail] = useState("");
+    const [registerPassword, setRegisterPassword] = useState("");
+
+    const [loginUsername, setLoginUsername] = useState("");
+    const [loginPassword, setLoginPassword] = useState("");
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate("/dashboard");
+        }
+    },[isAuthenticated])
+
+    const handleUser = () => {
+        if (isSignUp) {
+            const user: User = {
+                username: registerUsername,
+                email: registerEmail,
+                password: registerPassword
+            }
+            dispatch(registerUser(user));
+        }
+        const user: User = {username: loginUsername, email: "", password: loginPassword}
+        dispatch(loginUser(user));
+    }
 
     const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
         console.log("Success:", values);
@@ -56,7 +87,10 @@ const SignInSignUp: React.FC = () => {
                             rules={[{ required: true, message: "Please input your username!" }]}
                             style={{ marginBottom: "3px" }}
                         >
-                            <Input />
+                            <Input onChange={
+                                isSignUp
+                                ? (e) => setRegisterUsername(e.target.value)
+                                : (e) => setLoginUsername(e.target.value)}/>
                         </Form.Item>
 
                         {/* Email Field (Only for Sign Up) */}
@@ -69,7 +103,7 @@ const SignInSignUp: React.FC = () => {
                                 rules={[{ required: true, message: "Please input your username!" }]}
                                 style={{ marginBottom: "3px" }}
                             >
-                                <Input />
+                                <Input onChange={(e) => setRegisterEmail(e.target.value)}/>
                             </Form.Item>
 
                         )}
@@ -83,7 +117,10 @@ const SignInSignUp: React.FC = () => {
                             rules={[{ required: true, message: "Please input your password!" }]}
                             style={{ marginBottom: "3px" }}
                         >
-                            <Input.Password />
+                            <Input.Password onChange={
+                                isSignUp
+                                ? (e) => setRegisterPassword(e.target.value)
+                                : (e) => setLoginPassword(e.target.value)}/>
                         </Form.Item>
 
                         {/* Forgot Password (Only for Sign In) */}
@@ -108,7 +145,7 @@ const SignInSignUp: React.FC = () => {
                             className="flex justify-center"
                             style={{ marginTop: "24px" }}
                         >
-                            <Button type="primary" className="bg-green-500 w-full max-w-sm px-20" htmlType="submit">
+                            <Button type="primary" className="bg-green-500 w-full max-w-sm px-20" htmlType="submit" onClick={handleUser}>
                                 {isSignUp ? "Sign Up" : "Sign In"}
                             </Button>
                         </Form.Item>
