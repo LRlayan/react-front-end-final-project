@@ -6,7 +6,7 @@ import AnchorTag from "../../components/anchor-tag/AnchorTag.tsx";
 import Image from "../../components/img/Image.tsx";
 import { Heading1 } from "../../components/heading/Heading.tsx";
 import {useDispatch, useSelector} from "react-redux";
-import {registerUser, loginUser, UserRootState} from "../../reducer/UserSlice.ts";
+import {register, login, UserRootState} from "../../reducer/UserSlice.ts";
 import {AppDispatch} from "../../store/store.ts";
 import {User} from "../../model/User.ts";
 
@@ -20,7 +20,7 @@ type FieldType = {
 const SignInSignUp: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
-    const [isSignUp,    setIsSignUp] = useState(false);
+    const [isSignUp, setIsSignUp] = useState(false);
     const isAuthenticated = useSelector((state: UserRootState) => state.user.isAuthenticated);
     const [registerUsername, setRegisterUsername] = useState("");
     const [registerEmail, setRegisterEmail] = useState("");
@@ -30,6 +30,11 @@ const SignInSignUp: React.FC = () => {
     const [loginPassword, setLoginPassword] = useState("");
 
     useEffect(() => {
+        if (isSignUp) {
+            if (isAuthenticated) {
+                navigate("/");
+            }
+        }
         if (isAuthenticated) {
             navigate("/dashboard");
         }
@@ -37,16 +42,13 @@ const SignInSignUp: React.FC = () => {
 
     const handleUser = () => {
         if (isSignUp) {
-            const user: User = {
-                username: registerUsername,
-                email: registerEmail,
-                password: registerPassword
-            }
-            dispatch(registerUser(user));
+            const newUser = new User(registerUsername,registerEmail,registerPassword);
+            return dispatch(register(newUser));
         }
-        const user: User = {username: loginUsername, email: "", password: loginPassword}
-        dispatch(loginUser(user));
-    }
+        const user: User = { username: loginUsername, email: "", password: loginPassword };
+        dispatch(login(user));
+    };
+
 
     const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
         console.log("Success:", values);
@@ -145,7 +147,7 @@ const SignInSignUp: React.FC = () => {
                             className="flex justify-center"
                             style={{ marginTop: "24px" }}
                         >
-                            <Button type="primary" className="bg-green-500 w-full max-w-sm px-20" htmlType="submit" onClick={handleUser}>
+                            <Button type="primary" className="bg-green-500 w-full max-w-sm px-20" htmlType="button" onClick={handleUser}>
                                 {isSignUp ? "Sign Up" : "Sign In"}
                             </Button>
                         </Form.Item>
