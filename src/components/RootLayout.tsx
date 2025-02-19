@@ -124,7 +124,7 @@ const RootLayout: React.FC = () => {
                     {/* Right Side: Company Name */}
                     <div className="flex text-white ml-5">
                         <Heading3 name={"Green Shadow PVT (Ltd)"} classes={"mr-10 font-bold text-2xl text-teal-500"}/>
-                        <Button type="primary" className="bg-green-600" htmlType="submit" onClick={handleLogout}>
+                        <Button type="primary" className="bg-green-600" htmlType="button" onClick={handleLogout}>
                             Logout
                         </Button>
 
