@@ -26,16 +26,12 @@ export type UserRootState = {
 };
 
 
-export const registerUser = createAsyncThunk(
-    'user/registerUser',
+export const register = createAsyncThunk(
+    "auth/register",
     async (user: User) => {
         try {
-            const response = await api.post(
-                "auth/register",
-                {user},
-                {withCredentials: true}
+            const response = await api.post("auth/register", user, {withCredentials: true}
             );
-
             return response.data;
         } catch (e) {
             throw e;
@@ -43,13 +39,13 @@ export const registerUser = createAsyncThunk(
     }
 );
 
-export const loginUser = createAsyncThunk(
-    'user/loginUser',
+export const login = createAsyncThunk(
+    'auth/login',
     async (user: User) => {
         try {
             const response = await api.post(
                 'auth/login',
-                {user},
+                user,
                 {withCredentials: true}
             );
             return response.data;
@@ -62,23 +58,46 @@ export const loginUser = createAsyncThunk(
 const userSlice = createSlice({
     name: "user",
     initialState,
-    reducers: {},
+    reducers: {
+        logout: (state) => {
+            state.user = null;
+            state.isAuthenticated = false;
+            localStorage.removeItem("jwt_token");
+        },
+    },
     extraReducers: (builder) => {
         builder
-            .addCase(registerUser.fulfilled, (state, action) => {
+            .addCase(register.fulfilled, (state, action) => {
                 if (action.payload) {
                     state.user = action.payload;
                     state.isAuthenticated = true;
                 }
             })
-            .addCase(registerUser.pending, () => {
+            .addCase(register.pending, () => {
                 console.error("Pending register user");
             })
-            .addCase(registerUser.rejected, () => {
+            .addCase(register.rejected, () => {
                 console.error("Rejected register user");
             })
+            .addCase(login.fulfilled, (state, action) => {
+                if (action.payload) {
+                    state.user = action.payload.user;
+                    state.jwt_token = action.payload.accessToken;
+                    state.refresh_token = action.payload.refreshToken;
+                    state.username = action.payload.username;
+                    state.isAuthenticated = true;
+
+                    localStorage.setItem("jwt_token", action.payload.accessToken);
+                    localStorage.setItem("refresh_token", action.payload.refreshToken);
+                }
+            })
+            .addCase(login.rejected, (state) => {
+                state.isAuthenticated = false;
+                console.error("Login failed");
+            });
     }
 });
 
+export const {logout} = userSlice.actions;
 export default userSlice.reducer;
 
