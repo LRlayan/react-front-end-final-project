@@ -45,10 +45,10 @@ api.interceptors.response.use((response) => response,
                     return api(originalRequest);
                 } catch (e) {
                     console.error("Token refresh failed:", e);
-                    window.location.href = "/login";
+                    window.location.href = "/";
                 }
             } else {
-                window.location.href = "/login";
+                window.location.href = "/";
             }
         }
         return Promise.reject(error);
