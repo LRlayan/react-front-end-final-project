@@ -1,4 +1,6 @@
-import axios from "axios";
+import axios, {AxiosError} from "axios";
+import {Button, notification} from "antd";
+import React from "react";
 
 export const api = axios.create({
     baseURL: "http://localhost:3000/api/v1/"
@@ -44,13 +46,50 @@ api.interceptors.response.use((response) => response,
 
                     return api(originalRequest);
                 } catch (e) {
-                    console.error("Token refresh failed:", e);
-                    window.location.href = "/";
+                    const error = e as AxiosError;
+                    console.error("Token refresh failed:", error);
+                    console.log("response error " , error.response);
+
+                    if (!error.response) {
+                        console.error("No response from server!");
+                        localStorage.removeItem("jwt_token");
+                        localStorage.removeItem("refresh_token");
+                        showSuccessNotification();
+                        return;
+                    }
+
+                    if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+                        localStorage.removeItem("jwt_token");
+                        localStorage.removeItem("refresh_token");
+                        showSuccessNotification();
+                    }
                 }
             } else {
-                window.location.href = "/";
+                localStorage.removeItem("jwt_token");
+                localStorage.removeItem("refresh_token");
+                showSuccessNotification();
             }
         }
         return Promise.reject(error);
     }
 )
+
+export const showSuccessNotification = () => {
+    const key = "Session Expired";
+
+    notification.error({
+        message: "Session Expired",
+        description: "please login to the system.",
+        placement: "bottomRight",
+        key,
+        btn: React.createElement(Button, {
+            type: "primary",
+            size: "small",
+            onClick: () => {
+                window.location.href = "/";
+            },
+            children: "Logout",
+        }),
+        duration:0,
+    });
+};
