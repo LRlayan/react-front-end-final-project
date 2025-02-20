@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import MainModal from "../../components/modal/MainModal.tsx";
 import Label from "../../components/label/Label.tsx";
-import {Input, Select, SelectProps} from "antd";
+import {Input, notification, Select, SelectProps} from "antd";
 import {useDispatch, useSelector} from "react-redux";
 import {updateVehicle} from "../../reducer/VehicleSlice.ts";
 import {Vehicle} from "../../model/Vehicle.ts";
@@ -42,6 +42,11 @@ const UpdateVehicle: React.FC<{ isOpen:boolean; onClose: () => void; vehicles:Ve
     function handleSubmit() {
         const updateVehicleDetails = new Vehicle(code,licensePlateNumber,vehicleName,category,fuelType,status,remark,selectedStaffs);
         dispatch(updateVehicle(updateVehicleDetails));
+        notification.success({
+            message: "Success",
+            description: "Vehicle update successfully",
+            placement: "bottomRight",
+        });
         onClose();
     }
 

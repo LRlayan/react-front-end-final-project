@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import MainModal from "../../components/modal/MainModal.tsx";
 import Label from "../../components/label/Label.tsx";
-import {Input, Select, SelectProps} from "antd";
+import {Input, notification, Select, SelectProps} from "antd";
 import {useDispatch, useSelector} from "react-redux";
 import {saveEquipment} from "../../reducer/EquipmentSlice.ts";
 import {Equipment} from "../../model/Equipment.ts";
@@ -45,6 +45,11 @@ const AddEquipment: React.FC<{ isOpen:boolean; onClose: () => void; isType:strin
     function handleSubmit(){
         const newEquipment = new Equipment("", name, type, status, count, selectedStaff, []);
         dispatch(saveEquipment(newEquipment));
+        notification.success({
+            message: "Success",
+            description: "Equipment saved successfully",
+            placement: "bottomRight",
+        });
         onClose();
     }
 

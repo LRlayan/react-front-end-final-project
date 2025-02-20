@@ -10,6 +10,7 @@ import {Log} from "../../model/Log.ts";
 import {LogRootState} from "../../reducer/LogSlice.ts";
 import {saveCrop} from "../../reducer/CropSlice.ts";
 import {AppDispatch} from "../../store/store.ts";
+import { notification } from 'antd';
 
 const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; buttonType:string}> = ({ isOpen, onClose, isType, buttonType }) => {
     const dispatch = useDispatch<AppDispatch>();
@@ -52,6 +53,11 @@ const AddCrop: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; b
          newCrops.append("assignFields", JSON.stringify(selectedFields));
          newCrops.append("assignLogs", JSON.stringify(selectedLogs));
          dispatch(saveCrop(newCrops));
+         notification.success({
+             message: "Success",
+             description: "Crop saved successfully",
+             placement: "bottomRight",
+         });
          onClose();
     };
 

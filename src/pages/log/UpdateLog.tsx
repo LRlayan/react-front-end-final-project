@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Log} from "../../model/Log.ts";
 import {updateLog} from "../../reducer/LogSlice.ts";
 import MainModal from "../../components/modal/MainModal.tsx";
-import {Input, Select, SelectProps} from "antd";
+import {Input, notification, Select, SelectProps} from "antd";
 import Label from "../../components/label/Label.tsx";
 import {Crop} from "../../model/Crop.ts";
 import {CropRootState} from "../../reducer/CropSlice.ts";
@@ -74,6 +74,11 @@ const UpdateLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isTyp
         updateLogs.append("assignFields", JSON.stringify(selectedFields));
         updateLogs.append("assignStaff", JSON.stringify(selectedStaff));
         dispatch(updateLog(updateLogs));
+        notification.success({
+            message: "Success",
+            description: "Log update successfully",
+            placement: "bottomRight",
+        });
         onClose();
     }
 

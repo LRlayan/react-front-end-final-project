@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {saveField} from "../../reducer/FieldSlice.ts";
 import MainModal from "../../components/modal/MainModal.tsx";
-import {Input, Select, SelectProps} from "antd";
+import {Input, notification, Select, SelectProps} from "antd";
 import Label from "../../components/label/Label.tsx";
 import {CropRootState} from "../../reducer/CropSlice.ts";
 import {Crop} from "../../model/Crop.ts";
@@ -71,6 +71,11 @@ const AddField: React.FC<{isOpen: boolean; onClose: () => void; isType:string; b
         newFields.append("assignStaffMembers", JSON.stringify(selectedStaff));
         newFields.append("assignEquipments", JSON.stringify(selectedEquipments));
         dispatch(saveField(newFields));
+        notification.success({
+            message: "Success",
+            description: "Field saved successfully",
+            placement: "bottomRight",
+        });
         onClose();
     }
 

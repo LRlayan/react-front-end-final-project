@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Equipment} from "../../model/Equipment.ts";
 import {updateEquipment} from "../../reducer/EquipmentSlice.ts";
 import Label from "../../components/label/Label.tsx";
-import {Input, Select, SelectProps} from "antd";
+import {Input, notification, Select, SelectProps} from "antd";
 import {Staff} from "../../model/Staff.ts";
 import {StaffRootState} from "../../reducer/StaffSlice.ts";
 import tagRender from "../../util/TagRender.tsx";
@@ -48,6 +48,11 @@ const UpdateEquipment: React.FC<{ isOpen:boolean; onClose: () => void; isType:st
     function handleSubmit(){
         const updateEquipmentDetails = new Equipment(code, name, type, status, count, selectedStaff, selectedFields);
         dispatch(updateEquipment(updateEquipmentDetails));
+        notification.success({
+            message: "Success",
+            description: "Equipment update successfully",
+            placement: "bottomRight",
+        });
         onClose();
     }
 

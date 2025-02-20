@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import MainModal from "../../components/modal/MainModal.tsx";
 import Label from "../../components/label/Label.tsx";
-import {Input, Select, SelectProps} from "antd";
+import {Input, notification, Select, SelectProps} from "antd";
 import {Staff} from "../../model/Staff.ts";
 import {updateStaff} from "../../reducer/StaffSlice.ts";
 import {LogRootState} from "../../reducer/LogSlice.ts";
@@ -88,6 +88,11 @@ const UpdateStaff: React.FC<{isOpen:boolean; onClose: () => void; staff:Staff; i
     function handleSubmit() {
         const updateMember = new Staff(memberCode,firstName,lastName,joinedDate,designation,gender,dob,addressLine01,addressLine02,addressLine03,addressLine04,addressLine05,mobile,email,role,selectedLogs,selectedFields,selectedVehicles,selectedEquipments);
         dispatch(updateStaff(updateMember));
+        notification.success({
+            message: "Success",
+            description: "Staff update successfully",
+            placement: "bottomRight",
+        });
         onClose();
     }
 

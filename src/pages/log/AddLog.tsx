@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {saveLog} from "../../reducer/LogSlice.ts";
 import MainModal from "../../components/modal/MainModal.tsx";
-import {Input, Select, SelectProps} from "antd";
+import {Input, notification, Select, SelectProps} from "antd";
 import Label from "../../components/label/Label.tsx";
 import tagRender from "../../util/TagRender.tsx";
 import {Crop} from "../../model/Crop.ts";
@@ -60,6 +60,11 @@ const AddLog: React.FC<{isOpen: boolean; onClose: () => void; isType:string; but
         newLogs.append("assignFields", JSON.stringify(selectedFields));
         newLogs.append("assignStaff", JSON.stringify(selectedStaff));
         dispatch(saveLog(newLogs));
+        notification.success({
+            message: "Success",
+            description: "Log saved successfully",
+            placement: "bottomRight",
+        });
         onClose();
     }
 

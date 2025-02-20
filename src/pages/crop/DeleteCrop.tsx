@@ -6,6 +6,7 @@ import React, {useEffect, useState} from "react";
 import {Field} from "../../model/Field.ts";
 import {Log} from "../../model/Log.ts";
 import {AppDispatch} from "../../store/store.ts";
+import {notification} from "antd";
 
 const DeleteCrop: React.FC<{isOpen: boolean; onClose: () => void; crop:Crop; isType:string; buttonType:string}> = ({isOpen, onClose, crop, isType, buttonType}) => {
 
@@ -35,6 +36,12 @@ const DeleteCrop: React.FC<{isOpen: boolean; onClose: () => void; crop:Crop; isT
     const handleSubmit = () => {
         new Crop(cropCode, cropName, scientificName, category, season, image, selectedFields,selectedLogs);
         dispatch(deleteCrop(cropCode));
+        notification.success({
+            message: "Success",
+            description: "Crop delete successfully",
+            placement: "bottomRight",
+        });
+        onClose();
     }
 
     return(

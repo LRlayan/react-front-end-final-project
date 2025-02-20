@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import MainModal from "../../components/modal/MainModal.tsx";
 import {Field} from "../../model/Field.ts";
 import Label from "../../components/label/Label.tsx";
-import {Input, Select, SelectProps} from "antd";
+import {Input, notification, Select, SelectProps} from "antd";
 import {Crop} from "../../model/Crop.ts";
 import {CropRootState} from "../../reducer/CropSlice.ts";
 import tagRender from "../../util/TagRender.tsx";
@@ -87,6 +87,11 @@ const UpdateField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; 
         updateFields.append("assignStaffMembers", JSON.stringify(selectedStaff));
         updateFields.append("assignEquipments", JSON.stringify(selectedEquipments));
         dispatch(updateField(updateFields));
+        notification.success({
+            message: "Success",
+            description: "Equipment update successfully",
+            placement: "bottomRight",
+        });
         onClose();
     }
 

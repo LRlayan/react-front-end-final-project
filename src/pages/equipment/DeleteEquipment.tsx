@@ -6,6 +6,7 @@ import {deleteEquipment} from "../../reducer/EquipmentSlice.ts";
 import {Staff} from "../../model/Staff.ts";
 import {Field} from "../../model/Field.ts";
 import {AppDispatch} from "../../store/store.ts";
+import {notification} from "antd";
 
 const DeleteEquipment: React.FC<{ isOpen:boolean; isType:string; onClose: () => void; buttonType:string; equipments: Equipment}> = ({ isOpen, isType, buttonType, onClose, equipments }) => {
 
@@ -31,6 +32,11 @@ const DeleteEquipment: React.FC<{ isOpen:boolean; isType:string; onClose: () => 
     function handleSubmit() {
         new Equipment(code, name, type, status, count, selectedStaff, selectedFields);
         dispatch(deleteEquipment(code));
+        notification.success({
+            message: "Success",
+            description: "Equipment delete successfully",
+            placement: "bottomRight",
+        });
         onClose();
     }
 

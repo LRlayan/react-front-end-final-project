@@ -5,6 +5,7 @@ import MainModal from "../../components/modal/MainModal.tsx";
 import {deleteVehicle} from "../../reducer/VehicleSlice.ts";
 import {Staff} from "../../model/Staff.ts";
 import {AppDispatch} from "../../store/store.ts";
+import {notification} from "antd";
 
 const DeleteVehicle: React.FC<{ isOpen:boolean; onClose: () => void; vehicles: Vehicle; isType:string; buttonType:string}> = ({ isOpen, onClose, vehicles, isType, buttonType }) => {
 
@@ -32,6 +33,11 @@ const DeleteVehicle: React.FC<{ isOpen:boolean; onClose: () => void; vehicles: V
     function handleSubmit() {
         new Vehicle(code, licensePlateNumber, vehicleName, category, fuelType, status, remark, selectedStaffs);
         dispatch(deleteVehicle(code));
+        notification.success({
+            message: "Success",
+            description: "Vehicle delete successfully",
+            placement: "bottomRight",
+        });
         onClose();
     }
 

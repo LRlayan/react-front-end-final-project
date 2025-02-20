@@ -4,7 +4,7 @@ import {Crop} from "../../model/Crop.ts";
 import {updateCrop} from "../../reducer/CropSlice.ts";
 import MainModal from "../../components/modal/MainModal.tsx";
 import Label from "../../components/label/Label.tsx";
-import {Input, Select, SelectProps} from "antd";
+import {Input, notification, Select, SelectProps} from "antd";
 import {Field} from "../../model/Field.ts";
 import {FieldRootState} from "../../reducer/FieldSlice.ts";
 import tagRender from "../../util/TagRender.tsx";
@@ -68,6 +68,12 @@ const UpdateCrop: React.FC<{ isOpen: boolean; onClose: () => void; crop:Crop; is
         updateCropDetails.append("assignFields", JSON.stringify(fields));
         updateCropDetails.append("assignLogs", JSON.stringify(selectedLogs));
         dispatch(updateCrop(updateCropDetails));
+        notification.success({
+            message: "Success",
+            description: "Crop update successfully",
+            placement: "bottomRight",
+        });
+        onClose();
     }
 
     const seasonOption = [

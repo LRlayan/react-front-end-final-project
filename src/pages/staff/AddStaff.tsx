@@ -3,7 +3,7 @@ import MainModal from "../../components/modal/MainModal.tsx";
 import {useDispatch, useSelector} from "react-redux";
 import {Staff} from "../../model/Staff.ts";
 import {saveStaff} from "../../reducer/StaffSlice.ts";
-import {Input, Select, SelectProps} from "antd";
+import {Input, notification, Select, SelectProps} from "antd";
 import Label from "../../components/label/Label.tsx";
 import {FieldRootState} from "../../reducer/FieldSlice.ts";
 import tagRender from "../../util/TagRender.tsx";
@@ -47,6 +47,11 @@ const AddStaff: React.FC<{ isOpen: boolean; onClose: () => void; isType:string; 
     function handleSubmit() {
         const newStaff = new Staff("", firstName, lastName, joinedDate, designation, gender, dob, addressLine01, addressLine02, addressLine03, addressLine04, addressLine05, contactNo, email, role, [], selectedFields, selectedVehicles);
         dispatch(saveStaff(newStaff));
+        notification.success({
+            message: "Success",
+            description: "Staff saved successfully",
+            placement: "bottomRight",
+        });
         onClose();
     }
 

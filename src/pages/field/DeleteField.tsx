@@ -8,6 +8,7 @@ import {Log} from "../../model/Log.ts";
 import {Staff} from "../../model/Staff.ts";
 import {Equipment} from "../../model/Equipment.ts";
 import {AppDispatch} from "../../store/store.ts";
+import {notification} from "antd";
 
 const DeleteField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; isType:string; buttonType:string}> = ({isOpen, onClose, field, isType, buttonType}) => {
 
@@ -39,6 +40,11 @@ const DeleteField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; 
     const handleSubmit = () => {
         new Field(fieldCode, fieldName, location, extentSize, image, selectedCrops, selectedLogs, selectedStaff, selectedEquipments);
         dispatch(deleteField(fieldCode));
+        notification.success({
+            message: "Success",
+            description: "Equipment delete successfully",
+            placement: "bottomRight",
+        });
     }
 
     return(
