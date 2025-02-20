@@ -128,7 +128,7 @@ const RootLayout: React.FC = () => {
                             Logout
                         </Button>
 
-                        <NotifyModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+                        <NotifyModal title={"Logout"} message={"Are you sure logout the system ?"} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
                     </div>
                 </Header>
                 <Content style={{margin: '24px 16px 0'}}>
