@@ -55,7 +55,7 @@ const MainModal: React.FC<ModalProps> = ({
                             Cancel
                         </Button>,
                         <Button
-                            key="submit"
+                            key="button"
                             type="primary"
                             loading={confirmLoading}
                             onClick={handleOk}
