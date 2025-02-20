@@ -6,11 +6,13 @@ import {useDispatch} from "react-redux";
 import {AppDispatch} from "../../store/store.ts";
 
 interface NotifyProps {
+    title: string;
+    message: string;
     isOpen: boolean;
     onClose: () => void;
 }
 
-const App: React.FC<NotifyProps> = ({isOpen, onClose}) => {
+const App: React.FC<NotifyProps> = ({ title, message, isOpen, onClose}) => {
     const [confirmLoading, setConfirmLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
@@ -29,14 +31,14 @@ const App: React.FC<NotifyProps> = ({isOpen, onClose}) => {
     return (
         <>
             <Modal
-                title="Are you sure logout this system ?"
+                title={title}
                 centered
                 open={isOpen}
                 onOk={handleOk}
                 confirmLoading={confirmLoading}
                 onCancel={onClose}
             >
-                <p>Are you sure logout this system ?</p>
+                <p>{message}</p>
             </Modal>
         </>
     );
