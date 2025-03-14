@@ -23,7 +23,7 @@ const Card: React.FC<CardProps> = ({
             {filteredData.map((data:any, index:number) => (
                 <div key={index} className="border rounded-lg bg-gray-700 text-white p-4 shadow-md">
                     {data.image && (
-                        <Image path={`http://localhost:3000/uploads/${cardType}/${data.image}`} altName={data.name} classes={"w-full h-32 object-cover rounded-md mb-2"}/>
+                        <Image path={`http://localhost:3001/uploads/${cardType}/${data.image}`} altName={data.name} classes={"w-full h-32 object-cover rounded-md mb-2"}/>
                     )}
                     <div className="flex flex-col space-y-2">
                         {cardType === "crop" && (

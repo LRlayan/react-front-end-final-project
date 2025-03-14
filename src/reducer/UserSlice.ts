@@ -30,8 +30,7 @@ export const register = createAsyncThunk(
     "auth/register",
     async (user: User) => {
         try {
-            const response = await api.post("auth/register", user, {withCredentials: true}
-            );
+            const response = await api.post("auth/register", user, {withCredentials: true});
             return response.data;
         } catch (e) {
             throw e;
