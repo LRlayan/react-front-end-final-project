@@ -52,7 +52,7 @@ const DeleteField: React.FC<{isOpen: boolean; onClose: () => void; field:Field; 
             <MainModal isType={isType} buttonType={buttonType} isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
                 <div>
                     <img
-                        src={`http://localhost:3000/uploads/field/${field.image}`}
+                        src={`http://localhost:3001/uploads/field/${field.image}`}
                         alt={field.name}
                         className="w-full h-32 object-cover rounded-md mb-2"
                     />

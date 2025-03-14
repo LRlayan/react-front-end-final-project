@@ -49,7 +49,7 @@ const DeleteCrop: React.FC<{isOpen: boolean; onClose: () => void; crop:Crop; isT
             <MainModal isType={isType} buttonType={buttonType} isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
                 <div>
                     <img
-                        src={`http://localhost:3000/uploads/crop/${crop.image}`}
+                        src={`http://localhost:3001/uploads/crop/${crop.image}`}
                         alt={crop.name || "Crop Image"}
                         className="w-full h-32 object-cover rounded-md mb-2"
                     />

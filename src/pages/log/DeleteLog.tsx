@@ -48,7 +48,7 @@ const DeleteLog: React.FC<{isOpen: boolean; onClose: () => void; logs:Log; isTyp
             <MainModal isOpen={isOpen} isType={isType} buttonType={buttonType} onClose={onClose} onSubmit={handleSubmit}>
                 <div>
                     <img
-                        src={`http://localhost:3000/uploads/log/${logs.image}`}
+                        src={`http://localhost:3001/uploads/log/${logs.image}`}
                         alt="log image"
                         className="w-full h-32 object-cover rounded-md mb-2"
                     />
